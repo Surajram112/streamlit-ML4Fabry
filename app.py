@@ -368,7 +368,7 @@ with pred_cont.container():
     llm = HuggingFaceEndpoint(
             repo_id="HuggingFaceH4/zephyr-7b-alpha",
             task="text-generation",
-            max_new_tokens=1024,
+            max_new_tokens=2048,
             top_k=10,
             top_p=0.95,
             typical_p=0.95,
