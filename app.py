@@ -271,7 +271,9 @@ col2.button('Predict')
 prediction = model.predict(input_data)[0]
 col2.write('## Prediction')
 
-if prediction == 0:
-  col2.write('Based on the input data, you are likely to have Hypertrophic Cardiomyopathy.')
-else:
-  col2.write('Based on the input data, you are likely to have Fabry disease.')
+# display a box with two horizontal bars for each of the raw prediction probabilities
+col2.write('### Prediction Probabilities')
+col2.write(f'Fabry Disease: {prediction[0]:.2f}')
+col2.write(f'Hypertrophic Cardiomyopathy: {prediction[1]:.2f}')
+col2.write('### Prediction')
+col2.write('Fabry Disease' if prediction.argmax() == 0 else 'Hypertrophic Cardiomyopathy')
