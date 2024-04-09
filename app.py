@@ -310,7 +310,7 @@ with pred_cont.container():
 
     # Create a horizontal bar chart
     chart = altair.Chart(data).mark_bar().encode(
-        y=altair.Y('Condition:N', axis=altair.Axis(title='')),
+        y='Condition:N',
         x='Probability:Q',  # Q indicates a quantitative data type
         color='Condition:N'  # Color the bars by the condition
     ).properties(
