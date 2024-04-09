@@ -323,7 +323,7 @@ with pred_cont.container():
   
   with st.container():
     # Create a SHAP Explainer object
-    explainer = shap.Explainer(model)
+    explainer = shap.Explainer(model.get_booster())
     shap_values = explainer(input_data)
     
     # Now, you can use the Explainer's expected_value attribute, which should correctly provide the base value
