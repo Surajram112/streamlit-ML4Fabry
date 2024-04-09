@@ -6,3 +6,5 @@ altair
 streamlit
 xgboost
 datetime
+langchain
+langchain_community
