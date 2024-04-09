@@ -20,25 +20,29 @@ col1, col2, col3 = st.columns([1,2,1])  # Adjusted column widths for a better la
 st.write('This app predicts the differentiates between Fabry and HCM based on various cardiac markers.')
 
 # Patient demographic Data
-with col2.expander("Patient Demographic Data", expanded=True):
+with col1.expander("Patient Demographic Data", expanded=True):
     dem_col1, dem_col2 = st.columns(2)
     age = dem_col1.number_input('Age', min_value=18, max_value=120, value=25, key='age')
     gender = dem_col2.selectbox('Gender', options=['Male', 'Female'], key='gender')
 
 # ECG Report Variables
-with col1.expander("ECG Report Data", expanded=True):
-    ecg_col1, ecg_col2, ecg_col3, ecg_col4 = st.columns(4)
+with col2.expander("ECG Report Data", expanded=True):
+    ecg_col1, ecg_col2, ecg_col3, ecg_col4, ecg_col5, ecg_col6, ecg_col7, ecg_col8 = st.columns(8)
     with ecg_col1:
       vent_rate = st.number_input('Vent. rate', min_value=0, max_value=300, key='vent_rate')
-      qrs_duration = st.number_input('QRS dur.', min_value=50, max_value=200, key='qrs_duration')
     with ecg_col2:
-      p_axis = st.number_input('P-axis', min_value=-180, max_value=180, key='p_axis')
-      r_axis = st.number_input('R-axis', min_value=-180, max_value=180, key='r_axis')
+      qrs_duration = st.number_input('QRS dur.', min_value=50, max_value=200, key='qrs_duration')
     with ecg_col3:
-      t_axis = st.number_input('T-axis', min_value=-180, max_value=180, key='t_axis')
-      qt = st.number_input('QT', min_value=200, max_value=600, key='qt')
+      p_axis = st.number_input('P-axis', min_value=-180, max_value=180, key='p_axis')
     with ecg_col4:
+      r_axis = st.number_input('R-axis', min_value=-180, max_value=180, key='r_axis')
+    with ecg_col5:
+      t_axis = st.number_input('T-axis', min_value=-180, max_value=180, key='t_axis')
+    with ecg_col6:
+      qt = st.number_input('QT', min_value=200, max_value=600, key='qt')
+    with ecg_col7:
       qtc = st.number_input('QTc', min_value=200, max_value=600, key='qtc')
+    with ecg_col8:
       bsa = st.number_input('BSA', min_value=0.0, max_value=3.0, step=0.01, key='bsa')
 
 # Echocardiogram Variables
