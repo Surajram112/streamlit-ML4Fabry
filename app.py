@@ -297,7 +297,7 @@ st.write('## Prediction')
 
 # display a box with two horizontal bars for each of the raw prediction probabilities
 st.write('### Prediction Probabilities')
-st.altair_chart(pd.DataFrame.from_dict({'Hypertrophic Cardiomyopathy': prediction[0], 'Fabry Disease': prediction[1]}, index=[0]).T.reset_index().rename(columns={0: 'Probability', 'index': 'Disease'}).pipe((altair.v1, 'bar'), x='Disease', y='Probability', title='Prediction Probabilities'))
+st.altair_chart(altair.Chart(pd.DataFrame({'Condition': ['Hypertrophic Cardiomyopathy', 'Fabry Disease'], 'Probability': prediction}), height=100).mark_bar().encode(x='Condition', y='Probability'))
 st.write(f'Hypertrophic Cardiomyopathy: {prediction[0]:.2f}')
 st.write(f'Fabry Disease: {prediction[1]:.2f}')
 st.write('### Prediction')
