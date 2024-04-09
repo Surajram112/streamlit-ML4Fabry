@@ -309,7 +309,7 @@ with pred_cont.container():
     
     # Create a DataFrame for the chart
     data = pd.DataFrame({
-      'Condition': ['Hypertrophic Cardiomyopathy', 'Fabry Disease'], 
+      'Condition': ['Hypertrophic \n Cardiomyopathy', 'Fabry Disease'], 
       'Probability': prediction
     })
 
