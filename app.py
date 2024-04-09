@@ -26,16 +26,15 @@ with st.container(border=True):
   # Adjust 
   col1, col2 = st.columns([3,1])
   
-  with col1.container(border=True):    
+  with col1.container(border=True):
+    dem_col1, dem_col2, ecg_col1, ecg_col2, ecg_col3, ecg_col4, ecg_col5, ecg_col6, ecg_col7, ecg_col8 = st.columns(10)
     # Patient demographic Data
     with st.expander("Patient Demographic Data", expanded=True):
-        dem_col1, dem_col2 = st.columns(2)
         age = dem_col1.number_input('Age', min_value=18, max_value=120, value=25, key='age')
         gender = dem_col2.selectbox('Gender', options=['Male', 'Female'], key='gender')
 
     # ECG Report Variables
-    with ecg_col.expander("ECG Report Data", expanded=True):
-        ecg_col1, ecg_col2, ecg_col3, ecg_col4, ecg_col5, ecg_col6, ecg_col7, ecg_col8 = st.columns(8)
+    with st.expander("ECG Report Data", expanded=True):
         with ecg_col1:
           vent_rate = st.number_input('Vent. rate', min_value=0, max_value=300, key='vent_rate')
         with ecg_col2:
