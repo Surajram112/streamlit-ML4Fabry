@@ -294,7 +294,7 @@ input_data = pd.DataFrame({
     })
 
 with pred_cont.container():
-  dmatrix = xgboost.DMatrix(input_data, feature_names=model.feature_names)
+  dmatrix = xgboost.DMatrix(input_data)
   prediction = model.predict(dmatrix, output_margin=True, pred_contribs=True)
   st.write(prediction)
   
