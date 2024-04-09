@@ -24,36 +24,41 @@ with st.container():
 # Create a container for the overall layout after title
 with st.container(border=True):
   # Adjust 
-  col1, col2 = st.columns([3,1])
+  cols1, cols2 = st.columns([3,1])
   
-  with col1.container(border=True):
-    dem_col1, dem_col2, ecg_col1, ecg_col2, ecg_col3, ecg_col4, ecg_col5, ecg_col6, ecg_col7, ecg_col8 = st.columns(10)
-    # Patient demographic Data
-    with st.expander("Patient Demographic Data", expanded=True):
-        age = dem_col1.number_input('Age', min_value=18, max_value=120, value=25, key='age')
-        gender = dem_col2.selectbox('Gender', options=['Male', 'Female'], key='gender')
+  with cols1.container(border=True):
+    dem_cols, ecg_cols = st.columns([2, 8])
+    
+    with dem_cols.container(border=True):
+      dem_col1, dem_col2 = st.columns(2)
+      # Patient demographic Data
+      with st.expander("Patient Demographic Data", expanded=True):
+          age = dem_col1.number_input('Age', min_value=18, max_value=120, value=25, key='age')
+          gender = dem_col2.selectbox('Gender', options=['Male', 'Female'], key='gender')
 
-    # ECG Report Variables
-    with st.expander("ECG Report Data", expanded=True):
-        with ecg_col1:
-          vent_rate = st.number_input('Vent. rate', min_value=0, max_value=300, key='vent_rate')
-        with ecg_col2:
-          qrs_duration = st.number_input('QRS dur.', min_value=50, max_value=200, key='qrs_duration')
-        with ecg_col3:
-          p_axis = st.number_input('P-axis', min_value=-180, max_value=180, key='p_axis')
-        with ecg_col4:
-          r_axis = st.number_input('R-axis', min_value=-180, max_value=180, key='r_axis')
-        with ecg_col5:
-          t_axis = st.number_input('T-axis', min_value=-180, max_value=180, key='t_axis')
-        with ecg_col6:
-          qt = st.number_input('QT', min_value=200, max_value=600, key='qt')
-        with ecg_col7:
-          qtc = st.number_input('QTc', min_value=200, max_value=600, key='qtc')
-        with ecg_col8:
-          bsa = st.number_input('BSA', min_value=0.0, max_value=3.0, step=0.01, key='bsa')
+    with ecg_cols.container(border=True):
+      ecg_col1, ecg_col2, ecg_col3, ecg_col4, ecg_col5, ecg_col6, ecg_col7, ecg_col8 = st.columns(8)
+      # ECG Report Variables
+      with st.expander("ECG Report Data", expanded=True):
+          with ecg_col1:
+            vent_rate = st.number_input('Vent. rate', min_value=0, max_value=300, key='vent_rate')
+          with ecg_col2:
+            qrs_duration = st.number_input('QRS dur.', min_value=50, max_value=200, key='qrs_duration')
+          with ecg_col3:
+            p_axis = st.number_input('P-axis', min_value=-180, max_value=180, key='p_axis')
+          with ecg_col4:
+            r_axis = st.number_input('R-axis', min_value=-180, max_value=180, key='r_axis')
+          with ecg_col5:
+            t_axis = st.number_input('T-axis', min_value=-180, max_value=180, key='t_axis')
+          with ecg_col6:
+            qt = st.number_input('QT', min_value=200, max_value=600, key='qt')
+          with ecg_col7:
+            qtc = st.number_input('QTc', min_value=200, max_value=600, key='qtc')
+          with ecg_col8:
+            bsa = st.number_input('BSA', min_value=0.0, max_value=3.0, step=0.01, key='bsa')
 
     # Echocardiogram Variables
-    with col1.expander("Echocardiogram Data", expanded=True):
+    with cols1.expander("Echocardiogram Data", expanded=True):
         echo_col1, echo_col2, echo_col3, echo_col4, echo_col5, echo_col6, echo_col7, echo_col8 = st.columns(8)
         with echo_col1:
           # structural Measurements
@@ -128,7 +133,7 @@ with st.container(border=True):
           pm_sax_meas_d = st.number_input('PM SAX Measurements D', min_value=0.0, max_value=10.0, step=0.01)
 
     # Holter Monitor Variables
-    with col1.expander("Holter Monitor Data", expanded=True):
+    with cols1.expander("Holter Monitor Data", expanded=True):
       artefacts = st.number_input('Artefacts', min_value=0, max_value=1)
       normal_count = st.number_input('Normal Count', min_value=0, max_value=1000)
       normal_percent = st.number_input('Normal Percent', min_value=0, max_value=100)
