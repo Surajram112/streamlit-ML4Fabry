@@ -323,28 +323,17 @@ with pred_cont.container():
   
   with st.container():
     # Create a SHAP Explainer object
-    explainer = shap.Explainer(model.get_booster())
-    shap_values = explainer(input_data)
-    
-    # Now, you can use the Explainer's expected_value attribute, which should correctly provide the base value
-    # Note: for multi-class models, expected_value will be a list, one per class. Use the appropriate index for your target class.
-    base_value = explainer.expected_value
+    shap_values = model.get_booster().predict(xgb.DMatrix(input_data), pred_contribs=True)
     
     # Convert the SHAP values to a DataFrame
     shap_values = pd.DataFrame(shap_values, columns=input_data.columns)
     
     # Create a force plot
-    shap.force_plot(base_value, shap_values.values[0,:], X.iloc[0,:])
-    
-    # Create a summary plot
-    shap.summary_plot(shap_values, input_data, plot_type='bar')
-    
-    # Create a dependence plot
-    shap.dependence_plot('Age', shap_values, input_data)
-    
-    # Create a waterfall plot
-    shap.waterfall_plot(base_value=model.get_booster().attr('bias'), 
-                        shap_values=shap_values.values[0], 
-                        features=input_data.iloc[0])
+    shap.force_plot(
+        base_value=model.get_booster().get_base_margin(),
+        shap_values=shap_values.values[0],
+        features=input_data,
+        matplotlib=True
+    )
     
     
