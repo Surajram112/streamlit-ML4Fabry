@@ -323,7 +323,7 @@ with pred_cont.container():
   
   with st.container():
     # Create a SHAP Explainer object
-    shap_values = model.get_booster().predict(xgb.DMatrix(input_data), pred_contribs=True)
+    shap_values = model.get_booster().predict(xgb.DMatrix(input_data), pred_contribs=True)[:,:-1]
     
     # Create a SHAP summary plot
     fig, ax = plt.subplots()
