@@ -29,8 +29,9 @@ with st.container(border=True):
   
   # Patient demographic Data
   with dem_col.expander("Patient Demographic Data", expanded=True):
-      age = st.number_input('Age', min_value=18, max_value=120, value=25, key='age')
-      gender = st.selectbox('Gender', options=['Male', 'Female'], key='gender')
+      dem_col1, dem_col2 = dem_col.columns(2)
+      age = dem_col1.number_input('Age', min_value=18, max_value=120, value=25, key='age')
+      gender = dem_col2.selectbox('Gender', options=['Male', 'Female'], key='gender')
 
   # ECG Report Variables
   with ecg_col.expander("ECG Report Data", expanded=True):
