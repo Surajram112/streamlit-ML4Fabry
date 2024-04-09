@@ -301,4 +301,4 @@ with cont4:
     # Display the prediction
     st.write('## Prediction Probabilities')
     st.altair_chart(altair.Chart(pd.DataFrame({'Condition': ['Hypertrophic Cardiomyopathy', 'Fabry Disease'], 
-                                              'Probability': prediction})).mark_bar().encode(x='Condition', y='Probability'))
+                                              'Probability': prediction})).mark_bar(orient='horizontal').encode(x='Condition', y='Probability'))
