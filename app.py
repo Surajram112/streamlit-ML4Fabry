@@ -295,8 +295,7 @@ st.write('## Prediction')
 
 # display a box with two horizontal bars for each of the raw prediction probabilities
 st.write('### Prediction Probabilities')
-st.write(prediction)
-st.write(f'Fabry Disease: {prediction[0]:.2f}')
-st.write(f'Hypertrophic Cardiomyopathy: {prediction[1]:.2f}')
+st.write(f'Hypertrophic Cardiomyopathy: {prediction[0]:.2f}')
+st.write(f'Fabry Disease: {prediction[1]:.2f}')
 st.write('### Prediction')
-st.write('Fabry Disease' if prediction.argmax() == 0 else 'Hypertrophic Cardiomyopathy')
+st.write('Fabry Disease' if prediction.argmax() == 1 else 'Hypertrophic Cardiomyopathy')
