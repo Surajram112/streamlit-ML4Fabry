@@ -24,153 +24,165 @@ with st.container():
 # Create a container for the overall layout after title
 with st.container(border=True):
   # Adjust 
-  cols1, cols2 = st.columns([3,1])
+  input_cont, pred_cont = st.columns([3,1])
   
-  with cols1.container(border=True):
-    dem_cols1, dem_cols2, ecg_col1, ecg_col2, ecg_col3, ecg_col4, ecg_col5, ecg_col6, ecg_col7, ecg_col8 = st.columns(10)
+  with input_cont.container(border=True):
     
     # Patient demographic Data
     with st.expander("Patient Demographic Data", expanded=True):
-        age = dem_cols1.number_input('Age', min_value=18, max_value=120, value=25, key='age')
-        gender = dem_cols2.selectbox('Gender', options=['Male', 'Female'], key='gender')
+      dem_cols1, dem_cols2, = st.columns(2)
+      age = dem_cols1.number_input('Age', min_value=18, max_value=120, value=25, key='age')
+      gender = dem_cols2.selectbox('Gender', options=['Male', 'Female'], key='gender')
 
     # ECG Report Variables
     with st.expander("ECG Report Data", expanded=True):
-        with ecg_col1:
-          vent_rate = st.number_input('Vent. rate', min_value=0, max_value=300, key='vent_rate')
-        with ecg_col2:
-          qrs_duration = st.number_input('QRS dur.', min_value=50, max_value=200, key='qrs_duration')
-        with ecg_col3:
-          p_axis = st.number_input('P-axis', min_value=-180, max_value=180, key='p_axis')
-        with ecg_col4:
-          r_axis = st.number_input('R-axis', min_value=-180, max_value=180, key='r_axis')
-        with ecg_col5:
-          t_axis = st.number_input('T-axis', min_value=-180, max_value=180, key='t_axis')
-        with ecg_col6:
-          qt = st.number_input('QT', min_value=200, max_value=600, key='qt')
-        with ecg_col7:
-          qtc = st.number_input('QTc', min_value=200, max_value=600, key='qtc')
-        with ecg_col8:
-          bsa = st.number_input('BSA', min_value=0.0, max_value=3.0, step=0.01, key='bsa')
+      ecg_col1, ecg_col2, ecg_col3, ecg_col4, ecg_col5, ecg_col6, ecg_col7, ecg_col8 = st.columns(8)
+      with ecg_col1:
+        vent_rate = st.number_input('Vent. rate', min_value=0, max_value=300, key='vent_rate')
+      with ecg_col2:
+        qrs_duration = st.number_input('QRS dur.', min_value=50, max_value=200, key='qrs_duration')
+      with ecg_col3:
+        p_axis = st.number_input('P-axis', min_value=-180, max_value=180, key='p_axis')
+      with ecg_col4:
+        r_axis = st.number_input('R-axis', min_value=-180, max_value=180, key='r_axis')
+      with ecg_col5:
+        t_axis = st.number_input('T-axis', min_value=-180, max_value=180, key='t_axis')
+      with ecg_col6:
+        qt = st.number_input('QT', min_value=200, max_value=600, key='qt')
+      with ecg_col7:
+        qtc = st.number_input('QTc', min_value=200, max_value=600, key='qtc')
+      with ecg_col8:
+        bsa = st.number_input('BSA', min_value=0.0, max_value=3.0, step=0.01, key='bsa')
 
     # Echocardiogram Variables
-    with cols1.expander("Echocardiogram Data", expanded=True):
-        echo_col1, echo_col2, echo_col3, echo_col4, echo_col5, echo_col6, echo_col7, echo_col8 = st.columns(8)
-        with echo_col1:
-          # structural Measurements
-          ivsd = st.number_input('IVSd (cm)', min_value=0.0, max_value=2.0, step=0.01)
-          lvot_diam = st.number_input('LVOT diam (cm)', min_value=0.0, max_value=10.0, step=0.01)
-          lvids = st.number_input('LVIDs (cm)', min_value=0.0, max_value=10.0, step=0.01)
-          la_dimension = st.number_input('LA dimension (cm)', min_value=0.0, max_value=10.0, step=0.01)
-          lvidd = st.number_input('LVIDd (cm)', min_value=0.0, max_value=10.0, step=0.01)
-          lvpwd = st.number_input('LVPWd (cm)', min_value=0.0, max_value=2.0, step=0.01)
-          ivs = st.number_input('IVS (cm)', min_value=0.0, max_value=2.0, step=0.01)
-          ao_root_diam = st.number_input('Ao root diam (cm)', min_value=0.0, max_value=10.0, step=0.01)
-        with echo_col2:
-          # Function Measurements
-          fs = st.number_input('FS (%)', min_value=0.0, max_value=100.0, step=0.1)
-          edv_teich = st.number_input('EDV(Teich) (ml)', min_value=0.0, max_value=500.0, step=1.0)
-          lvld_ap4 = st.number_input('LVLd ap4 (cm)', min_value=0.0, max_value=10.0, step=0.01)
-          lvld_ap2 = st.number_input('LVLd ap2 (cm)', min_value=0.0, max_value=10.0, step=0.01)
-          edv_mod_sp4 = st.number_input('EDV(MOD-sp4) (ml)', min_value=0.0, max_value=500.0, step=1.0)
-          edv_mod_sp2 = st.number_input('EDV(MOD-sp2) (ml)', min_value=0.0, max_value=500.0, step=1.0)
-          edv_sp4_el = st.number_input('EDV(sp4-el) (ml)', min_value=0.0, max_value=500.0, step=1.0)
-          edv_sp2_el = st.number_input('EDV(sp2-el) (ml)', min_value=0.0, max_value=500.0, step=1.0)
-        with echo_col3:
-          lvas_ap4 = st.number_input('LVAs ap4 (cm)', min_value=0.0, max_value=10.0, step=0.01)
-          lvas_ap2 = st.number_input('LVAs ap2 (cm)', min_value=0.0, max_value=10.0, step=0.01)
-          lvl_ap4 = st.number_input('LVLs ap4 (cm)', min_value=0.0, max_value=10.0, step=0.01)
-          lvl_ap2 = st.number_input('LVLs ap2 (cm)', min_value=0.0, max_value=10.0, step=0.01)
-          esv_mod_sp4 = st.number_input('ESV(MOD-sp4) (ml)', min_value=0.0, max_value=500.0, step=1.0)
-          esv_mod_sp2 = st.number_input('ESV(MOD-sp2) (ml)', min_value=0.0, max_value=500.0, step=1.0)
-          esv_sp4_el = st.number_input('ESV(sp4-el) (ml)', min_value=0.0, max_value=500.0, step=1.0)
-          esv_sp2_el = st.number_input('ESV(sp2-el) (ml)', min_value=0.0, max_value=500.0, step=1.0)
-        with echo_col4:
-          ef_mod_sp4 = st.number_input('EF(MOD-sp4) (%)', min_value=0.0, max_value=100.0, step=0.1)
-          ef_sp4_el = st.number_input('EF(sp4-el) (%)', min_value=0.0, max_value=100.0, step=0.1)
-          sv_mod_sp4 = st.number_input('SV(MOD-sp4) (ml)', min_value=0.0, max_value=500.0, step=1.0)
-          sv_sp4_el = st.number_input('SV(sp4-el) (ml)', min_value=0.0, max_value=500.0, step=1.0)
-          ao_root_area = st.number_input('Ao root area (cm2)', min_value=0.0, max_value=10.0, step=0.01)
-          laa = st.number_input('LAA (cm2)', min_value=0.0, max_value=10.0, step=0.01)
-          raa = st.number_input('RAA (cm2)', min_value=0.0, max_value=10.0, step=0.01)
-          mapse = st.number_input('MAPSE (cm)', min_value=0.0, max_value=10.0, step=0.01)   
-        with echo_col5:
-          tapse = st.number_input('TAPSE (cm)', min_value=0.0, max_value=10.0, step=0.01)
-          mv_e_max_vel = st.number_input('MV E max vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
-          mv_a_max_vel = st.number_input('MV A max vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
-          mv_e_a = st.number_input('MV E/A', min_value=0.0, max_value=10.0, step=0.01)
-          mv_dec_time = st.number_input('MV dec time (ms)', min_value=0.0, max_value=1000.0, step=1.0)
-          lat_peak_e_vel = st.number_input('Lat Peak E" Vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
-          med_peak_e_vel = st.number_input('Med Peak E" Vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
-          ao_v2_max = st.number_input('Ao V2 max (m/s)', min_value=0.0, max_value=10.0, step=0.01)
-        with echo_col6:
-          ao_max_pg = st.number_input('Ao max PG (mmHg)', min_value=0.0, max_value=100.0, step=1.0)
-          lv_v1_max_pg = st.number_input('LV V1 max PG (mmHg)', min_value=0.0, max_value=100.0, step=1.0)
-          lv_v1_max = st.number_input('LV V1 max (m/s)', min_value=0.0, max_value=10.0, step=0.01)
-          pa_v2_max = st.number_input('PA V2 max (m/s)', min_value=0.0, max_value=10.0, step=0.01)
-          pa_max_pg = st.number_input('PA max PG (mmHg)', min_value=0.0, max_value=100.0, step=1.0)
-          tr_max_vel = st.number_input('TR max vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
-          tr_max_pg = st.number_input('TR max PG (mmHg)', min_value=0.0, max_value=100.0, step=1.0)
-          pi_end_d_vel = st.number_input('PI end-d vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
-        with echo_col7:
-          e_e_lat = st.number_input('E/E" Lat', min_value=0.0, max_value=10.0, step=0.01)
-          e_e_med = st.number_input('E/E" Med', min_value=0.0, max_value=10.0, step=0.01)
-          desc_ao_max_vel = st.number_input('Desc Ao max vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
-          desc_ao_max_pg = st.number_input('Desc Ao max PG (mmHg)', min_value=0.0, max_value=100.0, step=1.0)
-          ao_sinus_diam = st.number_input('Ao sinus diam (cm)', min_value=0.0, max_value=10.0, step=0.01)
-          mv_sax_meas_a = st.number_input('MV SAX Measurements A', min_value=0.0, max_value=10.0, step=0.01)
-          mv_sax_meas_b = st.number_input('MV SAX Measurements B', min_value=0.0, max_value=10.0, step=0.01)
-          mv_sax_meas_c = st.number_input('MV SAX Measurements C', min_value=0.0, max_value=10.0, step=0.01)
-        with echo_col8:
-          mv_sax_meas_d = st.number_input('MV SAX Measurements D', min_value=0.0, max_value=10.0, step=0.01)
-          pm_sax_meas_a = st.number_input('PM SAX Measurements A', min_value=0.0, max_value=10.0, step=0.01)
-          pm_sax_meas_b = st.number_input('PM SAX Measurements B', min_value=0.0, max_value=10.0, step=0.01)
-          pm_sax_meas_c = st.number_input('PM SAX Measurements C', min_value=0.0, max_value=10.0, step=0.01)
-          pm_sax_meas_d = st.number_input('PM SAX Measurements D', min_value=0.0, max_value=10.0, step=0.01)
+    with st.expander("Echocardiogram Data", expanded=True):
+      echo_col1, echo_col2, echo_col3, echo_col4, echo_col5, echo_col6, echo_col7, echo_col8 = st.columns(8)
+      with echo_col1:
+        # structural Measurements
+        ivsd = st.number_input('IVSd (cm)', min_value=0.0, max_value=2.0, step=0.01)
+        lvot_diam = st.number_input('LVOT diam (cm)', min_value=0.0, max_value=10.0, step=0.01)
+        lvids = st.number_input('LVIDs (cm)', min_value=0.0, max_value=10.0, step=0.01)
+        la_dimension = st.number_input('LA dimension (cm)', min_value=0.0, max_value=10.0, step=0.01)
+        lvidd = st.number_input('LVIDd (cm)', min_value=0.0, max_value=10.0, step=0.01)
+        lvpwd = st.number_input('LVPWd (cm)', min_value=0.0, max_value=2.0, step=0.01)
+        ivs = st.number_input('IVS (cm)', min_value=0.0, max_value=2.0, step=0.01)
+        ao_root_diam = st.number_input('Ao root diam (cm)', min_value=0.0, max_value=10.0, step=0.01)
+      with echo_col2:
+        # Function Measurements
+        fs = st.number_input('FS (%)', min_value=0.0, max_value=100.0, step=0.1)
+        edv_teich = st.number_input('EDV(Teich) (ml)', min_value=0.0, max_value=500.0, step=1.0)
+        lvld_ap4 = st.number_input('LVLd ap4 (cm)', min_value=0.0, max_value=10.0, step=0.01)
+        lvld_ap2 = st.number_input('LVLd ap2 (cm)', min_value=0.0, max_value=10.0, step=0.01)
+        edv_mod_sp4 = st.number_input('EDV(MOD-sp4) (ml)', min_value=0.0, max_value=500.0, step=1.0)
+        edv_mod_sp2 = st.number_input('EDV(MOD-sp2) (ml)', min_value=0.0, max_value=500.0, step=1.0)
+        edv_sp4_el = st.number_input('EDV(sp4-el) (ml)', min_value=0.0, max_value=500.0, step=1.0)
+        edv_sp2_el = st.number_input('EDV(sp2-el) (ml)', min_value=0.0, max_value=500.0, step=1.0)
+      with echo_col3:
+        lvas_ap4 = st.number_input('LVAs ap4 (cm)', min_value=0.0, max_value=10.0, step=0.01)
+        lvas_ap2 = st.number_input('LVAs ap2 (cm)', min_value=0.0, max_value=10.0, step=0.01)
+        lvl_ap4 = st.number_input('LVLs ap4 (cm)', min_value=0.0, max_value=10.0, step=0.01)
+        lvl_ap2 = st.number_input('LVLs ap2 (cm)', min_value=0.0, max_value=10.0, step=0.01)
+        esv_mod_sp4 = st.number_input('ESV(MOD-sp4) (ml)', min_value=0.0, max_value=500.0, step=1.0)
+        esv_mod_sp2 = st.number_input('ESV(MOD-sp2) (ml)', min_value=0.0, max_value=500.0, step=1.0)
+        esv_sp4_el = st.number_input('ESV(sp4-el) (ml)', min_value=0.0, max_value=500.0, step=1.0)
+        esv_sp2_el = st.number_input('ESV(sp2-el) (ml)', min_value=0.0, max_value=500.0, step=1.0)
+      with echo_col4:
+        ef_mod_sp4 = st.number_input('EF(MOD-sp4) (%)', min_value=0.0, max_value=100.0, step=0.1)
+        ef_sp4_el = st.number_input('EF(sp4-el) (%)', min_value=0.0, max_value=100.0, step=0.1)
+        sv_mod_sp4 = st.number_input('SV(MOD-sp4) (ml)', min_value=0.0, max_value=500.0, step=1.0)
+        sv_sp4_el = st.number_input('SV(sp4-el) (ml)', min_value=0.0, max_value=500.0, step=1.0)
+        ao_root_area = st.number_input('Ao root area (cm2)', min_value=0.0, max_value=10.0, step=0.01)
+        laa = st.number_input('LAA (cm2)', min_value=0.0, max_value=10.0, step=0.01)
+        raa = st.number_input('RAA (cm2)', min_value=0.0, max_value=10.0, step=0.01)
+        mapse = st.number_input('MAPSE (cm)', min_value=0.0, max_value=10.0, step=0.01)   
+      with echo_col5:
+        tapse = st.number_input('TAPSE (cm)', min_value=0.0, max_value=10.0, step=0.01)
+        mv_e_max_vel = st.number_input('MV E max vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
+        mv_a_max_vel = st.number_input('MV A max vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
+        mv_e_a = st.number_input('MV E/A', min_value=0.0, max_value=10.0, step=0.01)
+        mv_dec_time = st.number_input('MV dec time (ms)', min_value=0.0, max_value=1000.0, step=1.0)
+        lat_peak_e_vel = st.number_input('Lat Peak E" Vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
+        med_peak_e_vel = st.number_input('Med Peak E" Vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
+        ao_v2_max = st.number_input('Ao V2 max (m/s)', min_value=0.0, max_value=10.0, step=0.01)
+      with echo_col6:
+        ao_max_pg = st.number_input('Ao max PG (mmHg)', min_value=0.0, max_value=100.0, step=1.0)
+        lv_v1_max_pg = st.number_input('LV V1 max PG (mmHg)', min_value=0.0, max_value=100.0, step=1.0)
+        lv_v1_max = st.number_input('LV V1 max (m/s)', min_value=0.0, max_value=10.0, step=0.01)
+        pa_v2_max = st.number_input('PA V2 max (m/s)', min_value=0.0, max_value=10.0, step=0.01)
+        pa_max_pg = st.number_input('PA max PG (mmHg)', min_value=0.0, max_value=100.0, step=1.0)
+        tr_max_vel = st.number_input('TR max vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
+        tr_max_pg = st.number_input('TR max PG (mmHg)', min_value=0.0, max_value=100.0, step=1.0)
+        pi_end_d_vel = st.number_input('PI end-d vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
+      with echo_col7:
+        e_e_lat = st.number_input('E/E" Lat', min_value=0.0, max_value=10.0, step=0.01)
+        e_e_med = st.number_input('E/E" Med', min_value=0.0, max_value=10.0, step=0.01)
+        desc_ao_max_vel = st.number_input('Desc Ao max vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
+        desc_ao_max_pg = st.number_input('Desc Ao max PG (mmHg)', min_value=0.0, max_value=100.0, step=1.0)
+        ao_sinus_diam = st.number_input('Ao sinus diam (cm)', min_value=0.0, max_value=10.0, step=0.01)
+        mv_sax_meas_a = st.number_input('MV SAX Measurements A', min_value=0.0, max_value=10.0, step=0.01)
+        mv_sax_meas_b = st.number_input('MV SAX Measurements B', min_value=0.0, max_value=10.0, step=0.01)
+        mv_sax_meas_c = st.number_input('MV SAX Measurements C', min_value=0.0, max_value=10.0, step=0.01)
+      with echo_col8:
+        mv_sax_meas_d = st.number_input('MV SAX Measurements D', min_value=0.0, max_value=10.0, step=0.01)
+        pm_sax_meas_a = st.number_input('PM SAX Measurements A', min_value=0.0, max_value=10.0, step=0.01)
+        pm_sax_meas_b = st.number_input('PM SAX Measurements B', min_value=0.0, max_value=10.0, step=0.01)
+        pm_sax_meas_c = st.number_input('PM SAX Measurements C', min_value=0.0, max_value=10.0, step=0.01)
+        pm_sax_meas_d = st.number_input('PM SAX Measurements D', min_value=0.0, max_value=10.0, step=0.01)
 
     # Holter Monitor Variables
-    with cols1.expander("Holter Monitor Data", expanded=True):
-      artefacts = st.number_input('Artefacts', min_value=0, max_value=1)
-      normal_count = st.number_input('Normal Count', min_value=0, max_value=1000)
-      normal_percent = st.number_input('Normal Percent', min_value=0, max_value=100)
-      normal_max_hour = st.number_input('Normal Max/Hour', min_value=0, max_value=100)
-      ve_beats_count = st.number_input('VE Beats Count', min_value=0, max_value=1000)
-      ve_beats_percent = st.number_input('VE Beats Percent', min_value=0, max_value=100)
-      ve_beats_max_hour = st.number_input('VE Beats Max/Hour', min_value=0, max_value=100)
-      sve_beats_count = st.number_input('SVE Beats Count', min_value=0, max_value=1000)
-      sve_beats_percent = st.number_input('SVE Beats Percent', min_value=0, max_value=100)
-      sve_beats_max_hour = st.number_input('SVE Beats Max/Hour', min_value=0, max_value=100)
-      paced_beats_count = st.number_input('Paced Beats Count', min_value=0, max_value=1000)
-      paced_beats_percent = st.number_input('Paced Beats Percent', min_value=0, max_value=100)
-      paced_beats_max_hour = st.number_input('Paced Beats Max/Hour', min_value=0, max_value=100)
-      heart_rates_max_hr = st.number_input('Heart Rates (1 min avg) Max HR', min_value=0, max_value=300)
-      heart_rates_mean_hr = st.number_input('Heart Rates (1 min avg) Mean HR', min_value=0, max_value=300)
-      heart_rates_min_hr = st.number_input('Heart Rates (1 min avg) Min HR', min_value=0, max_value=300)
-      bradycardia = st.number_input('Bradycardia', min_value=0, max_value=10000)
-      bradycardia_event_longest = st.number_input('Bradycardia Event Longest', min_value=0, max_value=1000)
-      bradycardia_event_min_rate = st.number_input('Bradycardia Event Min Rate', min_value=0, max_value=300)
-      pause = st.number_input('Pause', min_value=0, max_value=1000)
-      broad_complex_tachycardia = st.number_input('Broad Complex Tachycardia', min_value=0, max_value=1000)
-      broad_complex_tachycardia_longest = st.number_input('Broad Complex Tachycardia Longest', min_value=0, max_value=1000)
-      broad_complex_tachycardia_max_rate = st.number_input('Broad Complex Tachycardia Max Rate', min_value=0, max_value=300)
-      v_run_aivr = st.number_input('V-Run/AIVR', min_value=0, max_value=1000)
-      v_run_aivr_longest = st.number_input('V-Run/AIVR Longest', min_value=0, max_value=1000)
-      v_run_aivr_max_rate = st.number_input('V-Run/AIVR Max Rate', min_value=0, max_value=300)
-      couplet = st.number_input('Couplet', min_value=0, max_value=1000)
-      triplet = st.number_input('Triplet', min_value=0, max_value=1000)
-      single_ve_events = st.number_input('Single VE Events', min_value=0, max_value=1000)
-      svt = st.number_input('SVT', min_value=0, max_value=1000)
-      svt_longest = st.number_input('SVT Longest', min_value=0, max_value=1000)
-      svt_max_rate = st.number_input('SVT Max Rate', min_value=0, max_value=300)
-      sve = st.number_input('SVE', min_value=0, max_value=1000)
-      sve_max_per_minute = st.number_input('SVE Max per Minute', min_value=0, max_value=100)
-      sve_max_per_hour = st.number_input('SVE Max per Hour', min_value=0, max_value=100)
-      sve_mean_per_hour = st.number_input('SVE Mean per Hour', min_value=0, max_value=100)
-      sve_run = st.number_input('SVE Run', min_value=0, max_value=1000)
-      sve_run_longest = st.number_input('SVE Run Longest', min_value=0, max_value=1000)
-      sve_run_max_rate = st.number_input('SVE Run Max Rate', min_value=0, max_value=300)
-      holter_date_diff = st.number_input('Holter_date_diff', min_value=0, max_value=1000)
-      echo_date_diff = st.number_input('Echo_date_diff', min_value=0, max_value=1000)
+    with st.expander("Holter Monitor Data", expanded=True):
+      hol_col1, hol_col2, hol_col3, hol_col4, hol_col5, hol_col6, hol_col7, hol_col8, hol_col9, hol_col10 = st.columns(10)
+      with hol_col1:
+        artefacts = st.number_input('Artefacts', min_value=0, max_value=1)
+        normal_count = st.number_input('Normal Count', min_value=0, max_value=1000)
+        normal_percent = st.number_input('Normal Percent', min_value=0, max_value=100)
+        normal_max_hour = st.number_input('Normal Max/Hour', min_value=0, max_value=100)
+      with hol_col2:
+        ve_beats_count = st.number_input('VE Beats Count', min_value=0, max_value=1000)
+        ve_beats_percent = st.number_input('VE Beats Percent', min_value=0, max_value=100)
+        ve_beats_max_hour = st.number_input('VE Beats Max/Hour', min_value=0, max_value=100)
+        sve_beats_count = st.number_input('SVE Beats Count', min_value=0, max_value=1000)
+      with hol_col3:
+        sve_beats_percent = st.number_input('SVE Beats Percent', min_value=0, max_value=100)
+        sve_beats_max_hour = st.number_input('SVE Beats Max/Hour', min_value=0, max_value=100)
+        paced_beats_count = st.number_input('Paced Beats Count', min_value=0, max_value=1000)
+        paced_beats_percent = st.number_input('Paced Beats Percent', min_value=0, max_value=100)
+      with hol_col4:
+        paced_beats_max_hour = st.number_input('Paced Beats Max/Hour', min_value=0, max_value=100)
+        heart_rates_max_hr = st.number_input('Heart Rates (1 min avg) Max HR', min_value=0, max_value=300)
+        heart_rates_mean_hr = st.number_input('Heart Rates (1 min avg) Mean HR', min_value=0, max_value=300)
+        heart_rates_min_hr = st.number_input('Heart Rates (1 min avg) Min HR', min_value=0, max_value=300)
+      with hol_col5:
+        bradycardia = st.number_input('Bradycardia', min_value=0, max_value=10000)
+        bradycardia_event_longest = st.number_input('Bradycardia Event Longest', min_value=0, max_value=1000)
+        bradycardia_event_min_rate = st.number_input('Bradycardia Event Min Rate', min_value=0, max_value=300)
+        pause = st.number_input('Pause', min_value=0, max_value=1000)
+      with hol_col6:
+        broad_complex_tachycardia = st.number_input('Broad Complex Tachycardia', min_value=0, max_value=1000)
+        broad_complex_tachycardia_longest = st.number_input('Broad Complex Tachycardia Longest', min_value=0, max_value=1000)
+        broad_complex_tachycardia_max_rate = st.number_input('Broad Complex Tachycardia Max Rate', min_value=0, max_value=300)
+        v_run_aivr = st.number_input('V-Run/AIVR', min_value=0, max_value=1000)
+      with hol_col7:
+        v_run_aivr_longest = st.number_input('V-Run/AIVR Longest', min_value=0, max_value=1000)
+        v_run_aivr_max_rate = st.number_input('V-Run/AIVR Max Rate', min_value=0, max_value=300)
+        couplet = st.number_input('Couplet', min_value=0, max_value=1000)
+        triplet = st.number_input('Triplet', min_value=0, max_value=1000)
+      with hol_col8:
+        single_ve_events = st.number_input('Single VE Events', min_value=0, max_value=1000)
+        svt = st.number_input('SVT', min_value=0, max_value=1000)
+        svt_longest = st.number_input('SVT Longest', min_value=0, max_value=1000)
+        svt_max_rate = st.number_input('SVT Max Rate', min_value=0, max_value=300)
+      with hol_col9:
+        sve = st.number_input('SVE', min_value=0, max_value=1000)
+        sve_max_per_minute = st.number_input('SVE Max per Minute', min_value=0, max_value=100)
+        sve_max_per_hour = st.number_input('SVE Max per Hour', min_value=0, max_value=100)
+        sve_mean_per_hour = st.number_input('SVE Mean per Hour', min_value=0, max_value=100)
+      with hol_col10:  
+        sve_run = st.number_input('SVE Run', min_value=0, max_value=1000)
+        sve_run_longest = st.number_input('SVE Run Longest', min_value=0, max_value=1000)
+        sve_run_max_rate = st.number_input('SVE Run Max Rate', min_value=0, max_value=300)
+        holter_date_diff = st.number_input('Holter_date_diff', min_value=0, max_value=1000)
+        echo_date_diff = st.number_input('Echo_date_diff', min_value=0, max_value=1000)
 
 
 # Make a prediction
@@ -289,7 +301,7 @@ input_data = pd.DataFrame({
     'Echo_date_diff': [echo_date_diff]
     })
 
-with col2:
+with pred_cont.container(border=True):
     prediction = model.predict_proba(input_data).flatten()
 
     # # Display the prediction
