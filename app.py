@@ -7,9 +7,6 @@ import xgboost
 import matplotlib.pyplot as plt
 import datetime as dt
 
-# class NumberInputMixinNone(NumberInputMixin):
-#     def number_input(
-
 # Set page config to wide
 st.set_page_config(layout="wide")
 
@@ -297,7 +294,12 @@ input_data = pd.DataFrame({
     })
 
 with pred_cont.container():
-    prediction = model.predict_proba(input_data).flatten()
+  dmatrix = xgboost.DMatrix(input_data, feature_names=model.feature_names)
+  prediction = model.predict(dmatrix, output_margin=True, pred_contribs=True)
+  st.write(prediction)
+  
+  with st.container():
+    prediction = model.predict_proba(dmatrix).flatten()
     
     # Create a DataFrame for the chart
     data = pd.DataFrame({
@@ -321,3 +323,7 @@ with pred_cont.container():
 
     # Display the chart in Streamlit
     st.altair_chart(chart, use_container_width=True)
+  
+  with st.container():
+    shap_values = model.get_booster().predict(dmatrix, pred_contribs=True)[:,:-1]
+    
