@@ -1,7 +1,6 @@
+import os
 import joblib
 import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report
 import streamlit as st
 
 """
@@ -13,14 +12,15 @@ forums](https://discuss.streamlit.io).
 
 In the meantime, below is an example of what you can do with just a few lines of code:
 """
-# Load model
-model_path = 'model.pkl'
-model = joblib.load(model_path)
 
 # Define the app
 def app():
     # Set the app title
     st.title('Fabry Disease Vs Hypertrophic Cardiomyopathy Prediction')
+    
+    # Load model to streamlit
+    model_path = os.path.dirname(os.path.realpath(__file__)) + '/models/model.pkl'
+    model = joblib.load(model_path)
 
     # Add a description
     st.write('This app predicts the differentiates between Fabry and HCM based on various cardiac markers.')
@@ -42,7 +42,6 @@ def app():
     qt = st.number_input('QT', min_value=200, max_value=600)
     qtc = st.number_input('QTc', min_value=200, max_value=600)
     bsa = st.number_input('BSA', min_value=0.0, max_value=3.0, step=0.01)
-    
     
     # Echocardiogram Variables
     st.write('## Enter Echocardiogram Data')
