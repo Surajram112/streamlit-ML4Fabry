@@ -54,7 +54,7 @@ with cont2:
 
   # Echocardiogram Variables
   with cont2_col1.expander("Echocardiogram Data", expanded=True):
-      echo_col1, echo_col2, echo_col3, echo_col4, echo_col5, echo_col6 = st.columns(6)
+      echo_col1, echo_col2, echo_col3, echo_col4, echo_col5, echo_col6, echo_col7 = st.columns(7)
       with echo_col1:
         # structural Measurements
         ivsd = st.number_input('IVSd (cm)', min_value=0.0, max_value=2.0, step=0.01)
@@ -111,15 +111,16 @@ with cont2:
         tr_max_vel = st.number_input('TR max vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
         tr_max_pg = st.number_input('TR max PG (mmHg)', min_value=0.0, max_value=100.0, step=1.0)
         pi_end_d_vel = st.number_input('PI end-d vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
+      with echo_col7:
+        e_e_lat = st.number_input('E/E" Lat', min_value=0.0, max_value=10.0, step=0.01)
+        e_e_med = st.number_input('E/E" Med', min_value=0.0, max_value=10.0, step=0.01)
+        desc_ao_max_vel = st.number_input('Desc Ao max vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
+        desc_ao_max_pg = st.number_input('Desc Ao max PG (mmHg)', min_value=0.0, max_value=100.0, step=1.0)
+        ao_sinus_diam = st.number_input('Ao sinus diam (cm)', min_value=0.0, max_value=10.0, step=0.01)
+        mv_sax_meas_a = st.number_input('MV SAX Measurements A', min_value=0.0, max_value=10.0, step=0.01)
+        mv_sax_meas_b = st.number_input('MV SAX Measurements B', min_value=0.0, max_value=10.0, step=0.01)
+        mv_sax_meas_c = st.number_input('MV SAX Measurements C', min_value=0.0, max_value=10.0, step=0.01)
         
-e_e_lat = col1.number_input('E/E" Lat', min_value=0.0, max_value=10.0, step=0.01)
-e_e_med = col1.number_input('E/E" Med', min_value=0.0, max_value=10.0, step=0.01)
-desc_ao_max_vel = col1.number_input('Desc Ao max vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
-desc_ao_max_pg = col1.number_input('Desc Ao max PG (mmHg)', min_value=0.0, max_value=100.0, step=1.0)
-ao_sinus_diam = col1.number_input('Ao sinus diam (cm)', min_value=0.0, max_value=10.0, step=0.01)
-mv_sax_meas_a = col1.number_input('MV SAX Measurements A', min_value=0.0, max_value=10.0, step=0.01)
-mv_sax_meas_b = col1.number_input('MV SAX Measurements B', min_value=0.0, max_value=10.0, step=0.01)
-mv_sax_meas_c = col1.number_input('MV SAX Measurements C', min_value=0.0, max_value=10.0, step=0.01)
 mv_sax_meas_d = col1.number_input('MV SAX Measurements D', min_value=0.0, max_value=10.0, step=0.01)
 pm_sax_meas_a = col1.number_input('PM SAX Measurements A', min_value=0.0, max_value=10.0, step=0.01)
 pm_sax_meas_b = col1.number_input('PM SAX Measurements B', min_value=0.0, max_value=10.0, step=0.01)
