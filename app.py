@@ -310,7 +310,7 @@ with cont1:
         y='Condition:N',  # N indicates a nominal (categorical) data type
         x='Probability:Q'  # Q indicates a quantitative data type
     ).properties(
-        height=100  # Adjust the height as needed
+        height=200  # Adjust the height as needed
     )
 
     # Display the chart in Streamlit
