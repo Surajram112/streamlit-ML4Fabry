@@ -324,22 +324,13 @@ with pred_cont.container():
   with st.container():
     # Create a SHAP Explainer object
     shap_values = model.get_booster().predict(xgb.DMatrix(input_data), pred_contribs=True)[:,:-1]
+    explainer = shap.TreeExplainer(model)
+    shap_values = explainer.shap_values(input_data)
     
     # Create a SHAP summary plot
     fig, ax = plt.subplots()
-    shap.summary_plot(shap_values, input_data, show=False)
+    shap.summary_plot(shap_values, input_data, plot_type='bar', max_display=10, show=False)
     st.pyplot(fig)
-    
-    # Create a SHAP force plot
-    fig, ax = plt.subplots()
-    shap.force_plot(
-        base_value=shap_values[0].mean(), 
-        shap_values=shap_values[0], 
-        features=input_data.iloc[0], 
-        show=False
-    )
-    st.pyplot(fig)
-    
     
     # Print the SHAP values dataframce
     st.write(shap_values)
