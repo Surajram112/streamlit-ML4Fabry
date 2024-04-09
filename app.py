@@ -74,9 +74,9 @@ with st.container():
         edv_mod_sp4 = st.number_input('EDV(MOD-sp4) (ml)', min_value=0.0, max_value=500.0, step=1.0)
         edv_mod_sp2 = st.number_input('EDV(MOD-sp2) (ml)', min_value=0.0, max_value=500.0, step=1.0)
         edv_sp4_el = st.number_input('EDV(sp4-el) (ml)', min_value=0.0, max_value=500.0, step=1.0)
+        edv_sp2_el = st.number_input('EDV(sp2-el) (ml)', min_value=0.0, max_value=500.0, step=1.0)      
       
-      with echo_col2:         
-        edv_sp2_el = st.number_input('EDV(sp2-el) (ml)', min_value=0.0, max_value=500.0, step=1.0)
+      with echo_col2:
         lvas_ap4 = st.number_input('LVAs ap4 (cm)', min_value=0.0, max_value=10.0, step=0.01)
         lvas_ap2 = st.number_input('LVAs ap2 (cm)', min_value=0.0, max_value=10.0, step=0.01)
         lvl_ap4 = st.number_input('LVLs ap4 (cm)', min_value=0.0, max_value=10.0, step=0.01)
@@ -92,9 +92,9 @@ with st.container():
         ao_root_area = st.number_input('Ao root area (cm2)', min_value=0.0, max_value=10.0, step=0.01)
         laa = st.number_input('LAA (cm2)', min_value=0.0, max_value=10.0, step=0.01)
         raa = st.number_input('RAA (cm2)', min_value=0.0, max_value=10.0, step=0.01)
-      
-      with echo_col3:        
         mapse = st.number_input('MAPSE (cm)', min_value=0.0, max_value=10.0, step=0.01)
+      
+      with echo_col3:
         tapse = st.number_input('TAPSE (cm)', min_value=0.0, max_value=10.0, step=0.01)
         mv_e_max_vel = st.number_input('MV E max vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
         mv_a_max_vel = st.number_input('MV A max vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
@@ -110,9 +110,9 @@ with st.container():
         pa_max_pg = st.number_input('PA max PG (mmHg)', min_value=0.0, max_value=100.0, step=1.0)
         tr_max_vel = st.number_input('TR max vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
         tr_max_pg = st.number_input('TR max PG (mmHg)', min_value=0.0, max_value=100.0, step=1.0)
-      
-      with echo_col4:        
         pi_end_d_vel = st.number_input('PI end-d vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
+      
+      with echo_col4:
         e_e_lat = st.number_input('E/E" Lat', min_value=0.0, max_value=10.0, step=0.01)
         e_e_med = st.number_input('E/E" Med', min_value=0.0, max_value=10.0, step=0.01)
         desc_ao_max_vel = st.number_input('Desc Ao max vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
