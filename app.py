@@ -1,7 +1,6 @@
 from pathlib import Path
 import joblib
 import pandas as pd
-import shap
 import altair
 import streamlit as st
 import xgboost as xgb
@@ -324,8 +323,13 @@ with pred_cont.container():
   with st.container():
     # Create a SHAP Explainer object
     shap_values = model.get_booster().predict(xgb.DMatrix(input_data), pred_contribs=True)[:,:-1]
-    explainer = shap.TreeExplainer(model, feature_perturbation='interventional')
-    shap_values = explainer.shap_values(input_data)
     
-    # Print the SHAP values dataframce
-    st.write(shap_values)
+    # Create a DataFrame for the SHAP values
+    shap_values = pd.DataFrame(shap_values, columns=input_data.columns)
+    
+    # Create a bar chart for the SHAP feature importance
+    shap_values.abs().mean().sort_values().plot(kind='barh', figsize=(10, 10))
+    plt.xlabel('Mean |SHAP value|')
+    plt.title('SHAP Feature Importance')
+    plt.tight_layout()
+    st.pyplot()
