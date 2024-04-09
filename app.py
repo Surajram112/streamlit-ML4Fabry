@@ -14,18 +14,15 @@ model_path = Path('./models/model.pkl')
 model = joblib.load(model_path)
 
 # Create a container for the title
-cont_title = st.container()
-with cont_title:
+with st.container():
   # Set the app title
   st.title('Fabry Disease Vs Hypertrophic Cardiomyopathy Prediction')
 
   # Add a description
   st.write('This app predicts the differentiates between Fabry and HCM based on various cardiac markers.')
 
-col1, col2 = st.columns([2,1])
-
-cont1 = col1.container(border=True)
-with cont1:
+# Create a container for the patient data
+with st.container(border=True):
   cont1_col1, cont1_col2, cont1_col3 = st.columns([1,2,1])  # Adjusted column widths for a better layout of first set of expanders
 
   # Patient demographic Data
@@ -54,9 +51,8 @@ with cont1:
       with ecg_col8:
         bsa = st.number_input('BSA', min_value=0.0, max_value=3.0, step=0.01, key='bsa')
 
-cont2 = col1.container(border=True)
-
-with cont2:
+# Create a container for the echocardiogram data
+with st.container(border=True):
   cont2_col1, cont2_col2 = st.columns([3,1])  # Adjusted column widths for a better layout of first set of expanders
 
   # Echocardiogram Variables
