@@ -13,31 +13,9 @@ forums](https://discuss.streamlit.io).
 
 In the meantime, below is an example of what you can do with just a few lines of code:
 """
-
-# Load data
-def load_data(filepath):
-    """Load patient health progression data from a CSV file."""
-    data = pd.read_csv(filepath, delimiter=',')
-    return data
-
-# load model
-def load_xgboost_model(model_path):
-    """Load a pre-trained XGBoost model."""
-    model = joblib.load(model_path)
-    return model
-
-# Load data
-data_path = 'Data/ProcessedData/Rare_Data_Merged.csv'
-data = pd.read_csv(data_path)
-
 # Load model
-model_path = 'Output/Separated/XGB/model.pkl'
-model = load_xgboost_model(model_path)
-
-# Split into data into training and test sets
-X = data.drop(['Study ID','Date', 'Time','Condition'], axis=1)
-y = data['Condition']
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+model_path = 'model.pkl'
+model = joblib.load(model_path)
 
 # Define the app
 def app():
@@ -46,15 +24,6 @@ def app():
 
     # Add a description
     st.write('This app predicts the differentiates between Fabry and HCM based on various cardiac markers.')
-
-    # Show the dataset
-    # st.write('## Heart Disease Dataset')
-    # st.write(data)
-
-    # Show the model's performance
-    st.write('## Model Accuracy')
-    y_pred = model.predict(X_test)
-    st.write('Classification report:', classification_report(y_test, y_pred))
 
     # Ask the user for input
     st.write('## Enter Patient demographic Data')
@@ -307,7 +276,7 @@ def app():
     
     st.button('Predict')
     prediction = model.predict(input_data)[0]
-    # st.write('## Prediction')
+    st.write('## Prediction')
     
     if prediction == 0:
       st.write('Based on the input data, you are likely to have Hypertrophic Cardiomyopathy.')
