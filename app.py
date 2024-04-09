@@ -327,8 +327,31 @@ with pred_cont.container():
     # Create a DataFrame for the SHAP values
     shap_values = pd.DataFrame(shap_values, columns=input_data.columns)
     
-    # Create a bar chart for the SHAP feature importance
+    # Create a bar chart for top 10 features by mean absolute SHAP value
     fig, ax = plt.subplots()
-    shap_values.abs().mean().sort_values().plot(kind='barh', ax=ax)
-    ax.set_title('SHAP Feature Importance')
+    shap_values.abs().mean().sort_values().tail(10).plot(kind='barh', ax=ax)
+    ax.set_xlabel('Mean |SHAP Value|')
+    ax.set_title('Top 10 Features by Mean |SHAP Value|')
     st.pyplot(fig)
+    
+    # Create a bar chart for top 10 features by standard deviation of SHAP values
+    fig, ax = plt.subplots()
+    shap_values.std().sort_values().tail(10).plot(kind='barh', ax=ax)
+    ax.set_xlabel('Std Dev of SHAP Values')
+    ax.set_title('Top 10 Features by Std Dev of SHAP Values')
+    st.pyplot(fig)
+    
+    # Create a bar chart for top 10 features by sum of SHAP values
+    fig, ax = plt.subplots()
+    shap_values.sum().sort_values().tail(10).plot(kind='barh', ax=ax)
+    ax.set_xlabel('Sum of SHAP Values')
+    ax.set_title('Top 10 Features by Sum of SHAP Values')
+    st.pyplot(fig)
+    
+    # Create a bar chart for top 10 features by sum of absolute SHAP values
+    fig, ax = plt.subplots()
+    shap_values.abs().sum().sort_values().tail(10).plot(kind='barh', ax=ax)
+    ax.set_xlabel('Sum of |SHAP Values|')
+    ax.set_title('Top 10 Features by Sum of |SHAP Values|')
+    st.pyplot(fig)
+    
