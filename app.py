@@ -9,15 +9,17 @@ import matplotlib.pyplot as plt
 # Set page config to wide
 st.set_page_config(layout="wide")
 
-# Set the app title
-st.title('Fabry Disease Vs Hypertrophic Cardiomyopathy Prediction')
-
-# Load model to col1reamlit
+# Load model to streamlit
 model_path = Path('./models/model.pkl')
 model = joblib.load(model_path)
 
-# Add a description
-st.write('This app predicts the differentiates between Fabry and HCM based on various cardiac markers.')
+cont_title = st.container()
+with cont_title:
+  # Set the app title
+  st.title('Fabry Disease Vs Hypertrophic Cardiomyopathy Prediction')
+
+  # Add a description
+  st.write('This app predicts the differentiates between Fabry and HCM based on various cardiac markers.')
 
 cont1 = st.container()
 with cont1:
