@@ -334,31 +334,13 @@ with pred_cont.container():
     ax.set_title('Top 10 Features by Mean |SHAP Value|')
     st.pyplot(fig)
     
-  with st.container():
-    # Interpret the SHAP values
-    st.write('**Interpreting the SHAP Values**')
-    
-    # Create a DataFrame for the SHAP values
-    shap_values = pd.DataFrame(shap_values, columns=input_data.columns)
-    
-    # Calculate the SHAP values for the prediction
-    shap_values = shap_values.sum().sort_values()
-    
-    # Display the SHAP values
-    st.write(shap_values)
-    
-    # Display the SHAP values as a bar chart
+    # Display the SHAP values as a bar chart removing all the features with 0 SHAP values
     fig, ax = plt.subplots()
-    shap_values.plot(kind='barh', ax=ax)
+    shap_values.sum().sort_values()[shap_values != 0].plot(kind='barh', ax=ax)
     ax.set_xlabel('SHAP Value')
-    ax.set_title('SHAP Values for Prediction')
+    ax.set_title('SHAP Values for the Prediction')
     st.pyplot(fig)
     
-    # Display the SHAP values as a waterfall chart
-    fig, ax = plt.subplots()
-    shap_values.plot(kind='bar', ax=ax)
-    ax.set_ylabel('Feature Contribution')
-    ax.set_title('SHAP Values for Prediction')
-    st.pyplot(fig)
-    
-    
+    # Display the SHAP values as a table
+    st.write('**SHAP Values for the Prediction**')
+    st.write(shap_values)
