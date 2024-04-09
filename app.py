@@ -14,87 +14,94 @@ st.title('Fabry Disease Vs Hypertrophic Cardiomyopathy Prediction')
 model_path = Path('./models/model.pkl')
 model = joblib.load(model_path)
 
-col1, col2, col3 = st.columns([1,2,1])  # Adjusted column widths for a better layout
+cont1 = st.container()
+with cont1:
+  cont1_col1, cont1_col2, cont1_col3 = st.columns([1,2,1])  # Adjusted column widths for a better layout of first set of expanders
 
-# Add a description
-st.write('This app predicts the differentiates between Fabry and HCM based on various cardiac markers.')
+  # Add a description
+  st.write('This app predicts the differentiates between Fabry and HCM based on various cardiac markers.')
 
-# Patient demographic Data
-with col1.expander("Patient Demographic Data", expanded=True):
-    dem_col1, dem_col2 = st.columns(2)
-    age = dem_col1.number_input('Age', min_value=18, max_value=120, value=25, key='age')
-    gender = dem_col2.selectbox('Gender', options=['Male', 'Female'], key='gender')
+  # Patient demographic Data
+  with cont1_col1.expander("Patient Demographic Data", expanded=True):
+      dem_col1, dem_col2 = st.columns(2)
+      age = dem_col1.number_input('Age', min_value=18, max_value=120, value=25, key='age')
+      gender = dem_col2.selectbox('Gender', options=['Male', 'Female'], key='gender')
 
-# ECG Report Variables
-with col2.expander("ECG Report Data", expanded=True):
-    ecg_col1, ecg_col2, ecg_col3, ecg_col4, ecg_col5, ecg_col6, ecg_col7, ecg_col8 = st.columns(8)
-    with ecg_col1:
-      vent_rate = st.number_input('Vent. rate', min_value=0, max_value=300, key='vent_rate')
-    with ecg_col2:
-      qrs_duration = st.number_input('QRS dur.', min_value=50, max_value=200, key='qrs_duration')
-    with ecg_col3:
-      p_axis = st.number_input('P-axis', min_value=-180, max_value=180, key='p_axis')
-    with ecg_col4:
-      r_axis = st.number_input('R-axis', min_value=-180, max_value=180, key='r_axis')
-    with ecg_col5:
-      t_axis = st.number_input('T-axis', min_value=-180, max_value=180, key='t_axis')
-    with ecg_col6:
-      qt = st.number_input('QT', min_value=200, max_value=600, key='qt')
-    with ecg_col7:
-      qtc = st.number_input('QTc', min_value=200, max_value=600, key='qtc')
-    with ecg_col8:
-      bsa = st.number_input('BSA', min_value=0.0, max_value=3.0, step=0.01, key='bsa')
+  # ECG Report Variables
+  with cont1_col2.expander("ECG Report Data", expanded=True):
+      ecg_col1, ecg_col2, ecg_col3, ecg_col4, ecg_col5, ecg_col6, ecg_col7, ecg_col8 = st.columns(8)
+      with ecg_col1:
+        vent_rate = st.number_input('Vent. rate', min_value=0, max_value=300, key='vent_rate')
+      with ecg_col2:
+        qrs_duration = st.number_input('QRS dur.', min_value=50, max_value=200, key='qrs_duration')
+      with ecg_col3:
+        p_axis = st.number_input('P-axis', min_value=-180, max_value=180, key='p_axis')
+      with ecg_col4:
+        r_axis = st.number_input('R-axis', min_value=-180, max_value=180, key='r_axis')
+      with ecg_col5:
+        t_axis = st.number_input('T-axis', min_value=-180, max_value=180, key='t_axis')
+      with ecg_col6:
+        qt = st.number_input('QT', min_value=200, max_value=600, key='qt')
+      with ecg_col7:
+        qtc = st.number_input('QTc', min_value=200, max_value=600, key='qtc')
+      with ecg_col8:
+        bsa = st.number_input('BSA', min_value=0.0, max_value=3.0, step=0.01, key='bsa')
 
-# Echocardiogram Variables
-with col2.expander("Echocardiogram Data", expanded=True):
-    echo_col1, echo_col2, echo_col3, echo_col4, echo_col5 = st.columns(5)
-    with echo_col1:
-      # structural Measurements
-      ivsd = st.number_input('IVSd (cm)', min_value=0.0, max_value=2.0, step=0.01)
-      lvot_diam = st.number_input('LVOT diam (cm)', min_value=0.0, max_value=10.0, step=0.01)
-      lvids = st.number_input('LVIDs (cm)', min_value=0.0, max_value=10.0, step=0.01)
-      la_dimension = st.number_input('LA dimension (cm)', min_value=0.0, max_value=10.0, step=0.01)
-      lvidd = st.number_input('LVIDd (cm)', min_value=0.0, max_value=10.0, step=0.01)
-      lvpwd = st.number_input('LVPWd (cm)', min_value=0.0, max_value=2.0, step=0.01)
-      ivs = st.number_input('IVS (cm)', min_value=0.0, max_value=2.0, step=0.01)
-      ao_root_diam = st.number_input('Ao root diam (cm)', min_value=0.0, max_value=10.0, step=0.01)
-    with echo_col2:
-      # Function Measurements
-      fs = st.number_input('FS (%)', min_value=0.0, max_value=100.0, step=0.1)
-      edv_teich = st.number_input('EDV(Teich) (ml)', min_value=0.0, max_value=500.0, step=1.0)
-      lvld_ap4 = st.number_input('LVLd ap4 (cm)', min_value=0.0, max_value=10.0, step=0.01)
-      lvld_ap2 = st.number_input('LVLd ap2 (cm)', min_value=0.0, max_value=10.0, step=0.01)
-      edv_mod_sp4 = st.number_input('EDV(MOD-sp4) (ml)', min_value=0.0, max_value=500.0, step=1.0)
-      edv_mod_sp2 = st.number_input('EDV(MOD-sp2) (ml)', min_value=0.0, max_value=500.0, step=1.0)
-      edv_sp4_el = st.number_input('EDV(sp4-el) (ml)', min_value=0.0, max_value=500.0, step=1.0)
-      edv_sp2_el = st.number_input('EDV(sp2-el) (ml)', min_value=0.0, max_value=500.0, step=1.0)
-    with echo_col3:
-      lvas_ap4 = st.number_input('LVAs ap4 (cm)', min_value=0.0, max_value=10.0, step=0.01)
-      lvas_ap2 = st.number_input('LVAs ap2 (cm)', min_value=0.0, max_value=10.0, step=0.01)
-      lvl_ap4 = st.number_input('LVLs ap4 (cm)', min_value=0.0, max_value=10.0, step=0.01)
-      lvl_ap2 = st.number_input('LVLs ap2 (cm)', min_value=0.0, max_value=10.0, step=0.01)
-      esv_mod_sp4 = st.number_input('ESV(MOD-sp4) (ml)', min_value=0.0, max_value=500.0, step=1.0)
-      esv_mod_sp2 = st.number_input('ESV(MOD-sp2) (ml)', min_value=0.0, max_value=500.0, step=1.0)
-      esv_sp4_el = st.number_input('ESV(sp4-el) (ml)', min_value=0.0, max_value=500.0, step=1.0)
-      esv_sp2_el = st.number_input('ESV(sp2-el) (ml)', min_value=0.0, max_value=500.0, step=1.0)
-    with echo_col4:
-      ef_mod_sp4 = st.number_input('EF(MOD-sp4) (%)', min_value=0.0, max_value=100.0, step=0.1)
-      ef_sp4_el = st.number_input('EF(sp4-el) (%)', min_value=0.0, max_value=100.0, step=0.1)
-      sv_mod_sp4 = st.number_input('SV(MOD-sp4) (ml)', min_value=0.0, max_value=500.0, step=1.0)
-      sv_sp4_el = st.number_input('SV(sp4-el) (ml)', min_value=0.0, max_value=500.0, step=1.0)
-      ao_root_area = st.number_input('Ao root area (cm2)', min_value=0.0, max_value=10.0, step=0.01)
-      laa = st.number_input('LAA (cm2)', min_value=0.0, max_value=10.0, step=0.01)
-      raa = st.number_input('RAA (cm2)', min_value=0.0, max_value=10.0, step=0.01)
-      mapse = st.number_input('MAPSE (cm)', min_value=0.0, max_value=10.0, step=0.01)   
-    with echo_col5:
-      tapse = st.number_input('TAPSE (cm)', min_value=0.0, max_value=10.0, step=0.01)
-      mv_e_max_vel = st.number_input('MV E max vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
-      mv_a_max_vel = st.number_input('MV A max vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
-      mv_e_a = st.number_input('MV E/A', min_value=0.0, max_value=10.0, step=0.01)
-      mv_dec_time = st.number_input('MV dec time (ms)', min_value=0.0, max_value=1000.0, step=1.0)
-      lat_peak_e_vel = st.number_input('Lat Peak E" Vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
-      med_peak_e_vel = st.number_input('Med Peak E" Vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
-      ao_v2_max = st.number_input('Ao V2 max (m/s)', min_value=0.0, max_value=10.0, step=0.01)
+cont2 = st.container()
+
+with cont2:
+  cont2_col1, cont2_col2 = st.columns([2,1])  # Adjusted column widths for a better layout of first set of expanders
+
+  # Echocardiogram Variables
+  with cont2_col1.expander("Echocardiogram Data", expanded=True):
+      echo_col1, echo_col2, echo_col3, echo_col4, echo_col5 = st.columns(5)
+      with echo_col1:
+        # structural Measurements
+        ivsd = st.number_input('IVSd (cm)', min_value=0.0, max_value=2.0, step=0.01)
+        lvot_diam = st.number_input('LVOT diam (cm)', min_value=0.0, max_value=10.0, step=0.01)
+        lvids = st.number_input('LVIDs (cm)', min_value=0.0, max_value=10.0, step=0.01)
+        la_dimension = st.number_input('LA dimension (cm)', min_value=0.0, max_value=10.0, step=0.01)
+        lvidd = st.number_input('LVIDd (cm)', min_value=0.0, max_value=10.0, step=0.01)
+        lvpwd = st.number_input('LVPWd (cm)', min_value=0.0, max_value=2.0, step=0.01)
+        ivs = st.number_input('IVS (cm)', min_value=0.0, max_value=2.0, step=0.01)
+        ao_root_diam = st.number_input('Ao root diam (cm)', min_value=0.0, max_value=10.0, step=0.01)
+      with echo_col2:
+        # Function Measurements
+        fs = st.number_input('FS (%)', min_value=0.0, max_value=100.0, step=0.1)
+        edv_teich = st.number_input('EDV(Teich) (ml)', min_value=0.0, max_value=500.0, step=1.0)
+        lvld_ap4 = st.number_input('LVLd ap4 (cm)', min_value=0.0, max_value=10.0, step=0.01)
+        lvld_ap2 = st.number_input('LVLd ap2 (cm)', min_value=0.0, max_value=10.0, step=0.01)
+        edv_mod_sp4 = st.number_input('EDV(MOD-sp4) (ml)', min_value=0.0, max_value=500.0, step=1.0)
+        edv_mod_sp2 = st.number_input('EDV(MOD-sp2) (ml)', min_value=0.0, max_value=500.0, step=1.0)
+        edv_sp4_el = st.number_input('EDV(sp4-el) (ml)', min_value=0.0, max_value=500.0, step=1.0)
+        edv_sp2_el = st.number_input('EDV(sp2-el) (ml)', min_value=0.0, max_value=500.0, step=1.0)
+      with echo_col3:
+        lvas_ap4 = st.number_input('LVAs ap4 (cm)', min_value=0.0, max_value=10.0, step=0.01)
+        lvas_ap2 = st.number_input('LVAs ap2 (cm)', min_value=0.0, max_value=10.0, step=0.01)
+        lvl_ap4 = st.number_input('LVLs ap4 (cm)', min_value=0.0, max_value=10.0, step=0.01)
+        lvl_ap2 = st.number_input('LVLs ap2 (cm)', min_value=0.0, max_value=10.0, step=0.01)
+        esv_mod_sp4 = st.number_input('ESV(MOD-sp4) (ml)', min_value=0.0, max_value=500.0, step=1.0)
+        esv_mod_sp2 = st.number_input('ESV(MOD-sp2) (ml)', min_value=0.0, max_value=500.0, step=1.0)
+        esv_sp4_el = st.number_input('ESV(sp4-el) (ml)', min_value=0.0, max_value=500.0, step=1.0)
+        esv_sp2_el = st.number_input('ESV(sp2-el) (ml)', min_value=0.0, max_value=500.0, step=1.0)
+      with echo_col4:
+        ef_mod_sp4 = st.number_input('EF(MOD-sp4) (%)', min_value=0.0, max_value=100.0, step=0.1)
+        ef_sp4_el = st.number_input('EF(sp4-el) (%)', min_value=0.0, max_value=100.0, step=0.1)
+        sv_mod_sp4 = st.number_input('SV(MOD-sp4) (ml)', min_value=0.0, max_value=500.0, step=1.0)
+        sv_sp4_el = st.number_input('SV(sp4-el) (ml)', min_value=0.0, max_value=500.0, step=1.0)
+        ao_root_area = st.number_input('Ao root area (cm2)', min_value=0.0, max_value=10.0, step=0.01)
+        laa = st.number_input('LAA (cm2)', min_value=0.0, max_value=10.0, step=0.01)
+        raa = st.number_input('RAA (cm2)', min_value=0.0, max_value=10.0, step=0.01)
+        mapse = st.number_input('MAPSE (cm)', min_value=0.0, max_value=10.0, step=0.01)   
+      with echo_col5:
+        tapse = st.number_input('TAPSE (cm)', min_value=0.0, max_value=10.0, step=0.01)
+        mv_e_max_vel = st.number_input('MV E max vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
+        mv_a_max_vel = st.number_input('MV A max vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
+        mv_e_a = st.number_input('MV E/A', min_value=0.0, max_value=10.0, step=0.01)
+        mv_dec_time = st.number_input('MV dec time (ms)', min_value=0.0, max_value=1000.0, step=1.0)
+        lat_peak_e_vel = st.number_input('Lat Peak E" Vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
+        med_peak_e_vel = st.number_input('Med Peak E" Vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
+        ao_v2_max = st.number_input('Ao V2 max (m/s)', min_value=0.0, max_value=10.0, step=0.01)
       
       
 ao_max_pg = col1.number_input('Ao max PG (mmHg)', min_value=0.0, max_value=100.0, step=1.0)
