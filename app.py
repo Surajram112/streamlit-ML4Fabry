@@ -360,7 +360,7 @@ with pred_cont.container():
   with st.container(border=True):
     # Generate explanation for a specific instance using LLM
     predicted_condition = {0: 'Hypertrophic Cardiomyopathy', 1: 'Fabry Disease'}[prediction.argmax()]
-    features_info = ', '.join([f"{feature} ({shap_value:.2f})" for feature, shap_value in zip(shap_values_mean['Feature'], shap_values_mean['Mean Absolute SHAP Value'])])
+    features_info = ', '.join([f"{feature}:{feat_value} (SHAP Value:{shap_value:.2f})" for feature, feat_value, shap_value in zip(input_data.columns, input_data.values.flatten(), shap_values_mean['Mean Absolute SHAP Value'])])
     prompt = f"""
         For this visit, the model predicts a higher likelihood of {predicted_condition}. The key factors influencing this prediction include: {features_info}.
         """
@@ -368,7 +368,7 @@ with pred_cont.container():
     llm = HuggingFaceEndpoint(
             repo_id="HuggingFaceH4/zephyr-7b-alpha",
             task="text-generation",
-            max_new_tokens=2048,
+            max_new_tokens=1024,
             top_k=10,
             top_p=0.95,
             typical_p=0.95,
