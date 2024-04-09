@@ -340,15 +340,6 @@ with pred_cont.container():
     )
     st.pyplot(fig)
     
-    # Create a SHAP waterfall plot
-    fig, ax = plt.subplots()
-    shap.waterfall_plot(
-        base_value=shap_values[0].mean(), 
-        shap_values=shap_values[0], 
-        features=input_data.iloc[0], 
-        show=False
-    )
-    st.pyplot(fig)
     
     # Print the SHAP values dataframce
     st.write(shap_values)
