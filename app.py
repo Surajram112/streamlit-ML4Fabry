@@ -324,25 +324,26 @@ with pred_cont.container():
   with st.container():
     # Get the feature importance (SHAP values) and create shap values DataFrame
     shap_values = model.get_booster().predict(xgb.DMatrix(input_data), pred_contribs=True)[:,:-1]
-    feature_names = input_data.columns
-    shap_values = pd.DataFrame(shap_values, columns=feature_names)
+    shap_values = pd.DataFrame(shap_values, columns=input_data.columns)
     
-    # Display the feature importance (SHAP values) in a bar chart
-    shap_values = shap_values.abs().mean().sort_values(ascending=False)
-    shap_values = shap_values.to_frame().reset_index()
-    shap_values.columns = ['Feature', 'Importance']
-    shap_values = shap_values.head(10)
-    shap_values = shap_values.sort_values('Importance', ascending=True)
-    fig, ax = plt.subplots()
-    ax.barh(shap_values['Feature'], shap_values['Importance'])
-    ax.set_xlabel('Feature Importance')
-    ax.set_ylabel('Feature')
-    ax.set_title('Top 10 Feature Importance')
-    st.pyplot(fig)
+    # Initialize the JS visualization code
+    shap.initjs()
     
-    # Display the feature importance (SHAP values) in a table
-    st.write(shap_values)
+    # Create a force plot
+    shap.force_plot(base_value=model.get_booster().attr('bias'), 
+                    shap_values=shap_values.values[0], 
+                    features=input_data.iloc[0], 
+                    link='logit')
     
+    # Create a summary plot
+    shap.summary_plot(shap_values, input_data, plot_type='bar')
     
+    # Create a dependence plot
+    shap.dependence_plot('Age', shap_values, input_data)
+    
+    # Create a waterfall plot
+    shap.waterfall_plot(base_value=model.get_booster().attr('bias'), 
+                        shap_values=shap_values.values[0], 
+                        features=input_data.iloc[0])
     
     
