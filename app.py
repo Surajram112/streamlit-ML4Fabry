@@ -26,7 +26,7 @@ with col1.expander("Patient Demographic Data", expanded=True):
     gender = dem_col2.selectbox('Gender', options=['Male', 'Female'], key='gender')
 
 # ECG Report Variables
-with col3.expander("ECG Report Data", expanded=True):
+with col1.expander("ECG Report Data", expanded=True):
     ecg_col1, ecg_col2, ecg_col3, ecg_col4 = st.columns(4)
     with ecg_col1:
       vent_rate = st.number_input('Vent. rate', min_value=0, max_value=300, key='vent_rate')
@@ -42,7 +42,7 @@ with col3.expander("ECG Report Data", expanded=True):
       bsa = st.number_input('BSA', min_value=0.0, max_value=3.0, step=0.01, key='bsa')
 
 # Echocardiogram Variables
-with col2.expander("Echocardiogram Data", expanded=True):
+with col3.expander("Echocardiogram Data", expanded=True):
     echo_col1, echo_col2, echo_col3, echo_col4, echo_col5 = st.columns(5)
     with echo_col1:
       # structural Measurements
