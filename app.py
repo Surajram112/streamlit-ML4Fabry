@@ -21,8 +21,9 @@ st.write('This app predicts the differentiates between Fabry and HCM based on va
 
 # Patient demographic Data
 with col1.expander("Enter Patient Demographic Data", expanded=True):
-    age = st.number_input('Age', min_value=18, max_value=120, value=25, key='age')
-    gender = st.selectbox('Gender', options=['Male', 'Female'], key='gender')
+    dem_col1, dem_col2 = st.columns(2)
+    age = dem_col1.number_input('Age', min_value=18, max_value=120, value=25, key='age')
+    gender = dem_col2.selectbox('Gender', options=['Male', 'Female'], key='gender')
 
 # ECG Report Variables
 with col2.expander("Enter ECG Report Data", expanded=True ):
