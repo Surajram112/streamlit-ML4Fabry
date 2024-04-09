@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 import joblib
 import pandas as pd
 import streamlit as st
@@ -13,7 +13,7 @@ def app():
     st.title('Fabry Disease Vs Hypertrophic Cardiomyopathy Prediction')
     
     # Load model to streamlit
-    model_path = os.path.dirname(os.path.realpath(__file__)) + '/models/model.pkl'
+    model_path = Path('./models/model.pkl')
     model = joblib.load(model_path)
 
     # Add a description
