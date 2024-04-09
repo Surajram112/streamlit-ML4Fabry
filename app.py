@@ -326,9 +326,6 @@ with pred_cont.container():
     shap_values = model.get_booster().predict(xgb.DMatrix(input_data), pred_contribs=True)[:,:-1]
     shap_values = pd.DataFrame(shap_values, columns=input_data.columns)
     
-    # Initialize the JS visualization code
-    shap.initjs()
-    
     # Create a force plot
     shap.force_plot(base_value=model.get_booster().attr('bias'), 
                     shap_values=shap_values.values[0], 
