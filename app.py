@@ -6,6 +6,7 @@ import streamlit as st
 import xgboost
 import matplotlib.pyplot as plt
 import datetime as dt
+import shap
 
 # Set page config to wide
 st.set_page_config(layout="wide")
@@ -294,9 +295,6 @@ input_data = pd.DataFrame({
     })
 
 with pred_cont.container():
-  prediction = model.predict(input_data, output_margin=True)
-  st.write(prediction)
-  
   with st.container():
     prediction = model.predict_proba(input_data).flatten()
     
@@ -324,5 +322,27 @@ with pred_cont.container():
     st.altair_chart(chart, use_container_width=True)
   
   with st.container():
-    shap_values = model.get_booster().predict(dmatrix, pred_contribs=True)[:,:-1]
+    # Get the feature importance (SHAP values) and create shap values DataFrame
+    shap_values = model.get_booster().predict(input_data, pred_contribs=True)[:,:-1]
+    feature_names = input_data.columns
+    shap_values = pd.DataFrame(shap_values, columns=feature_names)
+    
+    # Display the feature importance (SHAP values) in a bar chart
+    shap_values = shap_values.abs().mean().sort_values(ascending=False)
+    shap_values = shap_values.to_frame().reset_index()
+    shap_values.columns = ['Feature', 'Importance']
+    shap_values = shap_values.head(10)
+    shap_values = shap_values.sort_values('Importance', ascending=True)
+    fig, ax = plt.subplots()
+    ax.barh(shap_values['Feature'], shap_values['Importance'])
+    ax.set_xlabel('Feature Importance')
+    ax.set_ylabel('Feature')
+    ax.set_title('Top 10 Feature Importance')
+    st.pyplot(fig)
+    
+    # Display the feature importance (SHAP values) in a table
+    st.write(shap_values)
+    
+    
+    
     
