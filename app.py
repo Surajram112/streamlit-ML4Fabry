@@ -17,27 +17,27 @@ model = joblib.load(model_path)
 col1, col2 = st.columns([3, 1])  # Adjusted column widths for a better layout
 
 # Add a description
-col1.write('This app predicts the differentiates between Fabry and HCM based on various cardiac markers.')
-
-# Ask the user for input
-col1.write('## Enter Patient demographic Data')
+st.write('This app predicts the differentiates between Fabry and HCM based on various cardiac markers.')
 
 # Patient demographic Data
-with st.expander("Enter Patient Demographic Data", expanded=True):
+with st.expander("Enter Patient Demographic Data", expanded=True, key='demographic'):
     age = st.number_input('Age', min_value=18, max_value=120, value=25, key='age')
     gender = st.selectbox('Gender', options=['Male', 'Female'], key='gender')
 
 # ECG Report Variables
-col1.write('## Enter ECG Report Data')
-
-vent_rate = col1.number_input('Vent. rate', min_value=0, max_value=300)
-qrs_duration = col1.number_input('QRS duration', min_value=50, max_value=200)
-p_axis = col1.number_input('P-axis', min_value=-180, max_value=180)
-r_axis = col1.number_input('R-axis', min_value=-180, max_value=180)
-t_axis = col1.number_input('T-axis', min_value=-180, max_value=180)
-qt = col1.number_input('QT', min_value=200, max_value=600)
-qtc = col1.number_input('QTc', min_value=200, max_value=600)
-bsa = col1.number_input('BSA', min_value=0.0, max_value=3.0, step=0.01)
+with st.expander("Enter ECG Report Data"):
+    col1, col2, col3 = st.columns(3)
+    with col1:
+      vent_rate = st.number_input('Vent. rate', min_value=0, max_value=300, key='vent_rate')
+      qrs_duration = st.number_input('QRS duration', min_value=50, max_value=200, key='qrs_duration')
+      p_axis = st.number_input('P-axis', min_value=-180, max_value=180, key='p_axis')
+    with col2:
+      r_axis = st.number_input('R-axis', min_value=-180, max_value=180, key='r_axis')
+      t_axis = st.number_input('T-axis', min_value=-180, max_value=180, key='t_axis')
+      qt = st.number_input('QT', min_value=200, max_value=600, key='qt')
+    with col3:
+      qtc = st.number_input('QTc', min_value=200, max_value=600, key='qtc')
+      bsa = st.number_input('BSA', min_value=0.0, max_value=3.0, step=0.01, key='bsa')
 
 # Echocardiogram Variables
 col1.write('## Enter Echocardiogram Data')
