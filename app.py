@@ -20,7 +20,7 @@ col1, col2, col3 = st.columns([1,2,1])  # Adjusted column widths for a better la
 st.write('This app predicts the differentiates between Fabry and HCM based on various cardiac markers.')
 
 # Patient demographic Data
-with col1.expander("Patient Demographic Data", expanded=True):
+with col2.expander("Patient Demographic Data", expanded=True):
     dem_col1, dem_col2 = st.columns(2)
     age = dem_col1.number_input('Age', min_value=18, max_value=120, value=25, key='age')
     gender = dem_col2.selectbox('Gender', options=['Male', 'Female'], key='gender')
