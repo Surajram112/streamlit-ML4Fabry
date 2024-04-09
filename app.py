@@ -390,11 +390,13 @@ with pred_cont.container():
     
     Patient history: {patient_history}
     
+    XGBoost model prediction: {model_prediction}
+    
     """
 
     model_instructions = PromptTemplate.from_template(template)
     llm_chain = LLMChain(prompt=model_instructions, llm=llm)
-    explanation = llm_chain.invoke(prompt)
+    explanation = llm_chain.invoke(prompt=prompt, patient_history=input_data.to_dict(), model_prediction=predicted_condition)
     
     # Display the explanation
     st.write('Explanation:')
