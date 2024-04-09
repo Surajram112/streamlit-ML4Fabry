@@ -23,16 +23,16 @@ with st.container():
 
 # Create a container for the patient data
 with st.container(border=True):
-  cont1_col1, cont1_col2, cont1_col3 = st.columns([1,2,1])  # Adjusted column widths for a better layout of first set of expanders
+  col1, col2 = st.columns([3,1])  # Adjusted column widths for a better layout of first set of expanders
 
   # Patient demographic Data
-  with cont1_col1.expander("Patient Demographic Data", expanded=True):
-      dem_col1, dem_col2 = st.columns(2)
+  with col1.expander("Patient Demographic Data", expanded=True):
+      dem_col1, dem_col2 = st.columns([1,2])
       age = dem_col1.number_input('Age', min_value=18, max_value=120, value=25, key='age')
       gender = dem_col2.selectbox('Gender', options=['Male', 'Female'], key='gender')
 
   # ECG Report Variables
-  with cont1_col2.expander("ECG Report Data", expanded=True):
+  with col1.expander("ECG Report Data", expanded=True):
       ecg_col1, ecg_col2, ecg_col3, ecg_col4, ecg_col5, ecg_col6, ecg_col7, ecg_col8 = st.columns(8)
       with ecg_col1:
         vent_rate = st.number_input('Vent. rate', min_value=0, max_value=300, key='vent_rate')
@@ -51,12 +51,8 @@ with st.container(border=True):
       with ecg_col8:
         bsa = st.number_input('BSA', min_value=0.0, max_value=3.0, step=0.01, key='bsa')
 
-# Create a container for the echocardiogram data
-with st.container(border=True):
-  cont2_col1, cont2_col2 = st.columns([3,1])  # Adjusted column widths for a better layout of first set of expanders
-
   # Echocardiogram Variables
-  with cont2_col1.expander("Echocardiogram Data", expanded=True):
+  with col1.expander("Echocardiogram Data", expanded=True):
       echo_col1, echo_col2, echo_col3, echo_col4, echo_col5, echo_col6, echo_col7, echo_col8 = st.columns(8)
       with echo_col1:
         # structural Measurements
@@ -130,50 +126,51 @@ with st.container(border=True):
         pm_sax_meas_c = st.number_input('PM SAX Measurements C', min_value=0.0, max_value=10.0, step=0.01)
         pm_sax_meas_d = st.number_input('PM SAX Measurements D', min_value=0.0, max_value=10.0, step=0.01)
 
-# Holter Monitor Variables
-st.write('## Enter Holter Monitor Data')
+  # Holter Monitor Variables
+  with col1.expander("Echocardiogram Data", expanded=True):
+  st.write('## Enter Holter Monitor Data')
 
-artefacts = st.number_input('Artefacts', min_value=0, max_value=1)
-normal_count = st.number_input('Normal Count', min_value=0, max_value=1000)
-normal_percent = st.number_input('Normal Percent', min_value=0, max_value=100)
-normal_max_hour = st.number_input('Normal Max/Hour', min_value=0, max_value=100)
-ve_beats_count = st.number_input('VE Beats Count', min_value=0, max_value=1000)
-ve_beats_percent = st.number_input('VE Beats Percent', min_value=0, max_value=100)
-ve_beats_max_hour = st.number_input('VE Beats Max/Hour', min_value=0, max_value=100)
-sve_beats_count = st.number_input('SVE Beats Count', min_value=0, max_value=1000)
-sve_beats_percent = st.number_input('SVE Beats Percent', min_value=0, max_value=100)
-sve_beats_max_hour = st.number_input('SVE Beats Max/Hour', min_value=0, max_value=100)
-paced_beats_count = st.number_input('Paced Beats Count', min_value=0, max_value=1000)
-paced_beats_percent = st.number_input('Paced Beats Percent', min_value=0, max_value=100)
-paced_beats_max_hour = st.number_input('Paced Beats Max/Hour', min_value=0, max_value=100)
-heart_rates_max_hr = st.number_input('Heart Rates (1 min avg) Max HR', min_value=0, max_value=300)
-heart_rates_mean_hr = st.number_input('Heart Rates (1 min avg) Mean HR', min_value=0, max_value=300)
-heart_rates_min_hr = st.number_input('Heart Rates (1 min avg) Min HR', min_value=0, max_value=300)
-bradycardia = st.number_input('Bradycardia', min_value=0, max_value=10000)
-bradycardia_event_longest = st.number_input('Bradycardia Event Longest', min_value=0, max_value=1000)
-bradycardia_event_min_rate = st.number_input('Bradycardia Event Min Rate', min_value=0, max_value=300)
-pause = st.number_input('Pause', min_value=0, max_value=1000)
-broad_complex_tachycardia = st.number_input('Broad Complex Tachycardia', min_value=0, max_value=1000)
-broad_complex_tachycardia_longest = st.number_input('Broad Complex Tachycardia Longest', min_value=0, max_value=1000)
-broad_complex_tachycardia_max_rate = st.number_input('Broad Complex Tachycardia Max Rate', min_value=0, max_value=300)
-v_run_aivr = st.number_input('V-Run/AIVR', min_value=0, max_value=1000)
-v_run_aivr_longest = st.number_input('V-Run/AIVR Longest', min_value=0, max_value=1000)
-v_run_aivr_max_rate = st.number_input('V-Run/AIVR Max Rate', min_value=0, max_value=300)
-couplet = st.number_input('Couplet', min_value=0, max_value=1000)
-triplet = st.number_input('Triplet', min_value=0, max_value=1000)
-single_ve_events = st.number_input('Single VE Events', min_value=0, max_value=1000)
-svt = st.number_input('SVT', min_value=0, max_value=1000)
-svt_longest = st.number_input('SVT Longest', min_value=0, max_value=1000)
-svt_max_rate = st.number_input('SVT Max Rate', min_value=0, max_value=300)
-sve = st.number_input('SVE', min_value=0, max_value=1000)
-sve_max_per_minute = st.number_input('SVE Max per Minute', min_value=0, max_value=100)
-sve_max_per_hour = st.number_input('SVE Max per Hour', min_value=0, max_value=100)
-sve_mean_per_hour = st.number_input('SVE Mean per Hour', min_value=0, max_value=100)
-sve_run = st.number_input('SVE Run', min_value=0, max_value=1000)
-sve_run_longest = st.number_input('SVE Run Longest', min_value=0, max_value=1000)
-sve_run_max_rate = st.number_input('SVE Run Max Rate', min_value=0, max_value=300)
-holter_date_diff = st.number_input('Holter_date_diff', min_value=0, max_value=1000)
-echo_date_diff = st.number_input('Echo_date_diff', min_value=0, max_value=1000)
+  artefacts = st.number_input('Artefacts', min_value=0, max_value=1)
+  normal_count = st.number_input('Normal Count', min_value=0, max_value=1000)
+  normal_percent = st.number_input('Normal Percent', min_value=0, max_value=100)
+  normal_max_hour = st.number_input('Normal Max/Hour', min_value=0, max_value=100)
+  ve_beats_count = st.number_input('VE Beats Count', min_value=0, max_value=1000)
+  ve_beats_percent = st.number_input('VE Beats Percent', min_value=0, max_value=100)
+  ve_beats_max_hour = st.number_input('VE Beats Max/Hour', min_value=0, max_value=100)
+  sve_beats_count = st.number_input('SVE Beats Count', min_value=0, max_value=1000)
+  sve_beats_percent = st.number_input('SVE Beats Percent', min_value=0, max_value=100)
+  sve_beats_max_hour = st.number_input('SVE Beats Max/Hour', min_value=0, max_value=100)
+  paced_beats_count = st.number_input('Paced Beats Count', min_value=0, max_value=1000)
+  paced_beats_percent = st.number_input('Paced Beats Percent', min_value=0, max_value=100)
+  paced_beats_max_hour = st.number_input('Paced Beats Max/Hour', min_value=0, max_value=100)
+  heart_rates_max_hr = st.number_input('Heart Rates (1 min avg) Max HR', min_value=0, max_value=300)
+  heart_rates_mean_hr = st.number_input('Heart Rates (1 min avg) Mean HR', min_value=0, max_value=300)
+  heart_rates_min_hr = st.number_input('Heart Rates (1 min avg) Min HR', min_value=0, max_value=300)
+  bradycardia = st.number_input('Bradycardia', min_value=0, max_value=10000)
+  bradycardia_event_longest = st.number_input('Bradycardia Event Longest', min_value=0, max_value=1000)
+  bradycardia_event_min_rate = st.number_input('Bradycardia Event Min Rate', min_value=0, max_value=300)
+  pause = st.number_input('Pause', min_value=0, max_value=1000)
+  broad_complex_tachycardia = st.number_input('Broad Complex Tachycardia', min_value=0, max_value=1000)
+  broad_complex_tachycardia_longest = st.number_input('Broad Complex Tachycardia Longest', min_value=0, max_value=1000)
+  broad_complex_tachycardia_max_rate = st.number_input('Broad Complex Tachycardia Max Rate', min_value=0, max_value=300)
+  v_run_aivr = st.number_input('V-Run/AIVR', min_value=0, max_value=1000)
+  v_run_aivr_longest = st.number_input('V-Run/AIVR Longest', min_value=0, max_value=1000)
+  v_run_aivr_max_rate = st.number_input('V-Run/AIVR Max Rate', min_value=0, max_value=300)
+  couplet = st.number_input('Couplet', min_value=0, max_value=1000)
+  triplet = st.number_input('Triplet', min_value=0, max_value=1000)
+  single_ve_events = st.number_input('Single VE Events', min_value=0, max_value=1000)
+  svt = st.number_input('SVT', min_value=0, max_value=1000)
+  svt_longest = st.number_input('SVT Longest', min_value=0, max_value=1000)
+  svt_max_rate = st.number_input('SVT Max Rate', min_value=0, max_value=300)
+  sve = st.number_input('SVE', min_value=0, max_value=1000)
+  sve_max_per_minute = st.number_input('SVE Max per Minute', min_value=0, max_value=100)
+  sve_max_per_hour = st.number_input('SVE Max per Hour', min_value=0, max_value=100)
+  sve_mean_per_hour = st.number_input('SVE Mean per Hour', min_value=0, max_value=100)
+  sve_run = st.number_input('SVE Run', min_value=0, max_value=1000)
+  sve_run_longest = st.number_input('SVE Run Longest', min_value=0, max_value=1000)
+  sve_run_max_rate = st.number_input('SVE Run Max Rate', min_value=0, max_value=300)
+  holter_date_diff = st.number_input('Holter_date_diff', min_value=0, max_value=1000)
+  echo_date_diff = st.number_input('Echo_date_diff', min_value=0, max_value=1000)
 
 
 # Make a prediction
