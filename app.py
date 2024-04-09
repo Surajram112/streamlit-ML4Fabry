@@ -29,11 +29,10 @@ with st.container(border=True):
   with cols1.container(border=True):
     dem_cols1, dem_cols2, ecg_col1, ecg_col2, ecg_col3, ecg_col4, ecg_col5, ecg_col6, ecg_col7, ecg_col8 = st.columns(10)
     
-    with st.container(border=True):
-      # Patient demographic Data
-      with st.expander("Patient Demographic Data", expanded=True):
-          age = dem_cols1.number_input('Age', min_value=18, max_value=120, value=25, key='age')
-          gender = dem_cols2.selectbox('Gender', options=['Male', 'Female'], key='gender')
+    # Patient demographic Data
+    with st.expander("Patient Demographic Data", expanded=True):
+        age = dem_cols1.number_input('Age', min_value=18, max_value=120, value=25, key='age')
+        gender = dem_cols2.selectbox('Gender', options=['Male', 'Female'], key='gender')
 
     with ecg_cols.container(border=True):
       ecg_col1, ecg_col2, ecg_col3, ecg_col4, ecg_col5, ecg_col6, ecg_col7, ecg_col8 = st.columns(8)
