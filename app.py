@@ -14,7 +14,7 @@ st.title('Fabry Disease Vs Hypertrophic Cardiomyopathy Prediction')
 model_path = Path('./models/model.pkl')
 model = joblib.load(model_path)
 
-col1, col2 = st.columns(2)
+col1, col2 = st.columns([3, 1])  # Adjusted column widths for a better layout
 
 # Add a description
 col1.write('This app predicts the differentiates between Fabry and HCM based on various cardiac markers.')
@@ -22,8 +22,10 @@ col1.write('This app predicts the differentiates between Fabry and HCM based on 
 # Ask the user for input
 col1.write('## Enter Patient demographic Data')
 
-age = col1.number_input('Age', min_value=18, max_value=120, value=25)
-gender = col1.selectbox('Gender', options=['Male', 'Female'])
+# Patient demographic Data
+with st.expander("Enter Patient Demographic Data", expanded=True):
+    age = st.number_input('Age', min_value=18, max_value=120, value=25, key='age')
+    gender = st.selectbox('Gender', options=['Male', 'Female'], key='gender')
 
 # ECG Report Variables
 col1.write('## Enter ECG Report Data')
