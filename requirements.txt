@@ -1,4 +1,4 @@
-pickle
+joblib
 pathlib
 pandas
 streamlit

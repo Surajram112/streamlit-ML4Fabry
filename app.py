@@ -1,5 +1,5 @@
 from pathlib import Path
-import pickle as pk
+import joblib
 import pandas as pd
 import streamlit as st
 
@@ -14,7 +14,7 @@ def app():
     
     # Load model to streamlit
     model_path = Path('./models/model.pkl')
-    model = pk.load(model_path)
+    model = joblib.load(model_path)
 
     # Add a description
     st.write('This app predicts the differentiates between Fabry and HCM based on various cardiac markers.')
