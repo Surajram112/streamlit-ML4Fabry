@@ -290,7 +290,7 @@ input_data = pd.DataFrame({
     })
 
 st.button('Predict')
-prediction = model.predict_proba(input_data)
+prediction = model.predict_proba(input_data).flatten()
 st.write('## Prediction')
 
 # display a box with two horizontal bars for each of the raw prediction probabilities
