@@ -328,8 +328,7 @@ with pred_cont.container():
     shap_values = pd.DataFrame(shap_values, columns=input_data.columns)
     
     # Create a bar chart for the SHAP feature importance
-    shap_values.abs().mean().sort_values().plot(kind='barh', figsize=(10, 10))
-    plt.xlabel('Mean |SHAP value|')
-    plt.title('SHAP Feature Importance')
-    plt.tight_layout()
-    st.pyplot()
+    fig, ax = plt.subplots()
+    shap_values.abs().mean().sort_values().plot(kind='barh', ax=ax)
+    ax.set_title('SHAP Feature Importance')
+    st.pyplot(fig)
