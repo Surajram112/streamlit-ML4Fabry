@@ -50,7 +50,7 @@ with cont1:
 cont2 = st.container()
 
 with cont2:
-  cont2_col1, cont2_col2 = st.columns([2,1])  # Adjusted column widths for a better layout of first set of expanders
+  cont2_col1, cont2_col2 = st.columns([3,1])  # Adjusted column widths for a better layout of first set of expanders
 
   # Echocardiogram Variables
   with cont2_col1.expander("Echocardiogram Data", expanded=True):
