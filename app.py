@@ -3,7 +3,7 @@ import joblib
 import pandas as pd
 import altair
 import streamlit as st
-import xgboost
+import xgboost as xgb
 import matplotlib.pyplot as plt
 import datetime as dt
 
@@ -322,7 +322,7 @@ with pred_cont.container():
   
   with st.container():
     # Get the feature importance (SHAP values) and create shap values DataFrame
-    shap_values = model.get_booster().predict(input_data, pred_contribs=True)[:,:-1]
+    shap_values = model.get_booster().predict(xgb.DMatrix(input_data), pred_contribs=True)[:,:-1]
     feature_names = input_data.columns
     shap_values = pd.DataFrame(shap_values, columns=feature_names)
     
