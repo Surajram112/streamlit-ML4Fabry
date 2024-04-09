@@ -3,7 +3,6 @@ import joblib
 import pandas as pd
 import altair
 import streamlit as st
-from streamlit.elements.number_input import NumberInputMixin
 import xgboost
 import matplotlib.pyplot as plt
 import datetime as dt
