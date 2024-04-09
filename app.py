@@ -293,25 +293,24 @@ input_data = pd.DataFrame({
 
 with cont1:
   with cont1_col3:
-    with st.button('Predict'):
-      prediction = model.predict_proba(input_data).flatten()
+    prediction = model.predict_proba(input_data).flatten()
 
-      # Display the prediction
-      st.write('## Prediction Probabilities')
-      
-      # Create a DataFrame for the chart
-      data = pd.DataFrame({
-        'Condition': ['Hypertrophic Cardiomyopathy', 'Fabry Disease'], 
-        'Probability': prediction
-      })
+    # Display the prediction
+    st.write('## Prediction Probabilities')
+    
+    # Create a DataFrame for the chart
+    data = pd.DataFrame({
+      'Condition': ['Hypertrophic Cardiomyopathy', 'Fabry Disease'], 
+      'Probability': prediction
+    })
 
-      # Create a horizontal bar chart
-      chart = altair.Chart(data).mark_bar().encode(
-          y='Condition:N',  # N indicates a nominal (categorical) data type
-          x='Probability:Q'  # Q indicates a quantitative data type
-      ).properties(
-          height=200  # Adjust the height as needed
-      )
+    # Create a horizontal bar chart
+    chart = altair.Chart(data).mark_bar().encode(
+        y='Condition:N',  # N indicates a nominal (categorical) data type
+        x='Probability:Q'  # Q indicates a quantitative data type
+    ).properties(
+        height=200  # Adjust the height as needed
+    )
 
-      # Display the chart in Streamlit
-      st.altair_chart(chart, use_container_width=True)
+    # Display the chart in Streamlit
+    st.altair_chart(chart, use_container_width=True)
