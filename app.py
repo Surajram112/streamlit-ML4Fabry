@@ -4,12 +4,11 @@ import pandas as pd
 import streamlit as st
 import xgboost as xgb
 
-"""
-# Welcome to Streamlit!
-"""
-
-# Define the app
+# Create the app
 def app():
+    # Set page config to wide
+    st.set_page_config(layout="wide")
+
     # Set the app title
     st.title('Fabry Disease Vs Hypertrophic Cardiomyopathy Prediction')
     
