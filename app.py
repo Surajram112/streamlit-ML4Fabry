@@ -291,10 +291,8 @@ input_data = pd.DataFrame({
     'Echo_date_diff': [echo_date_diff]
     })
 
-cont4 = st.container()
-with cont4:
-  cont4_col1, cont4_col2 = st.columns([3,1])
-  with cont4_col2:
+with cont1:
+  with cont1_col3:
     st.button('Predict')
     prediction = model.predict_proba(input_data).flatten()
 
