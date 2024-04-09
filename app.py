@@ -360,7 +360,9 @@ with pred_cont.container():
   with st.container(border=True):
     # Generate explanation for a specific instance using LLM
     predicted_condition = {0: 'Hypertrophic Cardiomyopathy', 1: 'Fabry Disease'}[prediction.argmax()]
-    features_info = ', '.join([f"{feature} ({shap_value:.2f})" for feature, shap_value in zip(shap_values_sum['Feature'], shap_values_sum['SHAP Value'])])
+    feature_values = input_data.iloc[0].to_dict()
+    
+    features_info = ', '.join([f"{feature}: {feature_values[feature]} ({shap_value:.2f})" for feature, shap_value in zip(shap_values_sum['Feature'], shap_values_sum['SHAP Value'])])
     prompt = f"""
         For this visit, the model predicts a higher likelihood of {predicted_condition}. The key factors influencing this prediction include: {features_info}.
         """
