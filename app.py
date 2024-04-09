@@ -334,13 +334,11 @@ with pred_cont.container():
     ax.set_title('Top 10 Features by Mean |SHAP Value|')
     st.pyplot(fig)
     
+    shap_values_sum = shap_values.sum().sort_values()
+    
     # Display the SHAP values as a bar chart removing all the features with 0 SHAP values
     fig, ax = plt.subplots()
-    shap_values.sum().sort_values()[shap_values != 0].plot(kind='barh', ax=ax)
+    shap_values_sum[shap_values_sum != 0].plot(kind='barh', ax=ax)
     ax.set_xlabel('SHAP Value')
     ax.set_title('SHAP Values for the Prediction')
     st.pyplot(fig)
-    
-    # Display the SHAP values as a table
-    st.write('**SHAP Values for the Prediction**')
-    st.write(shap_values)
