@@ -30,15 +30,17 @@ with st.container():
   with input_cont.container():
     
     # Patient demographic Data
-    with st.expander("Patient Demographic Data", expanded=True):
-      dem_cols1, dem_cols2, = st.columns(2)
+    with st.expander("Patient Data", expanded=True):
+      dem_cols1, dem_cols2, ecg_date_col, echo_date_col, holter_date_col = st.columns(5)
       age = dem_cols1.number_input('Age', min_value=18, max_value=120, value=25, key='age')
       gender = dem_cols2.selectbox('Gender', options=['Male', 'Female'], key='gender')
+      ecg_date = ecg_date_col.date_input('ECG Date', key='ecg_date')
+      echo_date = echo_date_col.date_input('Echo Date', key='echo_date')
+      holter_date = holter_date_col.date_input('Holter Date', key='holter_date')
 
     # ECG Report Variables
     with st.expander("ECG Report Data", expanded=True):
       ecg_col1, ecg_col2, ecg_col3, ecg_col4, ecg_col5, ecg_col6, ecg_col7, ecg_col8 = st.columns(8)
-      ecg_date = st.date_input('ECG Date', key='ecg_date')
       with ecg_col1:
         vent_rate = st.number_input('Vent. rate', min_value=0, max_value=300, key='vent_rate')
       with ecg_col2:
@@ -59,7 +61,6 @@ with st.container():
     # Echocardiogram Variables
     with st.expander("Echocardiogram Data", expanded=True):
       echo_col1, echo_col2, echo_col3, echo_col4 = st.columns(4)
-      echo_date = st.date_input('Echo Date', key='echo_date')
       with echo_col1:
         ivsd = st.number_input('IVSd (cm)', min_value=0.0, max_value=2.0, step=0.01)
         lvot_diam = st.number_input('LVOT diam (cm)', min_value=0.0, max_value=10.0, step=0.01)
@@ -132,7 +133,6 @@ with st.container():
     # Holter Monitor Variables
     with st.expander("Holter Monitor Data", expanded=True):
       hol_col1, hol_col2, hol_col3 = st.columns(3)
-      holter_date = st.date_input('Holter Date', key='holter_date')
       with hol_col1:
         artefacts = st.number_input('Artefacts', min_value=0, max_value=1)
         normal_count = st.number_input('Normal Count', min_value=0, max_value=1000)
