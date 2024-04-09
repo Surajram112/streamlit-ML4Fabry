@@ -42,7 +42,7 @@ with col1.expander("ECG Report Data", expanded=True):
       bsa = st.number_input('BSA', min_value=0.0, max_value=3.0, step=0.01, key='bsa')
 
 # Echocardiogram Variables
-with col3.expander("Echocardiogram Data", expanded=True):
+with col2.expander("Echocardiogram Data", expanded=True):
     echo_col1, echo_col2, echo_col3, echo_col4, echo_col5 = st.columns(5)
     with echo_col1:
       # structural Measurements
