@@ -27,15 +27,17 @@ with col1.expander("Enter Patient Demographic Data", expanded=True):
 
 # ECG Report Variables
 with col2.expander("Enter ECG Report Data", expanded=True ):
-    ecg_col1, ecg_col2 = st.columns(2)
+    ecg_col1, ecg_col2, ecg_col3, ecg_col4 = st.columns(4)
     with ecg_col1:
       vent_rate = st.number_input('Vent. rate', min_value=0, max_value=300, key='vent_rate')
       qrs_duration = st.number_input('QRS duration', min_value=50, max_value=200, key='qrs_duration')
+    with ecg_col2:
       p_axis = st.number_input('P-axis', min_value=-180, max_value=180, key='p_axis')
       r_axis = st.number_input('R-axis', min_value=-180, max_value=180, key='r_axis')
-    with ecg_col2:
+    with ecg_col3:
       t_axis = st.number_input('T-axis', min_value=-180, max_value=180, key='t_axis')
       qt = st.number_input('QT', min_value=200, max_value=600, key='qt')
+    with ecg_col4:
       qtc = st.number_input('QTc', min_value=200, max_value=600, key='qtc')
       bsa = st.number_input('BSA', min_value=0.0, max_value=3.0, step=0.01, key='bsa')
 
