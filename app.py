@@ -294,12 +294,11 @@ input_data = pd.DataFrame({
     })
 
 with pred_cont.container():
-  dmatrix = xgboost.DMatrix(input_data)
-  prediction = model.predict(dmatrix, output_margin=True)
+  prediction = model.predict(input_data, output_margin=True)
   st.write(prediction)
   
   with st.container():
-    prediction = model.predict_proba(dmatrix).flatten()
+    prediction = model.predict_proba(input_data).flatten()
     
     # Create a DataFrame for the chart
     data = pd.DataFrame({
