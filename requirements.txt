@@ -1,5 +1,6 @@
 joblib
 pathlib
 pandas
+altair
 streamlit
 xgboost
