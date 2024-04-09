@@ -129,53 +129,47 @@ with st.container():
 
     # Holter Monitor Variables
     with st.expander("Holter Monitor Data", expanded=True):
-      hol_col1, hol_col2, hol_col3, hol_col4, hol_col5, hol_col6, hol_col7, hol_col8, hol_col9, hol_col10 = st.columns(10)
+      hol_col1, hol_col2, hol_col3, hol_col4 = st.columns(4)
       with hol_col1:
         artefacts = st.number_input('Artefacts', min_value=0, max_value=1)
         normal_count = st.number_input('Normal Count', min_value=0, max_value=1000)
         normal_percent = st.number_input('Normal Percent', min_value=0, max_value=100)
         normal_max_hour = st.number_input('Normal Max/Hour', min_value=0, max_value=100)
-      with hol_col2:
         ve_beats_count = st.number_input('VE Beats Count', min_value=0, max_value=1000)
         ve_beats_percent = st.number_input('VE Beats Percent', min_value=0, max_value=100)
         ve_beats_max_hour = st.number_input('VE Beats Max/Hour', min_value=0, max_value=100)
         sve_beats_count = st.number_input('SVE Beats Count', min_value=0, max_value=1000)
-      with hol_col3:
         sve_beats_percent = st.number_input('SVE Beats Percent', min_value=0, max_value=100)
         sve_beats_max_hour = st.number_input('SVE Beats Max/Hour', min_value=0, max_value=100)
+      with hol_col2:        
         paced_beats_count = st.number_input('Paced Beats Count', min_value=0, max_value=1000)
         paced_beats_percent = st.number_input('Paced Beats Percent', min_value=0, max_value=100)
-      with hol_col4:
         paced_beats_max_hour = st.number_input('Paced Beats Max/Hour', min_value=0, max_value=100)
         heart_rates_max_hr = st.number_input('Heart Rates (1 min avg) Max HR', min_value=0, max_value=300)
         heart_rates_mean_hr = st.number_input('Heart Rates (1 min avg) Mean HR', min_value=0, max_value=300)
         heart_rates_min_hr = st.number_input('Heart Rates (1 min avg) Min HR', min_value=0, max_value=300)
-      with hol_col5:
         bradycardia = st.number_input('Bradycardia', min_value=0, max_value=10000)
         bradycardia_event_longest = st.number_input('Bradycardia Event Longest', min_value=0, max_value=1000)
         bradycardia_event_min_rate = st.number_input('Bradycardia Event Min Rate', min_value=0, max_value=300)
         pause = st.number_input('Pause', min_value=0, max_value=1000)
-      with hol_col6:
+      with hol_col3:        
         broad_complex_tachycardia = st.number_input('Broad Complex Tachycardia', min_value=0, max_value=1000)
         broad_complex_tachycardia_longest = st.number_input('Broad Complex Tachycardia Longest', min_value=0, max_value=1000)
         broad_complex_tachycardia_max_rate = st.number_input('Broad Complex Tachycardia Max Rate', min_value=0, max_value=300)
         v_run_aivr = st.number_input('V-Run/AIVR', min_value=0, max_value=1000)
-      with hol_col7:
         v_run_aivr_longest = st.number_input('V-Run/AIVR Longest', min_value=0, max_value=1000)
         v_run_aivr_max_rate = st.number_input('V-Run/AIVR Max Rate', min_value=0, max_value=300)
         couplet = st.number_input('Couplet', min_value=0, max_value=1000)
         triplet = st.number_input('Triplet', min_value=0, max_value=1000)
-      with hol_col8:
         single_ve_events = st.number_input('Single VE Events', min_value=0, max_value=1000)
         svt = st.number_input('SVT', min_value=0, max_value=1000)
+      with hol_col4:        
         svt_longest = st.number_input('SVT Longest', min_value=0, max_value=1000)
         svt_max_rate = st.number_input('SVT Max Rate', min_value=0, max_value=300)
-      with hol_col9:
         sve = st.number_input('SVE', min_value=0, max_value=1000)
         sve_max_per_minute = st.number_input('SVE Max per Minute', min_value=0, max_value=100)
         sve_max_per_hour = st.number_input('SVE Max per Hour', min_value=0, max_value=100)
         sve_mean_per_hour = st.number_input('SVE Mean per Hour', min_value=0, max_value=100)
-      with hol_col10:  
         sve_run = st.number_input('SVE Run', min_value=0, max_value=1000)
         sve_run_longest = st.number_input('SVE Run Longest', min_value=0, max_value=1000)
         sve_run_max_rate = st.number_input('SVE Run Max Rate', min_value=0, max_value=300)
