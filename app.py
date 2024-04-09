@@ -291,14 +291,14 @@ input_data = pd.DataFrame({
     'Echo_date_diff': [echo_date_diff]
     })
 
-st.button('Predict')
-prediction = model.predict_proba(input_data).flatten()
-st.write('## Prediction')
+cont4 = st.container()
+with cont4:
+  cont4_col1, cont4_col2 = st.columns([3,1])
+  with cont4_col2:
+    st.button('Predict')
+    prediction = model.predict_proba(input_data).flatten()
 
-# display a box with two horizontal bars for each of the raw prediction probabilities
-st.write('### Prediction Probabilities')
-st.altair_chart(altair.Chart(pd.DataFrame({'Condition': ['Hypertrophic Cardiomyopathy', 'Fabry Disease'], 'Probability': prediction})).mark_bar().encode(x='Condition', y='Probability', color='Condition'))
-# st.write(f'Hypertrophic Cardiomyopathy: {prediction[0]:.2f}')
-# st.write(f'Fabry Disease: {prediction[1]:.2f}')
-# st.write('### Prediction')
-# st.write('Fabry Disease' if prediction.argmax() == 1 else 'Hypertrophic Cardiomyopathy')
+    # Display the prediction
+    st.write('## Prediction Probabilities')
+    st.altair_chart(altair.Chart(pd.DataFrame({'Condition': ['Hypertrophic Cardiomyopathy', 'Fabry Disease'], 
+                                              'Probability': prediction})).mark_bar().encode(x='Condition', y='Probability'))
