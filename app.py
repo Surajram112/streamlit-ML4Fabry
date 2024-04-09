@@ -125,27 +125,27 @@ heart_rates_max_hr = col1.number_input('Heart Rates (1 min avg) Max HR', min_val
 heart_rates_mean_hr = col1.number_input('Heart Rates (1 min avg) Mean HR', min_value=0, max_value=300)
 heart_rates_min_hr = col1.number_input('Heart Rates (1 min avg) Min HR', min_value=0, max_value=300)
 bradycardia = col1.number_input('Bradycardia', min_value=0, max_value=10000)
-bradycardia_event_longecol1 = col1.number_input('Bradycardia Event Longecol1', min_value=0, max_value=1000)
+bradycardia_event_longest = col1.number_input('Bradycardia Event Longest', min_value=0, max_value=1000)
 bradycardia_event_min_rate = col1.number_input('Bradycardia Event Min Rate', min_value=0, max_value=300)
 pause = col1.number_input('Pause', min_value=0, max_value=1000)
 broad_complex_tachycardia = col1.number_input('Broad Complex Tachycardia', min_value=0, max_value=1000)
-broad_complex_tachycardia_longecol1 = col1.number_input('Broad Complex Tachycardia Longecol1', min_value=0, max_value=1000)
+broad_complex_tachycardia_longest = col1.number_input('Broad Complex Tachycardia Longest', min_value=0, max_value=1000)
 broad_complex_tachycardia_max_rate = col1.number_input('Broad Complex Tachycardia Max Rate', min_value=0, max_value=300)
 v_run_aivr = col1.number_input('V-Run/AIVR', min_value=0, max_value=1000)
-v_run_aivr_longecol1 = col1.number_input('V-Run/AIVR Longecol1', min_value=0, max_value=1000)
+v_run_aivr_longest = col1.number_input('V-Run/AIVR Longest', min_value=0, max_value=1000)
 v_run_aivr_max_rate = col1.number_input('V-Run/AIVR Max Rate', min_value=0, max_value=300)
 couplet = col1.number_input('Couplet', min_value=0, max_value=1000)
 triplet = col1.number_input('Triplet', min_value=0, max_value=1000)
 single_ve_events = col1.number_input('Single VE Events', min_value=0, max_value=1000)
 svt = col1.number_input('SVT', min_value=0, max_value=1000)
-svt_longecol1 = col1.number_input('SVT Longecol1', min_value=0, max_value=1000)
+svt_longest = col1.number_input('SVT Longest', min_value=0, max_value=1000)
 svt_max_rate = col1.number_input('SVT Max Rate', min_value=0, max_value=300)
 sve = col1.number_input('SVE', min_value=0, max_value=1000)
 sve_max_per_minute = col1.number_input('SVE Max per Minute', min_value=0, max_value=100)
 sve_max_per_hour = col1.number_input('SVE Max per Hour', min_value=0, max_value=100)
 sve_mean_per_hour = col1.number_input('SVE Mean per Hour', min_value=0, max_value=100)
 sve_run = col1.number_input('SVE Run', min_value=0, max_value=1000)
-sve_run_longecol1 = col1.number_input('SVE Run Longecol1', min_value=0, max_value=1000)
+sve_run_longest = col1.number_input('SVE Run Longest', min_value=0, max_value=1000)
 sve_run_max_rate = col1.number_input('SVE Run Max Rate', min_value=0, max_value=300)
 holter_date_diff = col1.number_input('Holter_date_diff', min_value=0, max_value=1000)
 echo_date_diff = col1.number_input('Echo_date_diff', min_value=0, max_value=1000)
@@ -241,27 +241,27 @@ input_data = pd.DataFrame({
     'Heart Rates (1 min avg) Mean HR': [heart_rates_mean_hr],
     'Heart Rates (1 min avg) Min HR': [heart_rates_min_hr],
     'Bradycardia': [bradycardia],
-    'Bradycardia Event Longecol1': [bradycardia_event_longecol1], 
+    'Bradycardia Event Longest': [bradycardia_event_longest], 
     'Bradycardia Event Min Rate': [bradycardia_event_min_rate], 
     'Pause': [pause], 
     'Broad Complex Tachycardia': [broad_complex_tachycardia], 
-    'Broad Complex Tachycardia Longecol1': [broad_complex_tachycardia_longecol1], 
+    'Broad Complex Tachycardia Longest': [broad_complex_tachycardia_longest], 
     'Broad Complex Tachycardia Max Rate': [broad_complex_tachycardia_max_rate], 
     'V-Run/AIVR': [v_run_aivr], 
-    'V-Run/AIVR Longecol1': [v_run_aivr_longecol1], 
+    'V-Run/AIVR Longest': [v_run_aivr_longest], 
     'V-Run/AIVR Max Rate': [v_run_aivr_max_rate], 
     'Couplet': [couplet], 
     'Triplet': [triplet], 
     'Single VE Events': [single_ve_events], 
     'SVT': [svt], 
-    'SVT Longecol1': [svt_longecol1], 
+    'SVT Longest': [svt_longest], 
     'SVT Max Rate': [svt_max_rate], 
     'SVE': [sve], 
     'SVE Max per Minute': [sve_max_per_minute], 
     'SVE Max per Hour': [sve_max_per_hour], 
     'SVE Mean per Hour': [sve_mean_per_hour], 
     'SVE Run': [sve_run], 
-    'SVE Run Longecol1': [sve_run_longecol1], 
+    'SVE Run Longest': [sve_run_longest], 
     'SVE Run Max Rate': [sve_run_max_rate],
     'Holter_date_diff': [holter_date_diff],
     'Echo_date_diff': [echo_date_diff]
