@@ -311,9 +311,13 @@ with pred_cont.container():
     # Create a horizontal bar chart
     chart = altair.Chart(data).mark_bar().encode(
         y='Condition:N',  # N indicates a nominal (categorical) data type
-        x='Probability:Q'  # Q indicates a quantitative data type
+        x='Probability:Q',  # Q indicates a quantitative data type
+        color='Condition:N'  # Color the bars by the condition
     ).properties(
         height=200  # Adjust the height as needed
+    ).configure_axis(
+        labelFontSize=14,  # Adjust the font size as needed
+        titleFontSize=16  # Adjust the font size as needed
     )
 
     # Display the chart in Streamlit
