@@ -8,9 +8,8 @@ import xgboost
 import matplotlib.pyplot as plt
 import datetime as dt
 
-
-class NumberInputMixinNone(NumberInputMixin):
-    def number_input(
+# class NumberInputMixinNone(NumberInputMixin):
+#     def number_input(
 
 # Set page config to wide
 st.set_page_config(layout="wide")
