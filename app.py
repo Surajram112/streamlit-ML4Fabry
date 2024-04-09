@@ -315,6 +315,7 @@ with pred_cont.container():
         color='Condition:N'  # Color the bars by the condition
     ).properties(
         height=200  # Adjust the height as needed
+        legend=None  # Remove the legend 
     ).configure_axis(
         labelFontSize=14,  # Adjust the font size as needed
         titleFontSize=16  # Adjust the font size as needed
