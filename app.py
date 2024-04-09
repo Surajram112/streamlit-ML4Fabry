@@ -389,9 +389,6 @@ with pred_cont.container():
     Your goal is to utilize both traditional diagnostic methods and modern data analysis techniques to differentiate between HCM and Fabry disease, providing a detailed and informed diagnostic perspective for this patient.
     
     Patient history: {patient_history}
-    
-    XGBoost model prediction: {model_prediction}
-    
     """
 
     model_instructions = PromptTemplate.from_template(template)
