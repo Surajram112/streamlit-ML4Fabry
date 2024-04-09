@@ -1,6 +1,7 @@
 from pathlib import Path
 import joblib
 import pandas as pd
+import shap
 import altair
 import streamlit as st
 import xgboost as xgb
