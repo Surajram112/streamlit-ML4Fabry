@@ -2,3 +2,4 @@ joblib
 pathlib
 pandas
 streamlit
+xgboost
