@@ -325,9 +325,6 @@ with pred_cont.container():
     # Create a SHAP Explainer object
     shap_values = model.get_booster().predict(xgb.DMatrix(input_data), pred_contribs=True)
     
-    # Convert the SHAP values to a DataFrame
-    shap_values = pd.DataFrame(shap_values, columns=input_data.columns)
-    
     # Create a SHAP summary plot
     fig, ax = plt.subplots()
     shap.summary_plot(shap_values.values, input_data, show=False)
