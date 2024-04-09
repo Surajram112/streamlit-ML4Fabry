@@ -14,12 +14,12 @@ st.title('Fabry Disease Vs Hypertrophic Cardiomyopathy Prediction')
 model_path = Path('./models/model.pkl')
 model = joblib.load(model_path)
 
+# Add a description
+st.write('This app predicts the differentiates between Fabry and HCM based on various cardiac markers.')
+
 cont1 = st.container()
 with cont1:
   cont1_col1, cont1_col2, cont1_col3 = st.columns([1,2,1])  # Adjusted column widths for a better layout of first set of expanders
-
-  # Add a description
-  st.write('This app predicts the differentiates between Fabry and HCM based on various cardiac markers.')
 
   # Patient demographic Data
   with cont1_col1.expander("Patient Demographic Data", expanded=True):
