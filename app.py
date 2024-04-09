@@ -304,13 +304,13 @@ with pred_cont.container():
     
     # Create a DataFrame for the chart
     data = pd.DataFrame({
-      'Condition': ['Hypertrophic Cardiomyopathy', 'Fabry Disease'], 
+      'Condition': ['Hypertrophic\nCardiomyopathy', 'Fabry Disease'], 
       'Probability': prediction
     })
 
     # Create a horizontal bar chart
     chart = altair.Chart(data).mark_bar().encode(
-        y=altair.Y('Condition:N', axis=altair.Axis(title='', labelWrap=True)),  # Enable label wrapping
+        y=altair.Y('Condition:N', axis=altair.Axis(title='')),
         x='Probability:Q',  # Q indicates a quantitative data type
         color='Condition:N'  # Color the bars by the condition
     ).properties(
