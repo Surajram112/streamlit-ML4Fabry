@@ -4,6 +4,7 @@ import pandas as pd
 import altair
 import streamlit as st
 import xgboost
+import matplotlib.pyplot as plt
 
 # Set page config to wide
 st.set_page_config(layout="wide")
