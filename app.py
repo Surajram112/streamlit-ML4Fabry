@@ -22,11 +22,11 @@ with st.container():
   st.write('This app predicts the differentiates between Fabry and HCM based on various cardiac markers.')
 
 # Create a container for the overall layout after title
-with st.container(border=True):
+with st.container():
   # Adjust 
   input_cont, pred_cont = st.columns([3,1])
   
-  with input_cont.container(border=True):
+  with input_cont.container():
     
     # Patient demographic Data
     with st.expander("Patient Demographic Data", expanded=True):
@@ -301,7 +301,7 @@ input_data = pd.DataFrame({
     'Echo_date_diff': [echo_date_diff]
     })
 
-with pred_cont.container(border=True):
+with pred_cont.container():
     prediction = model.predict_proba(input_data).flatten()
 
     # # Display the prediction
