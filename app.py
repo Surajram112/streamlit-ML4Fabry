@@ -13,7 +13,7 @@ def app():
     st.title('Fabry Disease Vs Hypertrophic Cardiomyopathy Prediction')
     
     # Load model to streamlit
-    model_path = Path('model.pkl')
+    model_path = Path('./models/model.pkl')
     model = pk.load(model_path)
 
     # Add a description
