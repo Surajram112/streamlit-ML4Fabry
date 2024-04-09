@@ -1,3 +1,4 @@
 joblib
+pathlib
 pandas
 streamlit
