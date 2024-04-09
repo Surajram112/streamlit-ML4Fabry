@@ -20,7 +20,7 @@ model = joblib.load(model_path)
 # Create a container for the title
 with st.container():
   # Set the app title
-  st.title('Fabry Disease Vs Hypertrophic Cardiomyopathy Prediction')
+  st.title('Fabry Disease (FD) Vs Hypertrophic Cardiomyopathy (HCM) Prediction')
 
   # Add a description
   st.write('This app predicts the differentiates between Fabry and HCM based on various cardiac markers.')
@@ -298,13 +298,10 @@ input_data = pd.DataFrame({
 
 with pred_cont.container():
     prediction = model.predict_proba(input_data).flatten()
-
-    # # Display the prediction
-    # st.write('## Prediction Probabilities')
     
     # Create a DataFrame for the chart
     data = pd.DataFrame({
-      'Condition': ['Hypertrophic\nCardiomyopathy', 'Fabry Disease'], 
+      'Condition': ['HCM', 'FD'], 
       'Probability': prediction
     })
 
