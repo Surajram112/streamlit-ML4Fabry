@@ -327,18 +327,21 @@ with pred_cont.container():
     # Create a DataFrame for the SHAP values
     shap_values = pd.DataFrame(shap_values, columns=input_data.columns)
     
-    # Create a bar chart for top 10 features by mean absolute SHAP value
-    fig, ax = plt.subplots()
-    shap_values.abs().mean().sort_values().tail(10).plot(kind='barh', ax=ax)
-    ax.set_xlabel('Mean |SHAP Value|')
-    ax.set_title('Top 10 Features by Mean |SHAP Value|')
-    st.pyplot(fig)
+    # Create a bar chart for top 10 features by mean absolute SHAP value using altair
+    shap_values_mean = shap_values.abs().mean().sort_values(ascending=False).head(10)
+    shap_values_mean = shap_values_mean.reset_index()
+    shap_values_mean.columns = ['Feature', 'Mean Absolute SHAP Value']
+    st.altair_chart(altair.Chart(shap_values_mean).mark_bar().encode(
+        x='Mean Absolute SHAP Value:Q',
+        y=altair.Y('Feature:N', sort='-x')
+    ), use_container_width=True)
     
+    # Display the SHAP values as an altair bar chart removing all the features with 0 SHAP values
     shap_values_sum = shap_values.sum().sort_values()
-    
-    # Display the SHAP values as a bar chart removing all the features with 0 SHAP values
-    fig, ax = plt.subplots()
-    shap_values_sum[shap_values_sum != 0].plot(kind='barh', ax=ax)
-    ax.set_xlabel('SHAP Value')
-    ax.set_title('SHAP Values for the Prediction')
-    st.pyplot(fig)
+    shap_values_sum = shap_values_sum[shap_values_sum != 0]
+    shap_values_sum = shap_values_sum.reset_index()
+    shap_values_sum.columns = ['Feature', 'SHAP Value']
+    st.altair_chart(altair.Chart(shap_values_sum).mark_bar().encode(
+        x='SHAP Value:Q',
+        y=altair.Y('Feature:N', sort='-x')
+    ), use_container_width=True)
