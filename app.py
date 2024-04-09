@@ -293,7 +293,6 @@ input_data = pd.DataFrame({
 
 with cont1:
   with cont1_col3:
-    st.button('Predict')
     prediction = model.predict_proba(input_data).flatten()
 
     # Display the prediction
