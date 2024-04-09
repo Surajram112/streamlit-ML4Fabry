@@ -327,14 +327,14 @@ with pred_cont.container():
     
     # Create a SHAP summary plot
     fig, ax = plt.subplots()
-    shap.summary_plot(shap_values.values, input_data, show=False)
+    shap.summary_plot(shap_values, input_data, show=False)
     st.pyplot(fig)
     
     # Create a SHAP force plot
     fig, ax = plt.subplots()
     shap.force_plot(
-        base_value=shap_values.values[0].mean(), 
-        shap_values=shap_values.values[0], 
+        base_value=shap_values[0].mean(), 
+        shap_values=shap_values[0], 
         features=input_data.iloc[0], 
         show=False
     )
@@ -343,8 +343,8 @@ with pred_cont.container():
     # Create a SHAP waterfall plot
     fig, ax = plt.subplots()
     shap.waterfall_plot(
-        base_value=shap_values.values[0].mean(), 
-        shap_values=shap_values.values[0], 
+        base_value=shap_values[0].mean(), 
+        shap_values=shap_values[0], 
         features=input_data.iloc[0], 
         show=False
     )
