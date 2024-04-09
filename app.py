@@ -297,8 +297,8 @@ with cont1:
   with cont1_col3:
     prediction = model.predict_proba(input_data).flatten()
 
-    # Display the prediction
-    st.write('## Prediction Probabilities')
+    # # Display the prediction
+    # st.write('## Prediction Probabilities')
     
     # Create a DataFrame for the chart
     data = pd.DataFrame({
