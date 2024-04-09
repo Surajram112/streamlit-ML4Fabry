@@ -54,7 +54,7 @@ with cont2:
 
   # Echocardiogram Variables
   with cont2_col1.expander("Echocardiogram Data", expanded=True):
-      echo_col1, echo_col2, echo_col3, echo_col4, echo_col5 = st.columns(5)
+      echo_col1, echo_col2, echo_col3, echo_col4, echo_col5, echo_col6 = st.columns(6)
       with echo_col1:
         # structural Measurements
         ivsd = st.number_input('IVSd (cm)', min_value=0.0, max_value=2.0, step=0.01)
@@ -102,16 +102,16 @@ with cont2:
         lat_peak_e_vel = st.number_input('Lat Peak E" Vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
         med_peak_e_vel = st.number_input('Med Peak E" Vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
         ao_v2_max = st.number_input('Ao V2 max (m/s)', min_value=0.0, max_value=10.0, step=0.01)
-      
-      
-ao_max_pg = col1.number_input('Ao max PG (mmHg)', min_value=0.0, max_value=100.0, step=1.0)
-lv_v1_max_pg = col1.number_input('LV V1 max PG (mmHg)', min_value=0.0, max_value=100.0, step=1.0)
-lv_v1_max = col1.number_input('LV V1 max (m/s)', min_value=0.0, max_value=10.0, step=0.01)
-pa_v2_max = col1.number_input('PA V2 max (m/s)', min_value=0.0, max_value=10.0, step=0.01)
-pa_max_pg = col1.number_input('PA max PG (mmHg)', min_value=0.0, max_value=100.0, step=1.0)
-tr_max_vel = col1.number_input('TR max vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
-tr_max_pg = col1.number_input('TR max PG (mmHg)', min_value=0.0, max_value=100.0, step=1.0)
-pi_end_d_vel = col1.number_input('PI end-d vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
+      with echo_col6:
+        ao_max_pg = st.number_input('Ao max PG (mmHg)', min_value=0.0, max_value=100.0, step=1.0)
+        lv_v1_max_pg = st.number_input('LV V1 max PG (mmHg)', min_value=0.0, max_value=100.0, step=1.0)
+        lv_v1_max = st.number_input('LV V1 max (m/s)', min_value=0.0, max_value=10.0, step=0.01)
+        pa_v2_max = st.number_input('PA V2 max (m/s)', min_value=0.0, max_value=10.0, step=0.01)
+        pa_max_pg = st.number_input('PA max PG (mmHg)', min_value=0.0, max_value=100.0, step=1.0)
+        tr_max_vel = st.number_input('TR max vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
+        tr_max_pg = st.number_input('TR max PG (mmHg)', min_value=0.0, max_value=100.0, step=1.0)
+        pi_end_d_vel = st.number_input('PI end-d vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
+        
 e_e_lat = col1.number_input('E/E" Lat', min_value=0.0, max_value=10.0, step=0.01)
 e_e_med = col1.number_input('E/E" Med', min_value=0.0, max_value=10.0, step=0.01)
 desc_ao_max_vel = col1.number_input('Desc Ao max vel (m/s)', min_value=0.0, max_value=10.0, step=0.01)
