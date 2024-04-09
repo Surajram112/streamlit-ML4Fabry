@@ -23,7 +23,7 @@ def app():
     # Ask the user for input
     st.write('## Enter Patient demographic Data')
 
-    age = st.number_input('Age', min_value=0, max_value=120)
+    age = st.number_input('Age', min_value=18, max_value=120, placeholder='Enter age')
     gender = st.selectbox('Gender', options=['Male', 'Female'])
     
     # ECG Report Variables
