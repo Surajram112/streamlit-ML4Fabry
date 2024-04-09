@@ -268,7 +268,7 @@ input_data = pd.DataFrame({
     })
 
 col2.button('Predict')
-prediction = model.predict(input_data)[0]
+prediction = model.predict(input_data)
 col2.write('## Prediction')
 
 # display a box with two horizontal bars for each of the raw prediction probabilities
