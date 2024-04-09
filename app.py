@@ -298,5 +298,20 @@ with cont1:
 
     # Display the prediction
     st.write('## Prediction Probabilities')
-    st.altair_chart(altair.Chart(pd.DataFrame({'Condition': ['Hypertrophic Cardiomyopathy', 'Fabry Disease'], 
-                                              'Probability': prediction})).mark_bar(orient='horizontal').encode(x='Condition', y='Probability'))
+    
+    # Create a DataFrame for the chart
+    data = pd.DataFrame({
+        'Condition': ['Hypertrophic Cardiomyopathy', 'Fabry Disease'], 
+        'Probability': prediction
+    })
+
+    # Create a horizontal bar chart
+    chart = altair.Chart(data).mark_bar().encode(
+        y='Condition:N',  # N indicates a nominal (categorical) data type
+        x='Probability:Q'  # Q indicates a quantitative data type
+    ).properties(
+        height=100  # Adjust the height as needed
+    )
+
+    # Display the chart in Streamlit
+    st.altair_chart(chart, use_container_width=True)
