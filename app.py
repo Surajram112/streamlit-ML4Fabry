@@ -14,7 +14,7 @@ st.title('Fabry Disease Vs Hypertrophic Cardiomyopathy Prediction')
 model_path = Path('./models/model.pkl')
 model = joblib.load(model_path)
 
-col1, col2, col3, col4 = st.columns(4)  # Adjusted column widths for a better layout
+col1, col2, col3 = st.columns(3)  # Adjusted column widths for a better layout
 
 # Add a description
 st.write('This app predicts the differentiates between Fabry and HCM based on various cardiac markers.')
