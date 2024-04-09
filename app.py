@@ -34,26 +34,24 @@ with st.container(border=True):
         age = dem_cols1.number_input('Age', min_value=18, max_value=120, value=25, key='age')
         gender = dem_cols2.selectbox('Gender', options=['Male', 'Female'], key='gender')
 
-    with ecg_cols.container(border=True):
-      ecg_col1, ecg_col2, ecg_col3, ecg_col4, ecg_col5, ecg_col6, ecg_col7, ecg_col8 = st.columns(8)
-      # ECG Report Variables
-      with st.expander("ECG Report Data", expanded=True):
-          with ecg_col1:
-            vent_rate = st.number_input('Vent. rate', min_value=0, max_value=300, key='vent_rate')
-          with ecg_col2:
-            qrs_duration = st.number_input('QRS dur.', min_value=50, max_value=200, key='qrs_duration')
-          with ecg_col3:
-            p_axis = st.number_input('P-axis', min_value=-180, max_value=180, key='p_axis')
-          with ecg_col4:
-            r_axis = st.number_input('R-axis', min_value=-180, max_value=180, key='r_axis')
-          with ecg_col5:
-            t_axis = st.number_input('T-axis', min_value=-180, max_value=180, key='t_axis')
-          with ecg_col6:
-            qt = st.number_input('QT', min_value=200, max_value=600, key='qt')
-          with ecg_col7:
-            qtc = st.number_input('QTc', min_value=200, max_value=600, key='qtc')
-          with ecg_col8:
-            bsa = st.number_input('BSA', min_value=0.0, max_value=3.0, step=0.01, key='bsa')
+    # ECG Report Variables
+    with st.expander("ECG Report Data", expanded=True):
+        with ecg_col1:
+          vent_rate = st.number_input('Vent. rate', min_value=0, max_value=300, key='vent_rate')
+        with ecg_col2:
+          qrs_duration = st.number_input('QRS dur.', min_value=50, max_value=200, key='qrs_duration')
+        with ecg_col3:
+          p_axis = st.number_input('P-axis', min_value=-180, max_value=180, key='p_axis')
+        with ecg_col4:
+          r_axis = st.number_input('R-axis', min_value=-180, max_value=180, key='r_axis')
+        with ecg_col5:
+          t_axis = st.number_input('T-axis', min_value=-180, max_value=180, key='t_axis')
+        with ecg_col6:
+          qt = st.number_input('QT', min_value=200, max_value=600, key='qt')
+        with ecg_col7:
+          qtc = st.number_input('QTc', min_value=200, max_value=600, key='qtc')
+        with ecg_col8:
+          bsa = st.number_input('BSA', min_value=0.0, max_value=3.0, step=0.01, key='bsa')
 
     # Echocardiogram Variables
     with cols1.expander("Echocardiogram Data", expanded=True):
