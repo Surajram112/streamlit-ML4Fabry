@@ -24,7 +24,7 @@ with st.container():
 # Create a container for the overall layout after title
 with st.container():
   # Adjust 
-  input_cont, pred_cont = st.columns([3,1])
+  input_cont, pred_cont = st.columns(2)
   
   with input_cont.container():
     
@@ -309,7 +309,7 @@ with pred_cont.container():
     
     # Create a DataFrame for the chart
     data = pd.DataFrame({
-      'Condition': ['Hypertrophic \n Cardiomyopathy', 'Fabry Disease'], 
+      'Condition': ['Hypertrophic Cardiomyopathy', 'Fabry Disease'], 
       'Probability': prediction
     })
 
