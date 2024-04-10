@@ -405,5 +405,4 @@ with st.sidebar:
     
     input_text = st.text_area('Explanation:', explanation["text"])
     submitted = st.form_submit_button('Submit')
-    st.info(llm_chain.invoke(input_text))
     
