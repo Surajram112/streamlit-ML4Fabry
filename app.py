@@ -52,7 +52,7 @@ with st.container():
   
   with input_cont.container():
     # Patient demographic Data
-    with st.expander("Patient Data", expanded=True):
+    with st.expander("Patient Data", expanded=False):
       dem_cols1, dem_cols2, ecg_date_col, echo_date_col, holter_date_col = st.columns(5)
       age = dem_cols1.number_input('Age',min_value=18, max_value=120, step=1, key='age', help='Enter the patient\'s age.') 
       gender = dem_cols2.selectbox('Gender', options=['Male', 'Female'], key='gender')
@@ -61,7 +61,7 @@ with st.container():
       holter_date = holter_date_col.date_input('Holter Date', format="DD/MM/YYYY", max_value=today, value="today", key='holter_date')
 
     # ECG Report Variables
-    with st.expander("ECG Report Data", expanded=True):
+    with st.expander("ECG Report Data", expanded=False):
       ecg_col1, ecg_col2, ecg_col3, ecg_col4, ecg_col5, ecg_col6, ecg_col7, ecg_col8 = st.columns(8)
       with ecg_col1:
         vent_rate = st.number_input('Vent. rate', min_value=0, max_value=300, key='vent_rate')
@@ -81,7 +81,7 @@ with st.container():
         bsa = st.number_input('BSA', min_value=0.0, max_value=3.0, step=0.01, key='bsa')
 
     # Echocardiogram Variables
-    with st.expander("Echocardiogram Data", expanded=True):
+    with st.expander("Echocardiogram Data", expanded=False):
       echo_col1, echo_col2, echo_col3, echo_col4 = st.columns(4)
       with echo_col1:
         ivsd = st.number_input('IVSd (cm)', min_value=0.0, max_value=2.0, step=0.01)
@@ -153,7 +153,7 @@ with st.container():
         pm_sax_meas_d = st.number_input('PM SAX Measurements D', min_value=0.0, max_value=10.0, step=0.01)
 
     # Holter Monitor Variables
-    with st.expander("Holter Monitor Data", expanded=True):
+    with st.expander("Holter Monitor Data", expanded=False):
       hol_col1, hol_col2, hol_col3 = st.columns(3)
       with hol_col1:
         artefacts = st.number_input('Artefacts', min_value=0, max_value=1)
