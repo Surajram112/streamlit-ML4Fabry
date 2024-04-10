@@ -7,7 +7,6 @@ import streamlit as st
 import xgboost as xgb
 import matplotlib.pyplot as plt
 from datetime import datetime
-from huggingface_hub import login
 from langchain_community.llms import HuggingFaceEndpoint
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
@@ -16,12 +15,18 @@ from langchain.prompts import PromptTemplate
 import warnings
 warnings.filterwarnings('ignore')
 
+@st.cache
+def load_model(model_path):
+    """Load a pre-trained XGBoost model."""
+    model = joblib.load(model_path)
+    return model
+
 # Set page config to wide
 st.set_page_config(layout="wide")
 
 # Load model to streamlit
 model_path = Path('./models/model.pkl')
-model = joblib.load(model_path)
+model = load_model(model_path)
 
 # Set today's date to ensure all reports are on or before this date
 today = datetime.today().date()
