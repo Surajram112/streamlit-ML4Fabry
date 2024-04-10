@@ -7,6 +7,7 @@ import streamlit as st
 import xgboost as xgb
 import matplotlib.pyplot as plt
 import datetime as dt
+from huggingface_hub import login
 from langchain_community.llms import HuggingFaceEndpoint
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
@@ -14,9 +15,6 @@ from langchain.prompts import PromptTemplate
 # Ignore warnings
 import warnings
 warnings.filterwarnings('ignore')
-
-# Set the HUGGINGFACEHUB_API_TOKEN environment variable
-os.environ["HUGGINGFACEHUB_API_TOKEN"] = "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"
 
 # Set page config to wide
 st.set_page_config(layout="wide")
@@ -366,7 +364,7 @@ with pred_cont.container():
     prompt = f"""
         For this visit, the model predicts a higher likelihood of {predicted_condition}. The key factors influencing this prediction include: {features_info}.
         """
-    
+        
     llm = HuggingFaceEndpoint(
             repo_id="HuggingFaceH4/zephyr-7b-alpha",
             task="text-generation",
@@ -376,7 +374,7 @@ with pred_cont.container():
             typical_p=0.95,
             temperature=0.5,
             repetition_penalty=1.03,
-            add_to_git_credential=True
+            huggingfacehub_api_token=st.secrets["HUGGINGFACEHUB_API_TOKEN"]
             )
     
     template = """
