@@ -392,7 +392,7 @@ with input_container:
 # Response output
 with response_container:
   if user_input:
-      response = chatbot.chat(input_text)
+      response = chatbot.chat(user_input)
       st.session_state.past.append(user_input)
       st.session_state.generated.append(response)
       
