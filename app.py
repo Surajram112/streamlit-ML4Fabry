@@ -399,9 +399,9 @@ with st.sidebar:
     llm_chain = LLMChain(llm=llm, prompt=model_instructions, callbacks=[StreamingStdOutCallbackHandler()])
     explanation = llm_chain.invoke(prompt)
     
-    # # Display the explanation
-    # st.write('Explanation:')
-    # st.write()
+    # Display the explanation
+    st.write('Explanation:')
+    st.write(explanation["text"])
     
     input_text = st.text_area('Explanation:', explanation["text"])
     submitted = st.form_submit_button('Submit')
