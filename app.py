@@ -296,8 +296,8 @@ input_data = pd.DataFrame({
     'SVE Run': [sve_run], 
     'SVE Run Longest': [sve_run_longest], 
     'SVE Run Max Rate': [sve_run_max_rate],
-    'Holter_date_diff': [(holter_date - echo_date).days],
-    'Echo_date_diff': [(echo_date - echo_date).days],
+    'Holter_date_diff': [(holter_date - ecg_date).days],
+    'Echo_date_diff': [(echo_date - ecg_date).days],
     })
 
 with pred_cont.container():
@@ -395,7 +395,7 @@ with st.sidebar:
     """
 
     model_instructions = PromptTemplate.from_template(template)
-    llm_chain = LLMChain(prompt=model_instructions, llm=llm, callbacks=[StreamingStdOutCallbackHandler()])
+    llm_chain = LLMChain(llm=llm, prompt=model_instructions, callbacks=[StreamingStdOutCallbackHandler()])
     explanation = llm_chain.invoke(prompt)
     
     # Display the explanation
