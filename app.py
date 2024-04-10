@@ -327,7 +327,8 @@ with pred_cont.container():
     # Display the chart in Streamlit
     st.altair_chart(chart, use_container_width=True)
   
-  with st.container():
+  with st.expander("Additional Interpretability", expanded=False):
+    with st.container():
     # Create a SHAP Explainer object
     shap_values = model.get_booster().predict(xgb.DMatrix(input_data), pred_contribs=True)[:,:-1]
     
