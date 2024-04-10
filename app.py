@@ -419,21 +419,22 @@ if 'past' not in st.session_state:
 colored_header(label='', description='', color_name='blue-30')
     
 # Chat message container with initial explanation from AI
-ai = st.chat_message("ai")
-ai.write(explanation["text"])
+with st.chat_message("ai"):
+  st.write(explanation["text"])
 
 # Chat input widget
 user_input = st.chat_input("Tell me any questions you have or if you need further insight into the patient explanation!")
 
 # Response output
 if user_input:
-    # Set human input and write the user input 
-    human = st.chat_message("human")
-    human.write(user_input)
+    # Write the user input 
+    with st.chat_message("human"):
+      st.write(user_input)
     
-    # Query chatbot and write AI response
+    # Query chatbot for AI response
     response = chatbot.query(user_input, stream=True)
     
+    # Write the AI response 
     with st.chat_message("ai"):
       st.write(response)
     
