@@ -366,8 +366,14 @@ with pred_cont.container():
         x='SHAP Value:Q',
         y=altair.Y('Feature:N', sort='-x')
     ), use_container_width=True)
+
+with st.sidebar.form("Input"):
+  queryText = st.text_area("SQL to execute:", height=3, max_chars=None)
+  btnResult = st.form_submit_button('Run')
+  
+  if btnResult:
+    st.sidebar.text('Button pushed')
     
-  with st.container(border=True):
     # Generate explanation for a specific instance using LLM
     predicted_condition = {0: 'Hypertrophic Cardiomyopathy', 1: 'Fabry Disease'}[prediction.argmax()]
     feature_values = input_data.iloc[0].to_dict()
@@ -411,3 +417,4 @@ with pred_cont.container():
     # Display the explanation
     st.write('Explanation:')
     st.write(explanation["text"])
+    
