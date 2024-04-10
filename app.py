@@ -410,50 +410,32 @@ explanation = llm_chain.invoke(prompt)
 
 st.title('🤗💬 Ask Away!')
 
-if 'generated' not in st.session_state:
-  st.session_state['generated'] = ["I'm HugChat, How may I help you?"]
+# Initialize chat history
+if "messages" not in st.session_state:
+    st.session_state.messages = []
 
-if 'past' not in st.session_state:
-    st.session_state['past'] = ['Hi!']
+# Display chat messages from history on app rerun
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
       
 colored_header(label='', description='', color_name='blue-30')
-    
+
 # Chat message container with initial explanation from AI
 with st.chat_message("ai"):
   st.write(explanation["text"])
 
-# Chat input widget
-user_input = st.chat_input("Tell me any questions you have or if you need further insight into the patient explanation!")
-
-# Response output
-if user_input:
-    # Write the user input 
-    with st.chat_message("human"):
-      st.write(user_input)
-    
-    # Query chatbot for AI response
-    response = chatbot.query(user_input, stream=True)
-    
-    # Write the AI response 
-    with st.chat_message("ai"):
-      st.write(response)
-    
-    # Add response to chat history
-    st.session_state.past.append(user_input)
-    st.session_state.generated.append(response)
-    
-    
+# Accept user input
+if prompt := st.chat_input("Tell me any questions you have or if you need further insight into the patient explanation!"):
+    # Display user message in chat message container
+    with st.chat_message("user"):
+        st.markdown(prompt)
+    # Add user message to chat history
+    st.session_state.messages.append({"role": "user", "content": prompt})
     
 
-# # Response output
-# with response_container:
-#   if user_input:
-#       # Web search (new feature)  
-#       response = chatbot.query(user_input, web_search=True)
-#       st.session_state.past.append(user_input)
-#       st.session_state.generated.append(response)
-      
-#   if st.session_state['generated']:
-#       for i in range(len(st.session_state['generated'])):
-#           message(st.session_state['past'][i], is_user=True, key=str(i) + '_user')
-#           message(st.session_state['generated'][i], key=str(i))
+# Display assistant response in chat message container
+with st.chat_message("ai"):
+    response = st.write_stream(chatbot.query(prompt, stream=True))
+# Add assistant response to chat history
+st.session_state.messages.append({"role": "assistant", "content": response})
