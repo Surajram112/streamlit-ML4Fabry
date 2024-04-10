@@ -20,8 +20,14 @@ def is_valid_input(value):
     # Example validation logic
     return isinstance(value, (int, float, None))
 
-# Set page config to wide
+# Set page config, add title and description
 st.set_page_config(layout="wide", page_title="FD Vs HCM")
+
+# Add Title to the page
+st.title("Fabry Disease (FD) Vs Hypertrophic Cardiomyopathy (HCM)")
+
+# Add a description
+st.write('This app predicts the differentiates between Fabry and HCM based on various cardiac markers.')
 
 # Load model to streamlit
 model_path = Path('./models/model.pkl')
@@ -29,14 +35,6 @@ model = joblib.load(model_path)
 
 # Set today's date to ensure all reports are on or before this date
 today = datetime.today().date()
-
-# Create a container for the title
-with st.container():
-  # Add Title to the page
-  st.title("Fabry Disease (FD) Vs Hypertrophic Cardiomyopathy (HCM)")
-  
-  # Add a description
-  st.write('This app predicts the differentiates between Fabry and HCM based on various cardiac markers.')
 
 # Create a container for the overall layout after title
 with st.container():
