@@ -417,11 +417,9 @@ if 'past' not in st.session_state:
     st.session_state['past'] = ['Hi!']
       
 colored_header(label='', description='', color_name='blue-30')
-
-ai = st.chat_message("ai")
-human = st.chat_message("human")
     
-# Chat message container with initial explanation
+# Chat message container with initial explanation from AI
+ai = st.chat_message("ai")
 ai.write(explanation["text"])
 
 # Chat input widget
@@ -429,11 +427,18 @@ user_input = st.chat_input("Tell me any questions you have or if you need furthe
 
 # Response output
 if user_input:
+    # Set human input and write the user input 
+    human = st.chat_message("human")
     human.write(user_input)
+    
+    # Query chatbot and write AI response
     response = chatbot.query(user_input, stream=True)
+    ai.write(response)
+    
+    # Add response to chat history
     st.session_state.past.append(user_input)
     st.session_state.generated.append(response)
-    ai.write(response)
+    
 
 # # Response output
 # with response_container:
