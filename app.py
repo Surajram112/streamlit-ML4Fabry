@@ -430,10 +430,10 @@ user_input = st.chat_input("Tell me any questions you have or if you need furthe
 # Response output
 if user_input:
     human.write(user_input)
-    ai.write_stream(chatbot.query(user_input, stream=True))
-    # st.session_state.past.append(user_input)
-    # st.session_state.generated.append(response)
-    
+    response = chatbot.query(user_input, stream=True)
+    st.session_state.past.append(user_input)
+    st.session_state.generated.append(response)
+    ai.write(response)
 
 # # Response output
 # with response_container:
