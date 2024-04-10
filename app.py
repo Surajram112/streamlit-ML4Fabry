@@ -320,7 +320,7 @@ with pred_cont.container():
         x='Probability:Q',  # Q indicates a quantitative data type
         color='Condition:N'  # Color the bars by the condition
     ).properties(
-        height=175  # Adjust the height as needed
+        height=170  # Adjust the height as needed
     ).configure_axis(
         labelFontSize=14,  # Adjust the font size as needed
         titleFontSize=16  # Adjust the font size as needed
