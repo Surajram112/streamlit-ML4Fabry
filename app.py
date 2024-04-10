@@ -417,23 +417,24 @@ if 'past' not in st.session_state:
     st.session_state['past'] = ['Hi!']
       
 colored_header(label='', description='', color_name='blue-30')
+
+ai = st.chat_message("ai")
+human = st.chat_message("human")
     
 # Chat message container with initial explanation
-with st.chat_message("assistant"):
-  st.write(explanation["text"])
+ai.write(explanation["text"])
 
 # Chat input widget
 user_input = st.chat_input("Tell me any questions you have or if you need further insight into the patient explanation!")
 
 # Response output
 if user_input:
+    human.write(user_input)
     # Web search (new feature)  
     response = chatbot.query(user_input, web_search=True)
     st.session_state.past.append(user_input)
     st.session_state.generated.append(response)
-    
-    with st.chat_message("ai"):
-      st.write(response)
+    ai.write(response)
 
 # # Response output
 # with response_container:
