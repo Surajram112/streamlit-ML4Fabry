@@ -368,11 +368,7 @@ with pred_cont.container():
     ), use_container_width=True)
 
 with st.sidebar.form("Input"):
-  queryText = st.text_area("SQL to execute:", height=3, max_chars=None)
-  btnResult = st.form_submit_button('Run')
-  
-  if btnResult:
-    st.sidebar.text('Button pushed')
+  if st.form_submit_button('Generate Explanation'):
     
     # Generate explanation for a specific instance using LLM
     predicted_condition = {0: 'Hypertrophic Cardiomyopathy', 1: 'Fabry Disease'}[prediction.argmax()]
