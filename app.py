@@ -389,19 +389,25 @@ def get_text():
 with input_container:
     user_input = get_text()
 
-# Response output
-with response_container:
-  if user_input:
-      response = chatbot.chat(user_input)
-      st.session_state.past.append(user_input)
-      st.session_state.generated.append(response)
+# # Response output
+# with response_container:
+#   if user_input:
+#       response = chatbot.chat(user_input)
+#       st.session_state.past.append(user_input)
+#       st.session_state.generated.append(response)
       
-  if st.session_state['generated']:
-      for i in range(len(st.session_state['generated'])):
-          message(st.session_state['past'][i], is_user=True, key=str(i) + '_user')
-          message(st.session_state['generated'][i], key=str(i))
+#   if st.session_state['generated']:
+#       for i in range(len(st.session_state['generated'])):
+#           message(st.session_state['past'][i], is_user=True, key=str(i) + '_user')
+#           message(st.session_state['generated'][i], key=str(i))
           
+# Insert a chat message container.
+with st.chat_message("user"):
+  st.write("Hello 👋")
+  st.line_chart(np.random.randn(30, 3))
 
+# Display a chat input widget.
+st.chat_input(user_input)
   
   # with st.form('LLM_Chatbot'):
   #   input_text = st.text_area('Enter text:', 'Do you have any questions about the patient or explanation?')
