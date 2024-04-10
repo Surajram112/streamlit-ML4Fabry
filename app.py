@@ -367,7 +367,7 @@ with pred_cont.container():
         y=altair.Y('Feature:N', sort='-x')
     ), use_container_width=True)
 
-with st.sidebar.button("Generate Explanation"):
+with st.sidebar:
     st.title('🤗💬 Ask Away!')
     st.caption("🚀 A streamlit chatbot powered by a HuggingFace LLM")
     
