@@ -10,7 +10,7 @@ from datetime import datetime
 from langchain_community.llms import HuggingFaceEndpoint
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
-
+from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 # Ignore warnings
 import warnings
 warnings.filterwarnings('ignore')
@@ -37,7 +37,6 @@ with st.container():
   input_cont, pred_cont = st.columns(2)
   
   with input_cont.container():
-    
     # Patient demographic Data
     with st.expander("Patient Data", expanded=True):
       dem_cols1, dem_cols2, ecg_date_col, echo_date_col, holter_date_col = st.columns(5)
@@ -184,7 +183,6 @@ with st.container():
         sve_run = st.number_input('SVE Run', min_value=0, max_value=1000)
         sve_run_longest = st.number_input('SVE Run Longest', min_value=0, max_value=1000)
         sve_run_max_rate = st.number_input('SVE Run Max Rate', min_value=0, max_value=300)
-
 
 # Make a prediction
 input_data = pd.DataFrame({
@@ -375,8 +373,9 @@ with st.sidebar:
             top_k=10,
             top_p=0.95,
             typical_p=0.95,
-            temperature=0.5,
+            temperature=0.01,
             repetition_penalty=1.03,
+            streaming=True,
             huggingfacehub_api_token=st.secrets["HUGGINGFACEHUB_API_TOKEN"]
             )
     
@@ -396,7 +395,7 @@ with st.sidebar:
     """
 
     model_instructions = PromptTemplate.from_template(template)
-    llm_chain = LLMChain(prompt=model_instructions, llm=llm)
+    llm_chain = LLMChain(prompt=model_instructions, llm=llm, callbacks=[StreamingStdOutCallbackHandler()])
     explanation = llm_chain.invoke(prompt)
     
     # Display the explanation
