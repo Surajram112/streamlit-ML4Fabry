@@ -367,9 +367,9 @@ with pred_cont.container():
         y=altair.Y('Feature:N', sort='-x')
     ), use_container_width=True)
 
-with st.sidebar.form("Input"):
-  if st.form_submit_button('Generate Explanation'):
-    
+with st.sidebar:
+    st.title('🤗💬 Ask Away!')
+    st.caption("🚀 A streamlit chatbot powered by a HuggingFace LLM")
     # Generate explanation for a specific instance using LLM
     predicted_condition = {0: 'Hypertrophic Cardiomyopathy', 1: 'Fabry Disease'}[prediction.argmax()]
     feature_values = input_data.iloc[0].to_dict()
