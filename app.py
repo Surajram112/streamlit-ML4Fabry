@@ -22,7 +22,7 @@ st.set_page_config(layout="wide", page_title="FD Vs HCM")
 st.title("Fabry Disease (FD) Vs Hypertrophic Cardiomyopathy (HCM)")
 
 # Add a description
-st.write('This app predicts the differentiates between Fabry and HCM based on various cardiac markers.')
+st.write('This app differentiates between Fabry and HCM based on various cardiac markers.')
 
 # Load model to streamlit
 model_path = Path('./models/model.pkl')
