@@ -354,6 +354,7 @@ with pred_cont.container():
     ), use_container_width=True)
 
 with st.sidebar:
+  with st.form('LLM_Chatbot'):
     st.title('🤗💬 Ask Away!')
     st.caption("🚀 A streamlit chatbot powered by a HuggingFace LLM")
     
@@ -398,7 +399,11 @@ with st.sidebar:
     llm_chain = LLMChain(llm=llm, prompt=model_instructions, callbacks=[StreamingStdOutCallbackHandler()])
     explanation = llm_chain.invoke(prompt)
     
-    # Display the explanation
-    st.write('Explanation:')
-    st.write(explanation["text"])
+    # # Display the explanation
+    # st.write('Explanation:')
+    # st.write()
+    
+    input_text = st.text_area('Explanation:', explanation["text"])
+    submitted = st.form_submit_button('Submit')
+    st.info(llm_chain.invoke(input_text))
     
