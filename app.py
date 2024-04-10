@@ -15,18 +15,12 @@ from langchain.prompts import PromptTemplate
 import warnings
 warnings.filterwarnings('ignore')
 
-@st.cache
-def load_model(model_path):
-    """Load a pre-trained XGBoost model."""
-    model = joblib.load(model_path)
-    return model
-
 # Set page config to wide
 st.set_page_config(layout="wide")
 
 # Load model to streamlit
 model_path = Path('./models/model.pkl')
-model = load_model(model_path)
+model = joblib.load(model_path)
 
 # Set today's date to ensure all reports are on or before this date
 today = datetime.today().date()
