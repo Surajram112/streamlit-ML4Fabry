@@ -15,6 +15,11 @@ from langchain.prompts import PromptTemplate
 import warnings
 warnings.filterwarnings('ignore')
 
+# Function to check if the input value is valid
+def is_valid_input(value):
+    # Example validation logic
+    return isinstance(value, (int, float, None))
+
 # Set page config to wide
 st.set_page_config(layout="wide")
 
@@ -44,6 +49,11 @@ with st.container():
     with st.expander("Patient Data", expanded=True):
       dem_cols1, dem_cols2, ecg_date_col, echo_date_col, holter_date_col = st.columns(5)
       age = dem_cols1.number_input('Age',min_value=18, max_value=120, step=1, key='age')
+      
+      # Validate user input
+      if is_valid_input(age):
+          st.error("Please enter a valid number.")
+        
       gender = dem_cols2.selectbox('Gender', options=['Male', 'Female'], key='gender')
       ecg_date = ecg_date_col.date_input('ECG Date', format="DD/MM/YYYY", max_value=today, value="today", key='ecg_date')
       echo_date = echo_date_col.date_input('Echo Date', format="DD/MM/YYYY", max_value=today, value="today", key='echo_date')
