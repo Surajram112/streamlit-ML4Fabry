@@ -9,12 +9,13 @@ from datetime import datetime
 import streamlit as st
 from streamlit_chat import message
 from streamlit_extras.colored_header import colored_header
-from streamlit_extras.add_vertical_space import add_vertical_space
 from hugchat import hugchat
+from hugchat.login import Login
 from langchain_community.llms import HuggingFaceEndpoint
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
+
 # Ignore warnings
 import warnings
 warnings.filterwarnings('ignore')
@@ -31,6 +32,14 @@ st.write('This app differentiates between Fabry and HCM based on various cardiac
 # Load model to streamlit
 model_path = Path('./models/model.pkl')
 model = joblib.load(model_path)
+
+# Set up HugChat interface
+cookie_path_dir = "./cookies/" # NOTE: trailing slash (/) is required to avoid errors
+sign = Login(st.secrets["HUG_CHAT_EMAIL"], st.secrets["HUG_CHAT_PASSWD"])
+cookies = sign.login(cookie_dir_path=cookie_path_dir, save_cookies=True)
+
+# Create your ChatBot
+chatbot = hugchat.ChatBot(cookies=cookies.get_dict())
 
 # Set today's date to ensure all reports are on or before this date
 today = datetime.today().date()
