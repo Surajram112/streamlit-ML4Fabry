@@ -390,15 +390,9 @@ with input_container:
     user_input = get_text()
 
 # Response output
-## Function for taking user prompt as input followed by producing AI generated responses
-def generate_response(prompt):
-    chatbot = hugchat.ChatBot()
-    response = chatbot.chat(prompt)
-    return response
-
 with response_container:
   if user_input:
-      response = generate_response(user_input)
+      response = chatbot.chat(input_text)
       st.session_state.past.append(user_input)
       st.session_state.generated.append(response)
       
