@@ -408,7 +408,12 @@ model_instructions = PromptTemplate.from_template(template)
 llm_chain = LLMChain(llm=llm, prompt=model_instructions, callbacks=[StreamingStdOutCallbackHandler()])
 explanation = llm_chain.invoke(prompt)
 
+colored_header(label='', description='', color_name='blue-30')
+
 st.title('🤗💬 Ask Away!')
+
+# Create a new conversation
+chatbot.new_conversation(switch_to=True)
 
 # Initialize chat history
 if "messages" not in st.session_state:
@@ -418,8 +423,6 @@ if "messages" not in st.session_state:
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
-      
-colored_header(label='', description='', color_name='blue-30')
 
 # Chat message container with initial explanation from AI
 with st.chat_message("ai"):
@@ -436,6 +439,7 @@ if prompt := st.chat_input("Tell me any questions you have or if you need furthe
 
 # Display assistant response in chat message container
 with st.chat_message("ai"):
-    response = st.write_stream(chatbot.query(prompt, stream=True))
+    response = st.write_stream(response_generator(prompt))
+    
 # Add assistant response to chat history
 st.session_state.messages.append({"role": "assistant", "content": response})
