@@ -6,7 +6,7 @@ import altair
 import streamlit as st
 import xgboost as xgb
 import matplotlib.pyplot as plt
-import datetime as dt
+from datetime import datetime
 from huggingface_hub import login
 from langchain_community.llms import HuggingFaceEndpoint
 from langchain.chains import LLMChain
@@ -22,6 +22,9 @@ st.set_page_config(layout="wide")
 # Load model to streamlit
 model_path = Path('./models/model.pkl')
 model = joblib.load(model_path)
+
+# Set today's date to ensure all reports are on or before this date
+today = datetime.today().date()
 
 # Create a container for the title
 with st.container():
@@ -43,9 +46,9 @@ with st.container():
       dem_cols1, dem_cols2, ecg_date_col, echo_date_col, holter_date_col = st.columns(5)
       age = dem_cols1.number_input('Age',min_value=18, max_value=120, step=1, key='age')
       gender = dem_cols2.selectbox('Gender', options=['Male', 'Female'], key='gender')
-      ecg_date = ecg_date_col.date_input('ECG Date', key='ecg_date')
-      echo_date = echo_date_col.date_input('Echo Date', key='echo_date')
-      holter_date = holter_date_col.date_input('Holter Date', key='holter_date')
+      ecg_date = ecg_date_col.date_input('ECG Date', format="DD/MM/YYYY", max_value=today, value="today", key='ecg_date')
+      echo_date = echo_date_col.date_input('Echo Date', format="DD/MM/YYYY", max_value=today, value="today", key='echo_date')
+      holter_date = holter_date_col.date_input('Holter Date', format="DD/MM/YYYY", max_value=today, value="today", key='holter_date')
 
     # ECG Report Variables
     with st.expander("ECG Report Data", expanded=True):
