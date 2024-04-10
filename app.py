@@ -322,7 +322,7 @@ with pred_cont.container():
         titleFontSize=16  # Adjust the font size as needed
     ).configure_legend(
       disable=True
-    )
+    ).interactive()
 
     # Display the chart in Streamlit
     st.altair_chart(chart, use_container_width=True)
