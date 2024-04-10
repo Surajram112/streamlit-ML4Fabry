@@ -433,11 +433,15 @@ if user_input:
     
     # Query chatbot and write AI response
     response = chatbot.query(user_input, stream=True)
-    ai.write(response)
+    
+    with st.chat_message("ai"):
+      st.write(response)
     
     # Add response to chat history
     st.session_state.past.append(user_input)
     st.session_state.generated.append(response)
+    
+    
     
 
 # # Response output
