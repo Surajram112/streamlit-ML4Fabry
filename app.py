@@ -370,25 +370,25 @@ with pred_cont.container():
 st.title('🤗💬 Ask Away!')
 st.caption("🚀 A streamlit chatbot powered by a HuggingFace LLM")
 
-if 'generated' not in st.session_state:
-  st.session_state['generated'] = ["I'm HugChat, How may I help you?"]
+# if 'generated' not in st.session_state:
+#   st.session_state['generated'] = ["I'm HugChat, How may I help you?"]
 
-if 'past' not in st.session_state:
-    st.session_state['past'] = ['Hi!']
+# if 'past' not in st.session_state:
+#     st.session_state['past'] = ['Hi!']
     
-input_container = st.container()
-colored_header(label='', description='', color_name='blue-30')
-response_container = st.container()
+# input_container = st.container()
+# colored_header(label='', description='', color_name='blue-30')
+# response_container = st.container()
 
-# User input
-## Function for taking user provided prompt as input
-def get_text():
-    input_text = st.text_input("You: ", "", key="input")
-    return input_text
+# # User input
+# ## Function for taking user provided prompt as input
+# def get_text():
+#     input_text = st.text_input("You: ", "", key="input")
+#     return input_text
 
-## Applying the user input box
-with input_container:
-    user_input = get_text()
+# ## Applying the user input box
+# with input_container:
+#     user_input = get_text()
 
 # # Response output
 # with response_container:
@@ -405,10 +405,10 @@ with input_container:
 # Insert a chat message container.
 with st.chat_message("user"):
   st.write("Hello 👋")
-  st.line_chart(np.random.randn(30, 3))
 
 # Display a chat input widget.
-st.chat_input(user_input)
+input_text = st.text_input("You: ", "", key="input")
+st.chat_input(input_text)
   
   # with st.form('LLM_Chatbot'):
   #   input_text = st.text_area('Enter text:', 'Do you have any questions about the patient or explanation?')
