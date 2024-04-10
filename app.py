@@ -21,7 +21,7 @@ def is_valid_input(value):
     return isinstance(value, (int, float, None))
 
 # Set page config to wide
-st.set_page_config(layout="wide")
+st.set_page_config(layout="wide", page_title="Fabry Disease (FD) Vs Hypertrophic Cardiomyopathy (HCM) Prediction")
 
 # Load model to streamlit
 model_path = Path('./models/model.pkl')
@@ -32,9 +32,6 @@ today = datetime.today().date()
 
 # Create a container for the title
 with st.container():
-  # Set the app title
-  st.title('Fabry Disease (FD) Vs Hypertrophic Cardiomyopathy (HCM) Prediction')
-
   # Add a description
   st.write('This app predicts the differentiates between Fabry and HCM based on various cardiac markers.')
 
@@ -370,6 +367,7 @@ with pred_cont.container():
 with st.sidebar:
     st.title('🤗💬 Ask Away!')
     st.caption("🚀 A streamlit chatbot powered by a HuggingFace LLM")
+    
     # Generate explanation for a specific instance using LLM
     predicted_condition = {0: 'Hypertrophic Cardiomyopathy', 1: 'Fabry Disease'}[prediction.argmax()]
     feature_values = input_data.iloc[0].to_dict()
