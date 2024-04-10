@@ -21,7 +21,7 @@ def is_valid_input(value):
     return isinstance(value, (int, float, None))
 
 # Set page config to wide
-st.set_page_config(layout="wide", page_title="Fabry Disease (FD) Vs Hypertrophic Cardiomyopathy (HCM) Prediction")
+st.set_page_config(layout="wide", page_title="FD Vs HCM")
 
 # Load model to streamlit
 model_path = Path('./models/model.pkl')
@@ -32,6 +32,9 @@ today = datetime.today().date()
 
 # Create a container for the title
 with st.container():
+  # Add Title to the page
+  st.title("Fabry Disease (FD) Vs Hypertrophic Cardiomyopathy (HCM) Prediction")
+  
   # Add a description
   st.write('This app predicts the differentiates between Fabry and HCM based on various cardiac markers.')
 
