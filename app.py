@@ -328,7 +328,6 @@ with pred_cont.container():
     st.altair_chart(chart, use_container_width=True)
   
   with st.expander("Additional Interpretability", expanded=False):
-    with st.container():
     # Create a SHAP Explainer object
     shap_values = model.get_booster().predict(xgb.DMatrix(input_data), pred_contribs=True)[:,:-1]
     
