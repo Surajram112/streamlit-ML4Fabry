@@ -408,41 +408,40 @@ model_instructions = PromptTemplate.from_template(template)
 llm_chain = LLMChain(llm=llm, prompt=model_instructions, callbacks=[StreamingStdOutCallbackHandler()])
 explanation = llm_chain.invoke(prompt)
 
-with st.sidebar:
-  st.title('🤗💬 Ask Away!')
+st.title('🤗💬 Ask Away!')
 
-  if 'generated' not in st.session_state:
-    st.session_state['generated'] = ["I'm HugChat, How may I help you?"]
+if 'generated' not in st.session_state:
+  st.session_state['generated'] = ["I'm HugChat, How may I help you?"]
 
-  if 'past' not in st.session_state:
-      st.session_state['past'] = ['Hi!']
-        
-  colored_header(label='', description='', color_name='blue-30')
+if 'past' not in st.session_state:
+    st.session_state['past'] = ['Hi!']
       
-  # Chat message container with initial explanation
-  with st.chat_message("assistant"):
-    st.write(explanation["text"])
+colored_header(label='', description='', color_name='blue-30')
+    
+# Chat message container with initial explanation
+with st.chat_message("assistant"):
+  st.write(explanation["text"])
 
-  # Chat input widget
-  user_input = st.chat_input("Tell me any questions you have or if you need further insight into the patient explanation!")
+# Chat input widget
+user_input = st.chat_input("Tell me any questions you have or if you need further insight into the patient explanation!")
 
-  # # Response output
-  if user_input:
-      response = chatbot.chat(user_input)
-      st.session_state.past.append(user_input)
-      st.session_state.generated.append(response)
+# # Response output
+if user_input:
+    response = chatbot.chat(user_input)
+    st.session_state.past.append(user_input)
+    st.session_state.generated.append(response)
+    
+    with st.chat_message("ai"):
+      st.write(response)
+
+# # Response output
+# with response_container:
+#   if user_input:
+#       response = chatbot.chat(user_input)
+#       st.session_state.past.append(user_input)
+#       st.session_state.generated.append(response)
       
-      with st.chat_message("ai"):
-        st.write(response)
-
-  # # Response output
-  # with response_container:
-  #   if user_input:
-  #       response = chatbot.chat(user_input)
-  #       st.session_state.past.append(user_input)
-  #       st.session_state.generated.append(response)
-        
-  #   if st.session_state['generated']:
-  #       for i in range(len(st.session_state['generated'])):
-  #           message(st.session_state['past'][i], is_user=True, key=str(i) + '_user')
-  #           message(st.session_state['generated'][i], key=str(i))
+#   if st.session_state['generated']:
+#       for i in range(len(st.session_state['generated'])):
+#           message(st.session_state['past'][i], is_user=True, key=str(i) + '_user')
+#           message(st.session_state['generated'][i], key=str(i))
