@@ -439,7 +439,7 @@ if prompt := st.chat_input("Tell me any questions you have or if you need furthe
 
 # Display assistant response in chat message container
 with st.chat_message("ai"):
-    response = st.write_stream(response_generator(prompt))
+    response = st.write_stream(prompt)
     
 # Add assistant response to chat history
 st.session_state.messages.append({"role": "assistant", "content": response})
