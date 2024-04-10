@@ -400,5 +400,5 @@ with st.sidebar:
     
     # Display the explanation
     st.write('Explanation:')
-    st.write(explanation["text"])
+    st.write_stream(explanation["text"])
     
