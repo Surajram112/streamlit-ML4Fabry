@@ -33,7 +33,7 @@ today = datetime.today().date()
 # Create a container for the title
 with st.container():
   # Add Title to the page
-  st.title("Fabry Disease (FD) Vs Hypertrophic Cardiomyopathy (HCM) Prediction")
+  st.title("Fabry Disease (FD) Vs Hypertrophic Cardiomyopathy (HCM)")
   
   # Add a description
   st.write('This app predicts the differentiates between Fabry and HCM based on various cardiac markers.')
