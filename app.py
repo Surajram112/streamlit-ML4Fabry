@@ -3,10 +3,14 @@ from pathlib import Path
 import joblib
 import pandas as pd
 import altair
-import streamlit as st
 import xgboost as xgb
 import matplotlib.pyplot as plt
 from datetime import datetime
+import streamlit as st
+from streamlit_chat import message
+from streamlit_extras.colored_header import colored_header
+from streamlit_extras.add_vertical_space import add_vertical_space
+from hugchat import hugchat
 from langchain_community.llms import HuggingFaceEndpoint
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
@@ -357,55 +361,94 @@ with st.sidebar:
   st.title('🤗💬 Ask Away!')
   st.caption("🚀 A streamlit chatbot powered by a HuggingFace LLM")
   
-  with st.form('LLM_Chatbot'):
-    input_text = st.text_area('Enter text:', 'Do you have any questions about the patient or explanation?')
-    
-    # Generate explanation for a specific instance using LLM
-    predicted_condition = {0: 'Hypertrophic Cardiomyopathy', 1: 'Fabry Disease'}[prediction.argmax()]
-    feature_values = input_data.iloc[0].to_dict()
-    
-    features_info = ', '.join([f"{feature}: {feature_values[feature]} ({shap_value:.2f})" for feature, shap_value in zip(shap_values_sum['Feature'], shap_values_sum['SHAP Value'])])
-    prompt = f"""
-        For this visit, the model predicts a higher likelihood of {predicted_condition}. The key factors influencing this prediction include: {features_info}.
-        """
-    
-    template = """
-    In your role as a cardiologist in a secondary care setting, evaluate the provided comprehensive dataset for a patient referred with potential Hypertrophic Cardiomyopathy (HCM) or Fabry disease. The dataset includes demographic details, ECG, echocardiography (echo), and Holter monitor report values. Guide your analysis with the following considerations:
+  if 'generated' not in st.session_state:
+    st.session_state['generated'] = ["I'm HugChat, How may I help you?"]
 
-    1. Assess the integration of the patient's demographic information with findings from ECG, echo, and Holter reports, specifically looking for indicators or patterns that may suggest HCM or Fabry disease.
-    2. Given the referral to secondary care, recognize that the patient has undergone extensive initial testing. Look for both confirmatory and contradictory evidence of HCM or Fabry disease in comparison to earlier assessments.
-    3. Interpret 'NaN' values as unmeasured parameters or non-occurring events, and note that gender is coded as '1' for male and '2' for female, which may have implications for the diagnosis due to the X-linked inheritance pattern of Fabry disease.
-    4. Employ evidence-based guidelines and differential diagnosis strategies to distinguish between HCM and Fabry disease, focusing on the distinguishing features of each condition as revealed by the diagnostic tests.
-    5. Based on the XGBoost model's prediction and the SHAP values for each feature, identify key data points that support the diagnosis of either HCM or Fabry disease.
-    6. Formulate recommendations for any further diagnostic tests that may be necessary, drawing on your analysis of the patient's specific condition.
-
-    Your goal is to utilize both traditional diagnostic methods and modern data analysis techniques to differentiate between HCM and Fabry disease, providing a detailed and informed diagnostic perspective for this patient.
-    
-    Patient history: {patient_history}
-    """
-    
-    llm = HuggingFaceEndpoint(
-        repo_id="HuggingFaceH4/zephyr-7b-alpha",
-        task="text-generation",
-        max_new_tokens=2048,
-        top_k=10,
-        top_p=0.95,
-        typical_p=0.95,
-        temperature=0.01,
-        repetition_penalty=1.03,
-        streaming=True,
-        huggingfacehub_api_token=st.secrets["HUGGINGFACEHUB_API_TOKEN"]
-        )
-    
-    model_instructions = PromptTemplate.from_template(template)
-    llm_chain = LLMChain(llm=llm, prompt=model_instructions, callbacks=[StreamingStdOutCallbackHandler()])
-    explanation = llm_chain.invoke(prompt)
-    
-    # Display the explanation
-    st.write('Explanation:')
-    st.write(explanation["text"])
+  if 'past' not in st.session_state:
+      st.session_state['past'] = ['Hi!']
+      
+  input_container = st.container()
+  colored_header(label='', description='', color_name='blue-30')
+  response_container = st.container()
   
-    if st.form_submit_button('Submit'):
-      answer = llm_chain.invoke(input_text)
-      st.write(answer["text"])
+  # User input
+  ## Function for taking user provided prompt as input
+  def get_text():
+      input_text = st.text_input("You: ", "", key="input")
+      return input_text
+
+  ## Applying the user input box
+  with input_container:
+      user_input = get_text()
+  
+  # Response output
+  ## Function for taking user prompt as input followed by producing AI generated responses
+  def generate_response(prompt):
+      chatbot = hugchat.ChatBot()
+      response = chatbot.chat(prompt)
+      return response
+  
+  with response_container:
+    if user_input:
+        response = generate_response(user_input)
+        st.session_state.past.append(user_input)
+        st.session_state.generated.append(response)
+        
+    if st.session_state['generated']:
+        for i in range(len(st.session_state['generated'])):
+            message(st.session_state['past'][i], is_user=True, key=str(i) + '_user')
+            message(st.session_state['generated'][i], key=str(i))
+  
+  
+  # with st.form('LLM_Chatbot'):
+  #   input_text = st.text_area('Enter text:', 'Do you have any questions about the patient or explanation?')
+    
+  #   # Generate explanation for a specific instance using LLM
+  #   predicted_condition = {0: 'Hypertrophic Cardiomyopathy', 1: 'Fabry Disease'}[prediction.argmax()]
+  #   feature_values = input_data.iloc[0].to_dict()
+    
+  #   features_info = ', '.join([f"{feature}: {feature_values[feature]} ({shap_value:.2f})" for feature, shap_value in zip(shap_values_sum['Feature'], shap_values_sum['SHAP Value'])])
+  #   prompt = f"""
+  #       For this visit, the model predicts a higher likelihood of {predicted_condition}. The key factors influencing this prediction include: {features_info}.
+  #       """
+    
+  #   template = """
+  #   In your role as a cardiologist in a secondary care setting, evaluate the provided comprehensive dataset for a patient referred with potential Hypertrophic Cardiomyopathy (HCM) or Fabry disease. The dataset includes demographic details, ECG, echocardiography (echo), and Holter monitor report values. Guide your analysis with the following considerations:
+
+  #   1. Assess the integration of the patient's demographic information with findings from ECG, echo, and Holter reports, specifically looking for indicators or patterns that may suggest HCM or Fabry disease.
+  #   2. Given the referral to secondary care, recognize that the patient has undergone extensive initial testing. Look for both confirmatory and contradictory evidence of HCM or Fabry disease in comparison to earlier assessments.
+  #   3. Interpret 'NaN' values as unmeasured parameters or non-occurring events, and note that gender is coded as '1' for male and '2' for female, which may have implications for the diagnosis due to the X-linked inheritance pattern of Fabry disease.
+  #   4. Employ evidence-based guidelines and differential diagnosis strategies to distinguish between HCM and Fabry disease, focusing on the distinguishing features of each condition as revealed by the diagnostic tests.
+  #   5. Based on the XGBoost model's prediction and the SHAP values for each feature, identify key data points that support the diagnosis of either HCM or Fabry disease.
+  #   6. Formulate recommendations for any further diagnostic tests that may be necessary, drawing on your analysis of the patient's specific condition.
+
+  #   Your goal is to utilize both traditional diagnostic methods and modern data analysis techniques to differentiate between HCM and Fabry disease, providing a detailed and informed diagnostic perspective for this patient.
+    
+  #   Patient history: {patient_history}
+  #   """
+    
+  #   llm = HuggingFaceEndpoint(
+  #       repo_id="HuggingFaceH4/zephyr-7b-alpha",
+  #       task="text-generation",
+  #       max_new_tokens=2048,
+  #       top_k=10,
+  #       top_p=0.95,
+  #       typical_p=0.95,
+  #       temperature=0.01,
+  #       repetition_penalty=1.03,
+  #       streaming=True,
+  #       huggingfacehub_api_token=st.secrets["HUGGINGFACEHUB_API_TOKEN"]
+  #       )
+    
+  #   model_instructions = PromptTemplate.from_template(template)
+  #   llm_chain = LLMChain(llm=llm, prompt=model_instructions, callbacks=[StreamingStdOutCallbackHandler()])
+  #   explanation = llm_chain.invoke(prompt)
+    
+  #   # Display the explanation
+  #   st.write('Explanation:')
+  #   st.write(explanation["text"])
+  
+  #   if st.form_submit_button('Submit'):
+  #     answer = llm_chain.invoke(input_text)
+  #     st.write(answer["text"])
       

@@ -4,6 +4,9 @@ pandas
 matplotlib
 altair
 streamlit
+hugchat
+streamlit-chat
+streamlit-extras
 xgboost
 datetime
 langchain
