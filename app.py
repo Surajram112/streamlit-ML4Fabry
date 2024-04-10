@@ -407,8 +407,7 @@ with st.chat_message("user"):
   st.write("Hello 👋")
 
 # Display a chat input widget.
-input_text = st.text_input("You: ", "", key="input")
-st.chat_input(input_text)
+st.chat_input("Tell me any questions you have or if you need further insight into the patient explanation!")
   
   # with st.form('LLM_Chatbot'):
   #   input_text = st.text_area('Enter text:', 'Do you have any questions about the patient or explanation?')
