@@ -425,27 +425,21 @@ with st.chat_message("assistant"):
 # Chat input widget
 user_input = st.chat_input("Tell me any questions you have or if you need further insight into the patient explanation!")
 
-# # # Response output
-# if user_input:
-#     response = chatbot.chat(user_input)
-#     st.session_state.past.append(user_input)
-#     st.session_state.generated.append(response)
+# Response output
+if user_input:
+    # Web search (new feature)  
+    response = chatbot.query(user_input, web_search=True)
+    st.session_state.past.append(user_input)
+    st.session_state.generated.append(response)
     
-#     with st.chat_message("ai"):
-#       st.write(response)
-
-# Web search (new feature)      
-query_result = chatbot.query(user_input, web_search=True)
-print(query_result)
-for source in query_result.web_search_sources:
-    print(source.link)
-    print(source.title)
-    print(source.hostname)
+    with st.chat_message("ai"):
+      st.write(response)
 
 # # Response output
 # with response_container:
 #   if user_input:
-#       response = chatbot.chat(user_input)
+#       # Web search (new feature)  
+#       response = chatbot.query(user_input, web_search=True)
 #       st.session_state.past.append(user_input)
 #       st.session_state.generated.append(response)
       
