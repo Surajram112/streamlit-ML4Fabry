@@ -360,7 +360,20 @@ with st.sidebar:
   with st.form('LLM_Chatbot'):
     input_text = st.text_area('Enter text:', 'Do you have any questions about the patient or explanation?')
     
-    if st.form_submit_button('Submit'):
+    llm = HuggingFaceEndpoint(
+        repo_id="HuggingFaceH4/zephyr-7b-alpha",
+        task="text-generation",
+        max_new_tokens=2048,
+        top_k=10,
+        top_p=0.95,
+        typical_p=0.95,
+        temperature=0.01,
+        repetition_penalty=1.03,
+        streaming=True,
+        huggingfacehub_api_token=st.secrets["HUGGINGFACEHUB_API_TOKEN"]
+        )
+    
+    if st.form_submit_button('Generate Explanation'):
       # Generate explanation for a specific instance using LLM
       predicted_condition = {0: 'Hypertrophic Cardiomyopathy', 1: 'Fabry Disease'}[prediction.argmax()]
       feature_values = input_data.iloc[0].to_dict()
@@ -369,19 +382,6 @@ with st.sidebar:
       prompt = f"""
           For this visit, the model predicts a higher likelihood of {predicted_condition}. The key factors influencing this prediction include: {features_info}.
           """
-          
-      llm = HuggingFaceEndpoint(
-              repo_id="HuggingFaceH4/zephyr-7b-alpha",
-              task="text-generation",
-              max_new_tokens=2048,
-              top_k=10,
-              top_p=0.95,
-              typical_p=0.95,
-              temperature=0.01,
-              repetition_penalty=1.03,
-              streaming=True,
-              huggingfacehub_api_token=st.secrets["HUGGINGFACEHUB_API_TOKEN"]
-              )
       
       template = """
       In your role as a cardiologist in a secondary care setting, evaluate the provided comprehensive dataset for a patient referred with potential Hypertrophic Cardiomyopathy (HCM) or Fabry disease. The dataset includes demographic details, ECG, echocardiography (echo), and Holter monitor report values. Guide your analysis with the following considerations:
@@ -405,4 +405,8 @@ with st.sidebar:
       # Display the explanation
       st.write('Explanation:')
       st.write(explanation["text"])
+    
+    if st.form_submit_button('Submit'):
+      answer = llm_chain.invoke(input_text)
+      st.write(answer["text"])
       
