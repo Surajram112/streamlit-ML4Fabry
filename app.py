@@ -375,7 +375,8 @@ with pred_cont.container():
             top_p=0.95,
             typical_p=0.95,
             temperature=0.5,
-            repetition_penalty=1.03
+            repetition_penalty=1.03,
+            add_to_git_credential=True
             )
     
     template = """
