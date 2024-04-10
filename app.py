@@ -396,7 +396,7 @@ with st.sidebar:
 
     model_instructions = PromptTemplate.from_template(template)
     llm_chain = LLMChain(llm=llm, prompt=model_instructions, callbacks=[StreamingStdOutCallbackHandler()])
-    explanation = llm_chain.invoke(prompt)
+    explanation = llm_chain.stream(prompt)
     
     # Display the explanation
     st.write('Explanation:')
