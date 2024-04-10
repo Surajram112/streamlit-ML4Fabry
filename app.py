@@ -430,7 +430,7 @@ user_input = st.chat_input("Tell me any questions you have or if you need furthe
 # Response output
 if user_input:
     # Web search (new feature)  
-    response = chatbot.query(user_input, web_search=True)
+    response = chatbot.query(user_input, web_search=False)
     st.session_state.past.append(user_input)
     st.session_state.generated.append(response)
     
