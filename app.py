@@ -308,7 +308,7 @@ with pred_cont.container():
     
     # Create a DataFrame for the chart
     data = pd.DataFrame({
-      'Condition': ['HCM', 'FD '], 
+      'Condition': ['HCM', 'FD'], 
       'Probability': prediction
     })
 
