@@ -426,10 +426,10 @@ ai.write(explanation["text"])
 
 # Chat input widget
 user_input = st.chat_input("Tell me any questions you have or if you need further insight into the patient explanation!")
+human.write(user_input)
 
 # Response output
 if user_input:
-    human.write(user_input)
     # Web search (new feature)  
     response = chatbot.query(user_input, web_search=True)
     st.session_state.past.append(user_input)
