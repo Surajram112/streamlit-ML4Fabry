@@ -428,7 +428,7 @@ for message in st.session_state.messages:
         st.write(message["content"])
 
 def clear_chat_history():
-    st.session_state.messages = [{"role": "assistant", "content": "How may I assist you today?"}]
+    st.session_state.messages = [{"role": "assistant", "content": explanation['text']}]
 
 # Function for generating LLM response
 def generate_response(prompt_input, chatbot):
