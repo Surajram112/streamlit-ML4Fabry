@@ -341,7 +341,6 @@ with pred_cont.container():
         color='Condition:N',
         tooltip=[alt.Tooltip('Condition:N'), alt.Tooltip('sum(PercentOfTotal):Q', format='.0%')]
     ).properties(
-        title="Class Probabilities as Percentage of Total",
         height=170  # Adjust the height as needed
     ).configure_axis(
         labelFontSize=14,  # Adjust the font size as needed
