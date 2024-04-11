@@ -316,22 +316,43 @@ with pred_cont.container():
       'Probability': prediction
     })
 
-    # Create a horizontal bar chart
-    chart = altair.Chart(data).mark_bar().encode(
-        y='Condition:N',
-        x='Probability:Q',  # Q indicates a quantitative data type
-        color='Condition:N'  # Color the bars by the condition
-    ).properties(
-        height=170  # Adjust the height as needed
-    ).configure_axis(
-        labelFontSize=14,  # Adjust the font size as needed
-        titleFontSize=16  # Adjust the font size as needed
-    ).configure_legend(
-      disable=True
+    # # Create a horizontal bar chart
+    # chart = altair.Chart(data).mark_bar().encode(
+    #     y='Condition:N',
+    #     x='Probability:Q',  # Q indicates a quantitative data type
+    #     color='Condition:N'  # Color the bars by the condition
+    # ).properties(
+    #     height=170  # Adjust the height as needed
+    # ).configure_axis(
+    #     labelFontSize=14,  # Adjust the font size as needed
+    #     titleFontSize=16  # Adjust the font size as needed
+    # ).configure_legend(
+    #   disable=True
+    # )
+
+    # Create the line plot
+    line_chart = altair.Chart(data).mark_line(point=True).encode(
+        x=altair.X('Condition:N', title='Condition'),
+        y=altair.Y('Probability:Q', title='Probability'),
+        color='Condition:N'
+    )
+
+    # Create text annotations on the line plot
+    text_annotations = line_chart.mark_text(
+        align='left',
+        baseline='middle',
+        dx=7  # Nudge text to right so it doesn't overlap with the points
+    ).encode(
+        text=altair.Text('Probability:Q', format='.2f')  # Format probabilities to two decimal places
+    )
+
+    # Combine the line plot and text annotations
+    final_chart = (line_chart + text_annotations).properties(
+        title="Probabilities by Condition"
     )
 
     # Display the chart in Streamlit
-    st.altair_chart(chart, use_container_width=True)
+    st.altair_chart(final_chart, use_container_width=True)
   
   with st.expander("Additional Interpretability", expanded=False):
     # Create a SHAP Explainer object
