@@ -340,8 +340,6 @@ with pred_cont.container():
         order='Sort'  # Sorting order for conditions
     ).properties(
         height=60  # Fixed height to reduce vertical space
-    ).configure_legend(
-        disable=True  # Disable the legend
     )
     
     # Text annotations for condition names
@@ -369,8 +367,6 @@ with pred_cont.container():
     # Combine the charts
     chart = alt.layer(base, text_desc, text_probs).configure_view(
         strokeWidth=0  # Remove border around the chart
-    ).configure_axis(
-      grid=False  # Turn off grid lines
     )
     
     st.altair_chart(chart, use_container_width=True)
