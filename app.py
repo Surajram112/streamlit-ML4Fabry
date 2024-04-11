@@ -427,4 +427,4 @@ if prompt := st.chat_input():
           huggingfacehub_api_token=st.secrets["HUGGINGFACEHUB_API_TOKEN"]
           )
         response = llm.invoke(st.session_state.messages)
-        st.session_state.messages.append(ChatMessage(role="assistant", content=response["text"]))
+        st.session_state.messages.append(ChatMessage(role="assistant", content=response.text))
