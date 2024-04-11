@@ -314,8 +314,8 @@ with pred_cont.container():
     data = pd.DataFrame({
       'Condition': ['HCM', 'FD'], 
       'Probability': prediction,
-      'Cond_Position': [0.1, 0.9],
-      'Pred_Position': [prediction[0]-0.10, prediction[0]+0.10]
+      'Cond_Position': [0.05, 0.95],
+      'Pred_Position': [prediction[0]-0.02, prediction[0]+0.02]
     })
     
     # Base chart for the single bar
