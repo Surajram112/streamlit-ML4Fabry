@@ -44,7 +44,6 @@ cookies = sign.login(cookie_dir_path=cookie_path_dir, save_cookies=True)
 
 # Create your ChatBot
 chatbot = hg.ChatBot(cookies=cookies.get_dict())
-chatbot.new_conversation(switch_to=True)
 
 # Set today's date to ensure all reports are on or before this date
 today = datetime.today().date()
@@ -419,41 +418,43 @@ st.title('🤗💬 Ask Away!')
 
 # Store LLM generated responses
 if "messages" not in st.session_state:
-    st.session_state.messages = [{"role": "assistant", "content": explanation['text']}]
+  st.session_state.messages = [{"role": "assistant", "content": explanation['text']}]
 
 # Display or clear chat messages
 for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.write(message["content"])
+  with st.chat_message(message["role"]):
+      st.write(message["content"])
 
 def clear_chat_history():
-    st.session_state.messages = [{"role": "assistant", "content": explanation['text']}]
+  chatbot.new_conversation(switch_to=True)
+  st.session_state.messages = [{"role": "assistant", "content": explanation['text']}]
+    
 
 # Function for generating LLM response
 def generate_response(prompt_input, chatbot):
-    for dict_message in st.session_state.messages:
-        string_dialogue = "You are a helpful assistant."
-        if dict_message["role"] == "user":
-            string_dialogue += "User: " + dict_message["content"] + "\n\n"
-        else:
-            string_dialogue += "Assistant: " + dict_message["content"] + "\n\n"
+  for dict_message in st.session_state.messages:
+      string_dialogue = "You are a helpful assistant."
+      if dict_message["role"] == "user":
+          string_dialogue += "User: " + dict_message["content"] + "\n\n"
+      else:
+          string_dialogue += "Assistant: " + dict_message["content"] + "\n\n"
 
-    prompt = f"{string_dialogue} {prompt_input} Assistant: "
-    return chatbot.chat(prompt)
+  prompt = f"{string_dialogue} {prompt_input} Assistant: "
+  return chatbot.chat(prompt)
 
 # User-provided prompt
 if prompt := st.chat_input("Enter your message here...", key="prompt"):
-    st.session_state.messages.append({"role": "user", "content": prompt})
-    with st.chat_message("user"):
-        st.markdown(prompt)
+  st.session_state.messages.append({"role": "user", "content": prompt})
+  with st.chat_message("user"):
+      st.markdown(prompt)
 
 # Generate a new response if last message is not from assistant
 if st.session_state.messages[-1]["role"] != "assistant":
-    with st.chat_message("assistant"):
-        with st.spinner("Thinking..."):
-            response = generate_response(prompt, chatbot) 
-            st.markdown(response) 
-    message = {"role": "assistant", "content": response}
-    st.session_state.messages.append(message)
+  with st.chat_message("assistant"):
+      with st.spinner("Thinking..."):
+          response = generate_response(prompt, chatbot) 
+          st.markdown(response) 
+  message = {"role": "assistant", "content": response}
+  st.session_state.messages.append(message)
 
 st.button('Clear Chat History', on_click=clear_chat_history)
