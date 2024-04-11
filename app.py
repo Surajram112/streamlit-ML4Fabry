@@ -318,6 +318,7 @@ input_data = pd.DataFrame({
     'Echo_date_diff': [(echo_date - ecg_date).days],
     })
 
+# Create a container for the prediction and additional interpretability
 with pred_cont.container():
 
   with st.container(border=False, height=60):
@@ -340,7 +341,6 @@ with pred_cont.container():
         order='Sort'  # Sorting order for conditions
     ).properties(
         height=60, # Fixed height to reduce vertical space
-        width=st.container.width
     )
     
     # Text annotations for condition names
