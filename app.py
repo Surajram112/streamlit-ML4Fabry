@@ -3,7 +3,7 @@ import numpy as np
 from pathlib import Path
 import joblib
 import pandas as pd
-import altair
+import altair as alt
 import xgboost as xgb
 import matplotlib.pyplot as plt
 from datetime import datetime
@@ -316,12 +316,27 @@ with pred_cont.container():
       'Probability': prediction
     })
 
-    # Create a horizontal bar chart
-    chart = altair.Chart(data).mark_bar().encode(
-        y='Condition:N',
-        x='Probability:Q',  # Q indicates a quantitative data type
-        color='Condition:N'  # Color the bars by the condition
+    # # Create a horizontal bar chart
+    # chart = alt.Chart(data).mark_bar().encode(
+    #     y='Condition:N',
+    #     x='Probability:Q',  # Q indicates a quantitative data type
+    #     color='Condition:N'  # Color the bars by the condition
+    # ).properties(
+    #     height=170  # Adjust the height as needed
+    # ).configure_axis(
+    #     labelFontSize=14,  # Adjust the font size as needed
+    #     titleFontSize=16  # Adjust the font size as needed
+    # ).configure_legend(
+    #   disable=True
+    # )
+
+    # Assuming 'data' is your DataFrame
+    chart = alt.Chart(data).mark_arc().encode(
+        theta=alt.Theta(field="Probability", type="quantitative"),
+        color=alt.Color(field="Condition", type="nominal"),
+        tooltip=[alt.Tooltip(field="Condition", type="nominal"), alt.Tooltip(field="Probability", type="quantitative", format=".2f")]
     ).properties(
+        title="Probability Distribution by Condition", 
         height=170  # Adjust the height as needed
     ).configure_axis(
         labelFontSize=14,  # Adjust the font size as needed
