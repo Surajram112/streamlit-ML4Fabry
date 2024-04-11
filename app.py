@@ -327,8 +327,7 @@ with pred_cont.container():
     # Add text to the chart
     text = base.mark_text(
         align='right',
-        baseline='middle',
-        dx=3
+        baseline='middle'
     ).encode(
         text=alt.Text('Probability:Q', 
                       format='.2f'
