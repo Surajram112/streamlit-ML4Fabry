@@ -437,7 +437,7 @@ from hugchat import hugchat
 from hugchat.login import Login
 
 hugchat_login = Login(
-    username=st.secrets["HUG_CHAT_EMAIL"],
+    email=st.secrets["HUG_CHAT_EMAIL"],
     password=st.secrets["HUG_CHAT_PASSWD"]
 )
 llm = hugchat.HugChat(login=hugchat_login)
