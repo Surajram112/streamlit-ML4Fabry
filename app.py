@@ -469,7 +469,7 @@ if st.button("Analyse Data"):
 
     model_instructions = PromptTemplate.from_template(template)
     llm_chain = LLMChain(llm=llm, prompt=model_instructions)  
-    response = llm_chain.invoke(initial_prompt)
+    response = llm_chain.invoke("hi")
     
     # Setup initial chat messages
     st.markdown(response["text"])
