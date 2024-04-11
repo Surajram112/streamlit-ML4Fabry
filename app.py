@@ -419,7 +419,7 @@ st.title('🤗💬 Ask Away!')
 def clear_chat_history():
   chatbot.new_conversation(switch_to=True)
   response = generate_response(prompt, chatbot)
-  st.session_state.messages = [{"role": "assistant", "content": explanation['text']}]
+  st.session_state.messages = [{"role": "assistant", "content": response}]
 
 # Function for generating LLM response
 def generate_response(prompt_input, chatbot):
@@ -436,7 +436,7 @@ def generate_response(prompt_input, chatbot):
 # Store LLM generated responses
 if "messages" not in st.session_state:
   response = generate_response(prompt, chatbot)
-  st.session_state.messages = [{"role": "assistant", "content": }]
+  st.session_state.messages = [{"role": "assistant", "content": response}]
 
 # Display or clear chat messages
 for message in st.session_state.messages:
