@@ -10,7 +10,7 @@ streamlit-chat
 streamlit-extras
 xgboost
 datetime
+duckduckgo-search
 langchain
 langchain_community
 huggingface_hub
-duckduckgo-search
