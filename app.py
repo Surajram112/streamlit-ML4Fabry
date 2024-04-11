@@ -327,7 +327,7 @@ with pred_cont.container():
     # Text label for the first condition
     text = alt.Chart(data).mark_text(dx=0, dy=0, color='white').encode(
         x=alt.X('Probability:Q', stack='zero'),
-        text=alt.Text('Condition:Q', format='.2f')
+        text=alt.Text('Probability:Q', format='.2f')
     )
     
     # Combine the charts
