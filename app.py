@@ -34,7 +34,7 @@ st.markdown("""
         """, unsafe_allow_html=True)
 
 # Set page config, add title and description
-st.set_page_config(layout="wide", page_title="FD Vs HCM")
+# st.set_page_config(layout="wide", page_title="FD Vs HCM")
 
 # Add Title to the page
 st.title("Fabry Disease (FD) Vs Hypertrophic Cardiomyopathy (HCM)")
