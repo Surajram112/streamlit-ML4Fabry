@@ -469,11 +469,10 @@ if st.button("Analyse Data"):
 
     model_instructions = PromptTemplate.from_template(template)
     llm_chain = LLMChain(llm=llm, prompt=model_instructions)  
-    response = llm_chain.invoke("hi")
+    response = llm_chain.invoke(initial_prompt)
     
     # Setup initial chat messages
-    st.markdown(response["text"])
-    st.session_state['messages'].append({'role': 'assistant', 'content': response["text"]})
+    st.session_state.messages.append(ChatMessage(role="user", content=response.content))
   
 # Display chat messages
 for msg in st.session_state.messages:
