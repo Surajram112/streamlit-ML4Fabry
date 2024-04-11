@@ -326,7 +326,7 @@ with pred_cont.container():
     
     # Add text to the chart
     text = base.mark_text(
-        align='center',
+        align='right',
         baseline='middle',
         dx=3
     ).encode(
