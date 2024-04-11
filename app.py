@@ -356,15 +356,11 @@ with pred_cont.container():
     chart = alt.layer(base, text_desc, text_probs).configure_view(
         strokeWidth=0  # Remove border around the chart
     ).configure_axis(
-    grid=False  # Turn off grid lines
+      grid=False  # Turn off grid lines
     ).configure_axisX(
-        domain=False,  # Remove the axis line
-        ticks=False,  # Remove tick marks
-        labels=False  # Remove labels
+      disable=True  # Remove the x-axis
     ).configure_axisY(
-        domain=False,  # Remove the axis line
-        ticks=False,  # Remove tick marks
-        labels=False  # Remove labels
+      disable=True  # Remove the y-axis
     )
   
     st.altair_chart(chart, use_container_width=True)
