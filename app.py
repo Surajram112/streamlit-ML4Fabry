@@ -326,8 +326,6 @@ with pred_cont.container():
     
     # Text annotations at the start of the bar
     text_condition_start = base.mark_text(align='center', baseline='middle').encode(
-        x=alt.X('sum(Probability):Q', stack="zero"),
-        y=alt.Y('Condition:N', axis=None),
         text=alt.Text('Condition:N'))
     
     # Text for probability values in the middle of the bar
