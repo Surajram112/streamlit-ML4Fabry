@@ -399,7 +399,7 @@ with pred_cont.container():
     ), use_container_width=True)
 
 # Create a line between the containers and the chatbot
-colored_header(label='', description='', color_name='blue-grey')
+colored_header(label='', description='', color='#008480')
 
 # # ChatBot
 # st.title('🤗💬 Ask Away!')
