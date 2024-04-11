@@ -324,7 +324,7 @@ with pred_cont.container():
     
     # Base chart for the single bar
     base = alt.Chart(data).mark_bar().encode(
-        x=alt.X('sum(Probability):Q', stack='zero', axis=0),
+        x=alt.X('sum(Probability):Q', stack='zero', axis=None, sort=[0, 1]),
         color=alt.Color('Condition:N', legend=None, scale=alt.Scale(domain=['HCM', 'FD'], range=['#1f77b4', '#ff7f0e']))
         ).properties(
             height=50
