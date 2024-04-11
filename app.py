@@ -451,36 +451,30 @@ st.title('🤗💬 Ask Away!')
 # # Add a button to clear chat history
 # st.button('Clear and Refresh', on_click=clear_and_refresh_chat_history)
 
-# User Credentials
-with st.sidebar:
-    st.header('User Login')
-    user_name = st.text_input('Enter your Name:')
-
-# Create a ConversationChain
-chain = ConversationChain(llm=chatbot)
 
 # Store AI generated responses
 if "messages" not in st.session_state.keys():
-    st.session_state.messages = [{"role": "assistant", "content": "I'm HugChat, How may I help you?"}]
+  st.session_state.messages = [{"role": "assistant", "content": "I'm HugChat, How may I help you?"}]
 
 # Display existing chat messages
 for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.write(message["content"])
+  with st.chat_message(message["role"]):
+    st.write(message["content"])
 
 # Prompt for user input and save
 if prompt := st.chat_input():
-    st.session_state.messages.append({"role": "user", "content": prompt})
-    with st.chat_message("user"):
-        st.write(prompt)
+  st.session_state.messages.append({"role": "user", "content": prompt})
+  with st.chat_message("user"):
+    st.write(prompt)
 
 # If last message is not from assistant, we need to generate a new response
 if st.session_state.messages[-1]["role"] != "assistant":
-    # Call LLM
-    with st.chat_message("assistant"):
-        with st.spinner("Thinking..."):
-            response = chain.run(input=prompt)
-            st.write(response)
-            
-    message = {"role": "assistant", "content": response}
-    st.session_state.messages.append(message)
+  # Call LLM
+  with st.chat_message("assistant"):
+    with st.spinner("Thinking..."):
+      chain = ConversationChain(llm=chatbot)
+      response = chain.run(input=prompt)
+      st.write(response)
+          
+  message = {"role": "assistant", "content": response}
+  st.session_state.messages.append(message)
