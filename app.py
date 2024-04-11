@@ -398,7 +398,7 @@ Patient history: {patient_history}
 """
 stream_handler = StreamHandler(st.empty())
 llm = HuggingFaceEndpoint(
-        repo_id="HuggingFaceH4/zephyr-7b-beta",
+        repo_id="HuggingFaceH4/zephyr-7b-alpha",
         task="text-generation",
         max_new_tokens=2048,
         top_k=10,
@@ -415,7 +415,7 @@ llm_chain = LLMChain(llm=llm, prompt=model_instructions)
 
 if "messages" not in st.session_state:
     response = llm_chain.invoke(prompt)
-    st.session_state["messages"] = [ChatMessage(role="assistant", content=response["text"])]
+    st.session_state["messages"] = [ChatMessage(role="assistant", content=response.content)]
 
 for msg in st.session_state.messages:
     st.chat_message(msg.role).markdown(msg.content)
@@ -425,7 +425,7 @@ if prompt := st.chat_input():
     st.chat_message("user").markdown(prompt)
     response = llm_chain.invoke(st.session_state.messages)
     st.chat_message("assistant").markdown(response["text"])
-    st.session_state.messages.append(ChatMessage(role="assistant", content=response["text"]))
+    st.session_state.messages.append(ChatMessage(role="assistant", content=response.content))
 
 if st.button("Clear chat history"):
     st.session_state["messages"] = []
