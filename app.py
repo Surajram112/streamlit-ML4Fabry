@@ -319,13 +319,15 @@ with pred_cont.container():
       'Condition': ['HCM', 'FD'], 
       'Probability': prediction,
       'Cond_Position': [0.05, 0.95],
-      'Pred_Position': [prediction[0]-0.02, prediction[0]+0.02]
+      'Pred_Position': [prediction[0]-0.02, prediction[0]+0.02],
+      'Sort': [0, 1],
     })
     
     # Base chart for the single bar
     base = alt.Chart(data).mark_bar().encode(
-        x=alt.X('sum(Probability):Q', stack='zero', axis=None, sort=[0, 1]),
-        color=alt.Color('Condition:N', legend=None, scale=alt.Scale(domain=['HCM', 'FD'], range=['#1f77b4', '#ff7f0e']))
+        x=alt.X('sum(Probability):Q', stack='zero', axis=None),
+        color=alt.Color('Condition:N', legend=None, scale=alt.Scale(domain=['HCM', 'FD'], range=['#1f77b4', '#ff7f0e'])),
+        order='Sort'
         ).properties(
             height=50
         )
