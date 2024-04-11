@@ -313,74 +313,25 @@ with pred_cont.container():
     # Create a DataFrame for the chart
     data = pd.DataFrame({
       'Condition': ['HCM', 'FD'], 
-      'Probability': prediction,
-      'End': [1, 1]  # Used for alignment of the condition name
+      'Probability': prediction
     })
 
-    # # Create a horizontal bar chart
-    # chart = alt.Chart(data).mark_bar().encode(
-    #     y='Condition:N',
-    #     x='Probability:Q',  # Q indicates a quantitative data type
-    #     color='Condition:N'  # Color the bars by the condition
-    # ).properties(
-    #     height=170  # Adjust the height as needed
-    # ).configure_axis(
-    #     labelFontSize=14,  # Adjust the font size as needed
-    #     titleFontSize=16  # Adjust the font size as needed
-    # ).configure_legend(
-    #   disable=True
-    # )
-
-    # # Base chart for the single bar
-    # base = alt.Chart(data).mark_bar().encode(
-    #     x=alt.X('sum(Probability):Q', axis=None),
-    #     color=alt.Color('Condition:N', legend=None)
-    # ).properties(
-    #     height=50
-    # )
-
-    # # Text annotations at each end
-    # text_start = base.mark_text(
-    #     align='left',
-    #     baseline='middle',
-    #     dx=5  # Adjust text position
-    # ).encode(
-    #     x=alt.X('min(Cumulative):Q', axis=None),
-    #     text=alt.Text('Condition:N')
-    # )
-
-    # text_end = base.mark_text(
-    #     align='right',
-    #     baseline='middle',
-    #     dx=5  # Adjust text position
-    # ).encode(
-    #     x=alt.X('max(Cumulative):Q', axis=None),
-    #     text=alt.Text('Percent:Q', format='.2f')
-    # )
-
-    # # Combine the charts
-    # chart = (base + text_start + text_end).configure_view(
-    #     strokeWidth=0  # Remove border around the chart
-    # )
-    
-    # # Display the chart in Streamlit
-    # st.altair_chart(chart)
-
-    # To display text at the start and end, we'll adjust our approach
-    # First, create a base chart for displaying the bar
-    base = alt.Chart(data).encode(
-        x=alt.X('sum(Probability):Q', stack="zero", axis=None),
-        y=alt.Y('Condition:N', axis=None),
+    # Base chart for the single bar
+    base = alt.Chart(data).mark_bar().encode(
+        x=alt.X('sum(Probability):Q', axis=None),
         color=alt.Color('Condition:N', legend=None)
     ).properties(
-        width=600,
         height=50
     )
 
-    bar = base.mark_bar()
-
-    # Text for condition names on both sides
-    text_condition_start = base.mark_text(align='left', dx=5, dy=0).encode(
+    # Text annotations at each end
+    text_start = base.mark_text(
+        align='left',
+        baseline='middle',
+        dx=5,
+        dy=0
+    ).encode(
+        x=alt.X('min(Cumulative):Q', axis=None),
         text=alt.Text('Condition:N')
     )
 
@@ -395,12 +346,13 @@ with pred_cont.container():
         y=alt.Y('Condition:N', axis=None),
         text=alt.Text('Probability:Q', format='.2f')
     )
-
+    
     # Combine all layers
-    chart = alt.layer(bar, text_condition_start, text_condition_end, text_probability).configure_view(
+    chart = alt.layer(base, text_start, text_condition_end, text_probability).configure_view(
         strokeWidth=0  # Removes border around the chart
     )
-
+    
+    # Display the chart in Streamlit
     st.altair_chart(chart, use_container_width=True)
 
   with st.expander("Additional Interpretability", expanded=False):
