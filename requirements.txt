@@ -13,4 +13,4 @@ datetime
 langchain
 langchain_community
 huggingface_hub
-%pip install --upgrade --quiet  duckduckgo-search
+duckduckgo-search
