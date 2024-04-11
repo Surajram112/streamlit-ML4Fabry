@@ -307,111 +307,99 @@ input_data = pd.DataFrame({
     })
 
 with pred_cont.container():
-  prediction = model.predict_proba(input_data).flatten()
-
-  # Create a DataFrame for the chart
-  data = pd.DataFrame({
-    'Condition': ['HCM', 'FD'], 
-    'Probability': prediction
-  })
-
-  # Normalize the probabilities to add up to 1 if they don't already
-  data['Probability'] /= data['Probability'].sum()
-
-  # Add a cumulative column for positioning the labels correctly
-  data['Cumulative'] = data['Probability'].cumsum() - data['Probability'] / 2
-  
-  # with st.container():
-  #   prediction = model.predict_proba(input_data).flatten()
-    
-  #   # Create a DataFrame for the chart
-  #   data = pd.DataFrame({
-  #     'Condition': ['HCM', 'FD'], 
-  #     'Probability': prediction
-  #   })
-
-  #   # # Create a horizontal bar chart
-  #   # chart = alt.Chart(data).mark_bar().encode(
-  #   #     y='Condition:N',
-  #   #     x='Probability:Q',  # Q indicates a quantitative data type
-  #   #     color='Condition:N'  # Color the bars by the condition
-  #   # ).properties(
-  #   #     height=170  # Adjust the height as needed
-  #   # ).configure_axis(
-  #   #     labelFontSize=14,  # Adjust the font size as needed
-  #   #     titleFontSize=16  # Adjust the font size as needed
-  #   # ).configure_legend(
-  #   #   disable=True
-  #   # )
-
-  #   # Base chart for the single bar
-  #   base = alt.Chart(data).mark_bar().encode(
-  #       x=alt.X('sum(Probability):Q', axis=None),
-  #       color=alt.Color('Condition:N', legend=None)
-  #   ).properties(
-  #       height=50
-  #   )
-
-  #   # Text annotations at each end
-  #   text_start = base.mark_text(
-  #       align='left',
-  #       baseline='middle',
-  #       dx=5  # Adjust text position
-  #   ).encode(
-  #       x=alt.X('min(Cumulative):Q', axis=None),
-  #       text=alt.Text('Condition:N')
-  #   )
-
-  #   text_end = base.mark_text(
-  #       align='right',
-  #       baseline='middle',
-  #       dx=5  # Adjust text position
-  #   ).encode(
-  #       x=alt.X('max(Cumulative):Q', axis=None),
-  #       text=alt.Text('Percent:Q', format='.2f')
-  #   )
-
-  #   # Combine the charts
-  #   chart = (base + text_start + text_end).configure_view(
-  #       strokeWidth=0  # Remove border around the chart
-  #   )
-    
-  #   # Display the chart in Streamlit
-  #   st.altair_chart(chart)
-  
-  # Create the single bar chart with text annotations
   with st.container():
-    # Base chart for the single bar
+    prediction = model.predict_proba(input_data).flatten()
+    
+    # Create a DataFrame for the chart
+    data = pd.DataFrame({
+      'Condition': ['HCM', 'FD'], 
+      'Probability': prediction
+    })
+
+    # # Create a horizontal bar chart
+    # chart = alt.Chart(data).mark_bar().encode(
+    #     y='Condition:N',
+    #     x='Probability:Q',  # Q indicates a quantitative data type
+    #     color='Condition:N'  # Color the bars by the condition
+    # ).properties(
+    #     height=170  # Adjust the height as needed
+    # ).configure_axis(
+    #     labelFontSize=14,  # Adjust the font size as needed
+    #     titleFontSize=16  # Adjust the font size as needed
+    # ).configure_legend(
+    #   disable=True
+    # )
+
+    # # Base chart for the single bar
+    # base = alt.Chart(data).mark_bar().encode(
+    #     x=alt.X('sum(Probability):Q', axis=None),
+    #     color=alt.Color('Condition:N', legend=None)
+    # ).properties(
+    #     height=50
+    # )
+
+    # # Text annotations at each end
+    # text_start = base.mark_text(
+    #     align='left',
+    #     baseline='middle',
+    #     dx=5  # Adjust text position
+    # ).encode(
+    #     x=alt.X('min(Cumulative):Q', axis=None),
+    #     text=alt.Text('Condition:N')
+    # )
+
+    # text_end = base.mark_text(
+    #     align='right',
+    #     baseline='middle',
+    #     dx=5  # Adjust text position
+    # ).encode(
+    #     x=alt.X('max(Cumulative):Q', axis=None),
+    #     text=alt.Text('Percent:Q', format='.2f')
+    # )
+
+    # # Combine the charts
+    # chart = (base + text_start + text_end).configure_view(
+    #     strokeWidth=0  # Remove border around the chart
+    # )
+    
+    # # Display the chart in Streamlit
+    # st.altair_chart(chart)
+
+    # To display text at the start and end, we'll adjust our approach
+    # First, create a base chart for displaying the bar
     base = alt.Chart(data).encode(
-        x=alt.X('sum(Probability):Q', stack='zero', axis=None),
+        x=alt.X('sum(Probability):Q', stack="zero", axis=None),
+        y=alt.Y('Condition:N', axis=None),
         color=alt.Color('Condition:N', legend=None)
     ).properties(
         width=600,
         height=50
     )
-    
-    # Single bar for conditions
-    bar = base.mark_bar().encode(
-        y=alt.Y('Condition:N', axis=None)  # Ensure a single bar is plotted horizontally
+
+    bar = base.mark_bar()
+
+    # Text for condition names on both sides
+    text_condition_start = base.mark_text(align='left', dx=5, dy=0).encode(
+        text=alt.Text('Condition:N')
     )
-    
-    # Text for condition names
-    text_conditions = base.mark_text(align='left', dx=5, dy=3).encode(
-        text='Condition:N'
+
+    text_condition_end = base.mark_text(align='right', dx=-5, dy=0).encode(
+        text=alt.Text('Condition:N')
     )
-    
-    # Text for percentage values
-    text_percent = base.mark_text(align='right', dx=5, dy=3).encode(
-        text=alt.Text('Probability:Q', format='.2%'),  # Format as percentage
-        x=alt.X('Cumulative:Q')
+
+    # Text for probability values in the middle of the bar
+    # We calculate a mid-point for the bar to place the text
+    text_probability = alt.Chart(data).mark_text(align='center', dy=0).encode(
+        x=alt.X('average(Probability):Q', stack="zero"),
+        y=alt.Y('Condition:N', axis=None),
+        text=alt.Text('Probability:Q', format='.2f')
     )
-    
-    # Combine the charts
-    chart = (bar + text_conditions + text_percent).configure_view(
-        strokeWidth=0  # Remove border around the chart
+
+    # Combine all layers
+    chart = alt.layer(bar, text_condition_start, text_condition_end, text_probability).configure_view(
+        strokeWidth=0  # Removes border around the chart
     )
-    
-    # Display the chart in Streamlit
+
     st.altair_chart(chart, use_container_width=True)
 
   with st.expander("Additional Interpretability", expanded=False):
