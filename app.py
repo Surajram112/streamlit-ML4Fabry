@@ -39,9 +39,6 @@ st.markdown("""
 # Add Title to the page
 st.title("Fabry Disease (FD) Vs Hypertrophic Cardiomyopathy (HCM)")
 
-# Create a line between the containers and the chatbot
-colored_header(label='', description='', color_name='blue-70')
-
 # Add a description
 st.write('This app differentiates between Fabry and HCM based on various cardiac markers.')
 
@@ -342,7 +339,8 @@ with pred_cont.container():
         color=alt.Color('Condition:N', legend=None, scale=alt.Scale(domain=['HCM', 'FD'], range=['#ae2514', '#0467a5'])),
         order='Sort'  # Sorting order for conditions
     ).properties(
-        height=60  # Fixed height to reduce vertical space
+        height=60, # Fixed height to reduce vertical space
+        width=st.container.width
     )
     
     # Text annotations for condition names
