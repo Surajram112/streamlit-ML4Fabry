@@ -330,16 +330,11 @@ with pred_cont.container():
     #   disable=True
     # )
 
-    # Assuming 'data' is your DataFrame
-    chart = alt.Chart(data).transform_joinaggregate(
-        total='sum(Probability)'
-    ).transform_calculate(
-        PercentOfTotal="datum.Probability / datum.total"
-    ).mark_bar().encode(
-        x=alt.X('sum(PercentOfTotal):Q', axis=alt.Axis(format='.0%')),
-        y=alt.Y('Condition:N'),
-        color='Condition:N',
-        tooltip=[alt.Tooltip('Condition:N'), alt.Tooltip('sum(PercentOfTotal):Q', format='.0%')]
+    chart = alt.Chart(data).mark_area().encode(
+        x="Order:O",  # Or 'Time'
+        y=alt.Y("sum(Probability):Q", stack="normalize", axis=alt.Axis(format='%')),
+        color="Condition:N",
+        tooltip=[alt.Tooltip('Condition:N'), alt.Tooltip('Probability:Q', format='.2%')]
     ).properties(
         height=170  # Adjust the height as needed
     ).configure_axis(
