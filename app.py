@@ -327,11 +327,11 @@ with pred_cont.container():
     # Add text to the chart
     text = base.mark_text(
         align='right',
-        baseline='middle'
+        baseline='middle',
+        color='black',
+        dx=-5
     ).encode(
-        text=alt.Text('Probability:Q', 
-                      format='.2f'
-        )
+        text='Probability:Q'
     )
     
     chart = alt.layer(base, text)
