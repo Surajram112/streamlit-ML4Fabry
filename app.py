@@ -7,18 +7,20 @@ import altair
 import xgboost as xgb
 import matplotlib.pyplot as plt
 from datetime import datetime
-
 import streamlit as st
-from streamlit_chat import message
 from streamlit_extras.colored_header import colored_header
-
-from hugchat import hugchat as hg
-from hugchat.login import Login
 
 from langchain_community.llms import HuggingFaceEndpoint
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
+
+from langchain.agents import ConversationalChatAgent, AgentExecutor
+from langchain.memory import ConversationBufferMemory
+from langchain_community.callbacks import StreamlitCallbackHandler
+from langchain_community.chat_message_histories import StreamlitChatMessageHistory
+from langchain_community.tools import DuckDuckGoSearchRun
+from langchain_core.runnables import RunnableConfig
 
 # Ignore warnings
 import warnings
@@ -36,14 +38,6 @@ st.write('This app differentiates between Fabry and HCM based on various cardiac
 # Load model to streamlit
 model_path = Path('./models/model.pkl')
 model = joblib.load(model_path)
-
-# Set up HugChat interface
-cookie_path_dir = "./cookies/" # NOTE: trailing slash (/) is required to avoid errors
-sign = Login(st.secrets["HUG_CHAT_EMAIL"], st.secrets["HUG_CHAT_PASSWD"])
-cookies = sign.login(cookie_dir_path=cookie_path_dir, save_cookies=True)
-
-# Create your ChatBot
-chatbot = hg.ChatBot(cookies=cookies.get_dict())
 
 # Set today's date to ensure all reports are on or before this date
 today = datetime.today().date()
@@ -371,13 +365,13 @@ with pred_cont.container():
     ), use_container_width=True)
 
 # Generate explanation for a specific instance using LLM
-predicted_condition = {0: 'Hypertrophic Cardiomyopathy', 1: 'Fabry Disease'}[prediction.argmax()]
-feature_values = input_data.iloc[0].to_dict()
+# predicted_condition = {0: 'Hypertrophic Cardiomyopathy', 1: 'Fabry Disease'}[prediction.argmax()]
+# feature_values = input_data.iloc[0].to_dict()
 
-features_info = ', '.join([f"{feature}: {feature_values[feature]} ({shap_value:.2f})" for feature, shap_value in zip(shap_values_sum['Feature'], shap_values_sum['SHAP Value'])])
-prompt = f"""
-    For this visit, the model predicts a higher likelihood of {predicted_condition}. The key factors influencing this prediction include: {features_info}.
-    """
+# features_info = ', '.join([f"{feature}: {feature_values[feature]} ({shap_value:.2f})" for feature, shap_value in zip(shap_values_sum['Feature'], shap_values_sum['SHAP Value'])])
+# prompt = f"""
+#     For this visit, the model predicts a higher likelihood of {predicted_condition}. The key factors influencing this prediction include: {features_info}.
+#     """
 
 # template = """
 # In your role as a cardiologist in a secondary care setting, evaluate the provided comprehensive dataset for a patient referred with potential Hypertrophic Cardiomyopathy (HCM) or Fabry disease. The dataset includes demographic details, ECG, echocardiography (echo), and Holter monitor report values. Guide your analysis with the following considerations:
@@ -394,19 +388,6 @@ prompt = f"""
 # Patient history: {patient_history}
 # """
 
-# llm = HuggingFaceEndpoint(
-#     repo_id="HuggingFaceH4/zephyr-7b-alpha",
-#     task="text-generation",
-#     max_new_tokens=2048,
-#     top_k=10,
-#     top_p=0.95,
-#     typical_p=0.95,
-#     temperature=0.01,
-#     repetition_penalty=1.03,
-#     streaming=True,
-#     huggingfacehub_api_token=st.secrets["HUGGINGFACEHUB_API_TOKEN"]
-#     )
-
 # model_instructions = PromptTemplate.from_template(template)
 # llm_chain = LLMChain(llm=llm, prompt=model_instructions, callbacks=[StreamingStdOutCallbackHandler()])
 # explanation = llm_chain.invoke(prompt)
@@ -416,46 +397,56 @@ colored_header(label='', description='', color_name='blue-30')
 # ChatBot
 st.title('🤗💬 Ask Away!')
 
-def clear_chat_history():
-  chatbot.new_conversation(switch_to=True)
-  response = generate_response(prompt, chatbot)
-  st.session_state.messages = [{"role": "assistant", "content": response}]
+msgs = StreamlitChatMessageHistory()
+memory = ConversationBufferMemory(
+    chat_memory=msgs, return_messages=True, memory_key="chat_history", output_key="output"
+)
+if len(msgs.messages) == 0 or st.sidebar.button("Reset chat history"):
+    msgs.clear()
+    msgs.add_ai_message("How can I help you?")
+    st.session_state.steps = {}
 
-# Function for generating LLM response
-def generate_response(prompt_input, chatbot):
-  for dict_message in st.session_state.messages:
-      string_dialogue = "You are a helpful assistant."
-      if dict_message["role"] == "user":
-          string_dialogue += "User: " + dict_message["content"] + "\n\n"
-      else:
-          string_dialogue += "Assistant: " + dict_message["content"] + "\n\n"
+avatars = {"human": "user", "ai": "assistant"}
+for idx, msg in enumerate(msgs.messages):
+    with st.chat_message(avatars[msg.type]):
+        # Render intermediate steps if any were saved
+        for step in st.session_state.steps.get(str(idx), []):
+            if step[0].tool == "_Exception":
+                continue
+            with st.status(f"**{step[0].tool}**: {step[0].tool_input}", state="complete"):
+                st.write(step[0].log)
+                st.write(step[1])
+        st.write(msg.content)
 
-  prompt = f"{string_dialogue} {prompt_input} Assistant: "
-  return chatbot.chat(prompt)
-
-# Store LLM generated responses
-if "messages" not in st.session_state:
-  response = generate_response(prompt, chatbot)
-  st.session_state.messages = [{"role": "assistant", "content": response}]
-
-# Display or clear chat messages
-for message in st.session_state.messages:
-  with st.chat_message(message["role"]):
-      st.markdown(message["content"])
-
-# User-provided prompt
-if prompt := st.chat_input("Enter your message here...", key="prompt"):
-  st.session_state.messages.append({"role": "user", "content": prompt})
-  with st.chat_message("user"):
-      st.markdown(prompt)
-
-# Generate a new response if last message is not from assistant
-if st.session_state.messages[-1]["role"] != "assistant":
-  with st.chat_message("assistant"):
-      with st.spinner("Thinking..."):
-          response = generate_response(prompt, chatbot) 
-          st.markdown(response) 
-  message = {"role": "assistant", "content": response}
-  st.session_state.messages.append(message)
-
-st.button('Clear Chat History', on_click=clear_chat_history)
+if prompt := st.chat_input(placeholder="Who won the Women's U.S. Open in 2018?"):
+    st.chat_message("user").write(prompt)
+    
+    llm = HuggingFaceEndpoint(
+          repo_id="HuggingFaceH4/zephyr-7b-alpha",
+          task="text-generation",
+          max_new_tokens=2048,
+          top_k=10,
+          top_p=0.95,
+          typical_p=0.95,
+          temperature=0.01,
+          repetition_penalty=1.03,
+          streaming=True,
+          huggingfacehub_api_token=st.secrets["HUGGINGFACEHUB_API_TOKEN"]
+          )
+    
+    tools = [DuckDuckGoSearchRun(name="Search")]
+    chat_agent = ConversationalChatAgent.from_llm_and_tools(llm=llm, tools=tools)
+    executor = AgentExecutor.from_agent_and_tools(
+        agent=chat_agent,
+        tools=tools,
+        memory=memory,
+        return_intermediate_steps=True,
+        handle_parsing_errors=True,
+    )
+    with st.chat_message("assistant"):
+        st_cb = StreamlitCallbackHandler(st.container(), expand_new_thoughts=False)
+        cfg = RunnableConfig()
+        cfg["callbacks"] = [st_cb]
+        response = executor.invoke(prompt, cfg)
+        st.write(response["output"])
+        st.session_state.steps[str(len(msgs.messages) - 1)] = response["intermediate_steps"]
