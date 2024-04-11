@@ -340,6 +340,12 @@ with pred_cont.container():
         order='Sort'  # Sorting order for conditions
     ).properties(
         height=60  # Fixed height to reduce vertical space
+    ).facet(
+        row=alt.Row('Condition:N', title=None)  # Facet by condition
+    ).configure_legend(
+      disable=True  # Disable the legend
+    ).configure_axis(
+      domain=False  # Remove the axis line
     )
 
     # Text annotations for condition names
@@ -369,10 +375,8 @@ with pred_cont.container():
         strokeWidth=0  # Remove border around the chart
     ).configure_axis(
       grid=False  # Turn off grid lines
-    ).configure_axisX(
-      disable=True  # Remove the x-axis
-    ).configure_axisY(
-      disable=True  # Remove the y-axis
+    ).configure_header(
+      title=None  # Remove the title
     )
   
     st.altair_chart(chart, use_container_width=True)
