@@ -337,7 +337,7 @@ with pred_cont.container():
     )
     
     # Combine all layers
-    chart = alt.layer(base, text_condition_start, text_condition_end, text_probability).configure_view(
+    chart = alt.layer(base, text_condition_start).configure_view(
         strokeWidth=0  # Removes border around the chart
     )
     
