@@ -333,13 +333,9 @@ with pred_cont.container():
     ).configure_legend(
         disable=True
     )
-
-    chart = alt.layer(base).configure_view(
-        strokeWidth=0  # Removes border around the chart
-    )
     
     # Display the chart in Streamlit
-    st.altair_chart(chart, use_container_width=True)
+    st.altair_chart(base, use_container_width=True)
 
   with st.expander("Additional Interpretability", expanded=False):
     # Create a SHAP Explainer object
