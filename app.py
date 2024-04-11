@@ -313,27 +313,29 @@ with pred_cont.container():
     # Create a DataFrame for the chart
     data = pd.DataFrame({
       'Condition': ['HCM', 'FD'], 
-      'Probability': prediction
+      'Probability': prediction,
+      'Cond_Position': [12.5, 87.5],
+      'Pred_Position': [prediction[0]-10, prediction[0]+10]
     })
-
+    
     # Base chart for the single bar
     base = alt.Chart(data).mark_bar().encode(
-        x=alt.X('Probability:Q', stack='zero', axis=None),
+        x=alt.X('sum(Probability):Q', stack='zero', axis=None),
         color=alt.Color('Condition:N', legend=None, scale=alt.Scale(domain=['HCM', 'FD'], range=['#1f77b4', '#ff7f0e']))
         ).properties(
             height=50
         )
 
     # Text Names
-    text_desc = alt.Chart(data).mark_text(dx=-30, color='white').encode(
-        x=alt.X('Probability:Q', stack='zero'),
+    text_desc = alt.Chart(data).mark_text(align='center', baseline='middle', color='white').encode(
+        x='Cond_Position:Q',
         text=alt.Text('Condition:N')
     )
     
     # Text Probabilities
-    text_probs = alt.Chart(data).mark_text(dx=-3, color='white').encode(
-        x=alt.X('Probability:Q', stack='zero'),
-        text=alt.Text('Probability:Q', format='.2f')
+    text_probs = alt.Chart(data).mark_text(align='center', baseline='middle', color='white').encode(
+        x='Pred_Position:Q',
+        text=alt.Text('Probability:N', format='.2f')
     )
     
     # Combine the charts
