@@ -325,21 +325,15 @@ with pred_cont.container():
         )
     
     # Text label for the first condition
-    text_hcm = alt.Chart(data.query("Condition == 'HCM'")).mark_text(dx=-30, color="white").encode(
-        x=alt.X('Probability:Q', stack='zero', axis=None),
-        y=alt.Y('Condition:N', sort=None),
-        text=alt.Text('Condition:N')
+    text = alt.Chart(data).mark_text(dx=-15, dy=3, color='white').encode(
+        x=alt.X('Probability:Q', stack='zero'),
+        y=alt.Y('variety:N'),
+        detail='Condition:N',
+        text=alt.Text('Probability:Q', format='.1f')
     )
-
-    # Text label for the second condition
-    text_fd = alt.Chart(data.query("Condition == 'FD'")).mark_text(dx=30, color="white").encode(
-        x=alt.X('Probability:Q', stack='zero', axis=None),
-        y=alt.Y('Condition:N', sort=None),
-        text=alt.Text('Condition:N')
-    )
-
+    
     # Combine the charts
-    chart = alt.layer(base).configure_view(
+    chart = alt.layer(base, text).configure_view(
         strokeWidth=0  # Removes border around the chart
     )
     
