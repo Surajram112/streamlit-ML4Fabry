@@ -328,8 +328,7 @@ with pred_cont.container():
     text_start = base.mark_text(
         align='left',
         baseline='middle',
-        dx=5,
-        dy=0
+        dx=5
     ).encode(
         x=alt.X('min(Cumulative):Q', axis=None),
         text=alt.Text('Condition:N')
