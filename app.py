@@ -14,7 +14,7 @@ from langchain_community.llms import HuggingFaceEndpoint
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 
-import hugchat as hg
+import hugchat
 
 from langchain.callbacks.base import BaseCallbackHandler
 from langchain.schema import ChatMessage
@@ -435,7 +435,7 @@ stream_handler = StreamHandler(st.empty())
 #         huggingfacehub_api_token=st.secrets["HUGGINGFACEHUB_API_TOKEN"]
 #         )
 
-llm = hg.LLM.from_pretrained("gpt2")
+llm = hugchat["mistralai/Mixtral-8x7B-Instruct-v0.1"]
 
 # Load model and prepare data if not already loaded
 if not st.session_state.get('initialized', False):
