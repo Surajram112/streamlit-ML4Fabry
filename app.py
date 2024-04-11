@@ -433,9 +433,6 @@ def display_response(response):
 def clear_and_refresh_chat_history():
     st.session_state.messages = [{"role": "ai", "content": explanation["text"]}]
 
-# Add a button to clear chat history
-st.button('Clear and Refresh', on_click=clear_and_refresh_chat_history)
-
 # Initialize chat history
 if "messages" not in st.session_state:    
   st.session_state.messages = [{"role": "ai", "content": explanation["text"]}]
@@ -450,4 +447,6 @@ if prompt := st.chat_input("Tell me any questions you have or if you need furthe
   with st.spinner("Thinking..."):
     response = generate_response(prompt)
     display_response(response)
- 
+
+# Add a button to clear chat history
+st.button('Clear and Refresh', on_click=clear_and_refresh_chat_history)
