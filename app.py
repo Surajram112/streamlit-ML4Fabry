@@ -421,7 +421,7 @@ stream_handler = StreamHandler(st.empty())
 
 # Initialize the LLM model
 llm = HuggingFaceEndpoint(
-        repo_id=st.secrets["HUGGINGFACE_REPO_ID"],
+        repo_id="google/gemma-1.1-7b-it",
         task="text-generation",
         max_new_tokens=2048,
         top_k=10,
