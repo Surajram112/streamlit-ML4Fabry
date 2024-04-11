@@ -307,7 +307,8 @@ input_data = pd.DataFrame({
     })
 
 with pred_cont.container():
-  with st.container():
+  
+  with st.container(border='1px solid black'):
     prediction = model.predict_proba(input_data).flatten()
 
     # Create a DataFrame for the chart
