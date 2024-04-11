@@ -314,7 +314,7 @@ with pred_cont.container():
     data = pd.DataFrame({
       'Condition': ['HCM', 'FD'], 
       'Probability': prediction,
-      'Cond_Position': [12.5, 87.5],
+      'Cond_Position': [0.1, 0.9],
       'Pred_Position': [prediction[0]-10, prediction[0]+10]
     })
     
