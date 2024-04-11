@@ -315,7 +315,7 @@ with pred_cont.container():
       'Condition': ['HCM', 'FD'], 
       'Probability': prediction,
       'Cond_Position': [0.1, 0.9],
-      'Pred_Position': [prediction[0]-10, prediction[0]+10]
+      'Pred_Position': [prediction[0]-0.10, prediction[0]+0.10]
     })
     
     # Base chart for the single bar
