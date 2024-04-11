@@ -334,7 +334,7 @@ with pred_cont.container():
         text=alt.Text('Condition:N')
     )
 
-    text_condition_end = base.mark_text(align='right', dx=-5, dy=0).encode(
+    text_condition_end = base.mark_text(align='center', dx=15, dy=5).encode(
         text=alt.Text('Condition:N')
     )
 
