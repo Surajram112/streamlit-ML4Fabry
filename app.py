@@ -411,7 +411,7 @@ llm = HuggingFaceEndpoint(
 
 model_instructions = PromptTemplate.from_template(template)
 llm_chain = LLMChain(llm=llm, prompt=model_instructions, callbacks=[StreamingStdOutCallbackHandler()])
-explanation = llm_chain.invoke(prompt)
+# explanation = llm_chain.invoke(prompt)
 
 colored_header(label='', description='', color_name='blue-30')
 
@@ -436,7 +436,7 @@ with st.sidebar:
 
 # Store LLM generated responses
 if "messages" not in st.session_state:
-    st.session_state.messages = [{"role": "assistant", "content": explanation['text']}]
+    st.session_state.messages = [{"role": "assistant", "content": "This is a test explanation"}]
 
 # Display or clear chat messages
 for message in st.session_state.messages:
