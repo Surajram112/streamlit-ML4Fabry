@@ -340,8 +340,6 @@ with pred_cont.container():
         order='Sort'  # Sorting order for conditions
     ).properties(
         height=60  # Fixed height to reduce vertical space
-    ).facet(
-        row=alt.Row('Condition:N', title=None)  # Facet by condition
     ).configure_legend(
       disable=True  # Disable the legend
     )
