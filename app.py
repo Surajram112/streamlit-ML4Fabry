@@ -430,6 +430,7 @@ llm = HuggingFaceEndpoint(
         temperature=0.01,
         repetition_penalty=1.03,
         callbacks=[stream_handler],
+        streaming=True,
         huggingfacehub_api_token=st.secrets["HUGGINGFACEHUB_API_TOKEN"]
         )
 
