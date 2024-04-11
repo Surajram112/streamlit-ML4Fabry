@@ -447,7 +447,8 @@ if not st.session_state.get('initialized', False):
     features_info = ', '.join([f"{feature}: {feature_values[feature]} ({shap_value:.2f})" 
                                 for feature, shap_value in zip(shap_values_sum['Feature'], shap_values_sum['SHAP Value'])])
     initial_prompt = f"Based on the input data, the model predicts a higher likelihood of {predicted_condition}. " \
-                      f"The key factors influencing this prediction include: {features_info}."
+                      f"The key factors influencing this prediction include: {features_info}."  \
+                      f"\nPlease address the user as {name}."
     template = """
     In your role as a cardiologist in a secondary care setting, evaluate the provided comprehensive dataset for a patient referred with potential Hypertrophic Cardiomyopathy (HCM) or Fabry disease. The dataset includes demographic details, ECG, echocardiography (echo), and Holter monitor report values. Guide your analysis with the following considerations:
 
