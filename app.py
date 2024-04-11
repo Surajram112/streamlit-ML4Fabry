@@ -325,11 +325,7 @@ with pred_cont.container():
     )
 
     # Text annotations at each end
-    text_condition_start = base.mark_text(align='left', baseline='middle', dx=5
-                                ).encode(
-                                    x=alt.X('min(Cumulative):Q', axis=None),
-                                    text=alt.Text('Condition:N')
-                                )
+    text_condition_start = base.mark_text(align='center', dx=-15, dy=5, color="").encode(text=alt.Text('Condition:N'))
 
     text_condition_end = base.mark_text(align='center', dx=15, dy=5, color="").encode(text=alt.Text('Condition:N'))
 
