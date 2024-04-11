@@ -326,7 +326,7 @@ with pred_cont.container():
     
     # Text annotations for each of the conditions at the ends of the bar
     text_condition_left = alt.Chart(data).mark_text(align='left', dx=5).encode(
-        y=alt.Y('Condition:N'),
+        y=alt.Y('Condition:N', axis=0),
         text=alt.Text('Condition:N')
     )
     
