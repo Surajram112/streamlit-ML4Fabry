@@ -313,8 +313,7 @@ with pred_cont.container():
     # Create a DataFrame for the chart
     data = pd.DataFrame({
       'Condition': ['HCM', 'FD'], 
-      'Probability': prediction,
-      'Order': [1, 2] # Order to sort the conditions
+      'Probability': prediction
     })
 
     # # Create a horizontal bar chart
@@ -331,41 +330,22 @@ with pred_cont.container():
     #   disable=True
     # )
 
-    # Calculate cumulative probability
-    cumulative_data = altair.Chart(data).transform_window(
-        cumulative_prob='sum(Probability)',
-        sort=[{'field': 'Order'}],
-        frame=[None, 0]
-    )
-
-    # Create the horizontal line plot for cumulative probabilities
-    line_chart = cumulative_data.mark_line(point=True).encode(
-        x=altair.X('cumulative_prob:Q', title='Cumulative Probability'),
+    # Create a stacked bar chart
+    chart = altair.Chart(data).mark_bar().encode(
+        x=altair.X('sum(Probability):Q', title='Cumulative Probability'),
         y=altair.Y('Condition:N', title='Condition', sort=None),
         color='Condition:N'
     ).properties(
-        width=600,
-        height=100
-    )
-
-    # Create text annotations for the probabilities
-    text_annotations = cumulative_data.mark_text(
-        align='left',
-        baseline='middle',
-        dx=5  # Nudge text to the right of the point
-    ).encode(
-        x=altair.X('cumulative_prob:Q', stack='zero'),  # Ensure text aligns with the cumulative probability
-        y=altair.Y('Condition:N', sort=None),
-        text=altair.Text('cumulative_prob:Q', format='.2f')  # Format the text to display probabilities
-    )
-
-    # Combine the line plot and text annotations
-    final_chart = (line_chart + text_annotations).properties(
-        title="Cumulative Probabilities by Condition"
+        height=170  # Adjust the height as needed
+    ).configure_axis(
+        labelFontSize=14,  # Adjust the font size as needed
+        titleFontSize=16  # Adjust the font size as needed
+    ).configure_legend(
+      disable=True
     )
     
     # Display the chart in Streamlit
-    st.altair_chart(final_chart, use_container_width=True)
+    st.altair_chart(chart, use_container_width=True)
   
   with st.expander("Additional Interpretability", expanded=False):
     # Create a SHAP Explainer object
