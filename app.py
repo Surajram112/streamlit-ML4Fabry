@@ -412,10 +412,8 @@ llm = HuggingFaceEndpoint(
 
 model_instructions = PromptTemplate.from_template(template)
 llm_chain = LLMChain(llm=llm, prompt=model_instructions)
-
-if "messages" not in st.session_state:
-    response = llm_chain.invoke(prompt)
-    st.session_state["messages"] = [ChatMessage(role="assistant", content=response.content)]
+response = llm_chain.invoke(prompt)
+st.session_state["messages"] = [ChatMessage(role="assistant", content=response.content)]
 
 for msg in st.session_state.messages:
     st.chat_message(msg.role).markdown(msg.content)
