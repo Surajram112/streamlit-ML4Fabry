@@ -451,11 +451,10 @@ st.title('🤗💬 Ask Away!')
 # # Add a button to clear chat history
 # st.button('Clear and Refresh', on_click=clear_and_refresh_chat_history)
 
-# Hugging Face Credentials
+# User Credentials
 with st.sidebar:
-    st.header('Hugging Face Login')
-    hf_email = st.text_input('Enter E-mail:', type='password')
-    hf_pass = st.text_input('Enter password:', type='password')
+    st.header('User Login')
+    user_name = st.text_input('Enter your Name:', type='Name')
 
 # Store AI generated responses
 if "messages" not in st.session_state.keys():
