@@ -454,7 +454,7 @@ st.title('🤗💬 Ask Away!')
 # User Credentials
 with st.sidebar:
     st.header('User Login')
-    user_name = st.text_input('Enter your Name:', type='Name')
+    user_name = st.text_input('Enter your Name:')
 
 # Create a ConversationChain
 chain = ConversationChain(llm=chatbot)
