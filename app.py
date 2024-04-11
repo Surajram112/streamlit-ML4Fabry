@@ -429,7 +429,7 @@ for message in st.session_state.messages:
 
 def clear_chat_history():
     st.session_state.messages = [{"role": "assistant", "content": "How may I assist you today?"}]
-    st.experimental_rerun()
+    
 
 # Function for generating LLM response
 def generate_response(prompt_input, chatbot):
@@ -458,4 +458,4 @@ if st.session_state.messages[-1]["role"] != "assistant":
     message = {"role": "assistant", "content": response}
     st.session_state.messages.append(message)
 
-st.button('Clear Chat History', on_click=clear_chat_history)
+st.button('Clear Chat History', on_click=st.experimental_rerun())
