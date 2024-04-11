@@ -418,35 +418,79 @@ colored_header(label='', description='', color_name='blue-30')
 # ChatBot
 st.title('🤗💬 Ask Away!')
 
-def generate_response(prompt):
-    if prompt:  # Ensure there's a prompt to avoid generating from an empty string
-        st.session_state.messages.append({"role": "user", "content": prompt})
-        response = llm_chain.invoke(prompt)
-        st.session_state.messages.append({"role": "ai", "content": response})
-        return response
-    return ""
+# def generate_response(prompt):
+#     if prompt:  # Ensure there's a prompt to avoid generating from an empty string
+#         st.session_state.messages.append({"role": "user", "content": prompt})
+#         response = llm_chain.invoke(prompt)
+#         st.session_state.messages.append({"role": "ai", "content": response})
+#         return response
+#     return ""
 
-def display_response(response):
-    with st.chat_message("ai"):
-       st.write(f"Chatbot: {response}")
+# def display_response(response):
+#     with st.chat_message("ai"):
+#        st.write(f"Chatbot: {response}")
 
-def clear_and_refresh_chat_history():
-    st.session_state.messages = [{"role": "ai", "content": explanation["text"]}]
+# def clear_and_refresh_chat_history():
+#     st.session_state.messages = [{"role": "ai", "content": explanation["text"]}]
 
-# Initialize chat history
-if "messages" not in st.session_state:    
-  st.session_state.messages = [{"role": "ai", "content": explanation["text"]}]
+# # Initialize chat history
+# if "messages" not in st.session_state:    
+#   st.session_state.messages = [{"role": "ai", "content": explanation["text"]}]
 
-# Display chat messages from history on app rerun
+# # Display chat messages from history on app rerun
+# for message in st.session_state.messages:
+#     with st.chat_message(message["role"]):
+#         st.markdown(message["content"])
+
+# # Accept user input
+# if prompt := st.chat_input("Tell me any questions you have or if you need further insight into the patient explanation!"):
+#   with st.spinner("Thinking..."):
+#     response = generate_response(prompt)
+#     display_response(response)
+
+# # Add a button to clear chat history
+# st.button('Clear and Refresh', on_click=clear_and_refresh_chat_history)
+
+# Hugging Face Credentials
+with st.sidebar:
+    st.header('Hugging Face Login')
+    hf_email = st.text_input('Enter E-mail:', type='password')
+    hf_pass = st.text_input('Enter password:', type='password')
+
+# Store AI generated responses
+if "messages" not in st.session_state.keys():
+    st.session_state.messages = [{"role": "assistant", "content": "I'm HugChat, How may I help you?"}]
+
+# Display existing chat messages
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
-        st.markdown(message["content"])
+        st.write(message["content"])
 
-# Accept user input
-if prompt := st.chat_input("Tell me any questions you have or if you need further insight into the patient explanation!"):
-  with st.spinner("Thinking..."):
-    response = generate_response(prompt)
-    display_response(response)
+# Function for generating LLM response
+def generate_response(prompt, email, passwd):
+    # Hugging Face Login
+    sign = Login(email, passwd)
+    cookies = sign.login()
+    sign.saveCookies()
+    # Create ChatBot                        
+    chatbot = hg.ChatBot(cookies=cookies.get_dict())
+    chain = ConversationChain(llm=chatbot)
+    response = chain.run(input=prompt)
+    return response
 
-# Add a button to clear chat history
-st.button('Clear and Refresh', on_click=clear_and_refresh_chat_history)
+# Prompt for user input and save
+if prompt := st.chat_input():
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    with st.chat_message("user"):
+        st.write(prompt)
+
+# If last message is not from assistant, we need to generate a new response
+if st.session_state.messages[-1]["role"] != "assistant":
+    # Call LLM
+    with st.chat_message("assistant"):
+        with st.spinner("Thinking..."):
+            response = generate_response(prompt, hf_email, hf_pass)
+            st.write(response)
+            
+    message = {"role": "assistant", "content": response}
+    st.session_state.messages.append(message)
