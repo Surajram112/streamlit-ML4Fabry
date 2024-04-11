@@ -342,6 +342,8 @@ with pred_cont.container():
     chart = alt.layer(base, text_hcm, text_fd).configure_view(
         strokeWidth=0  # Removes border around the chart
     )
+    
+    st.altair_chart(chart, use_container_width=True)
 
   with st.expander("Additional Interpretability", expanded=False):
     # Create a SHAP Explainer object
