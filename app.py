@@ -342,7 +342,7 @@ with pred_cont.container():
     text_start = base.mark_text(
         align='left',
         baseline='middle',
-        dx=-5  # Adjust text position
+        dx=5  # Adjust text position
     ).encode(
         x=alt.X('min(Cumulative):Q', axis=None),
         text=alt.Text('Condition:N')
@@ -363,7 +363,7 @@ with pred_cont.container():
     )
     
     # Display the chart in Streamlit
-    st.altair_chart(chart, use_container_width=True)
+    st.altair_chart(chart)
   
   with st.expander("Additional Interpretability", expanded=False):
     # Create a SHAP Explainer object
