@@ -373,7 +373,7 @@ with pred_cont.container():
     st.altair_chart(chart, use_container_width=True)
     
   # Clear the whitespace between the chart and the next container
-  st.markdown('<style>div.row-widget.stRadio > div{flex-direction:row;}</style>', unsafe_allow_html=True)
+  st.markdown("<style>div.stDataFrame.row-widget.stCard>div{padding: 0rem;}</style>", unsafe_allow_html=True)
 
   with st.expander("Additional Interpretability", expanded=False):
     # Create a SHAP Explainer object
