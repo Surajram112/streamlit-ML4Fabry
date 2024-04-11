@@ -13,8 +13,6 @@ from streamlit_extras.colored_header import colored_header
 from langchain_community.llms import HuggingFaceEndpoint
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
-
-from langchain.callbacks.base import BaseCallbackHandler
 from langchain.schema import ChatMessage
 
 # Ignore warnings
@@ -409,16 +407,6 @@ st.title('🤗💬 Ask Away!')
 if 'messages' not in st.session_state:
     st.session_state['messages'] = []
 
-# Handler class for updating chat interface
-class StreamHandler(BaseCallbackHandler):
-    def __init__(self, container):
-        self.container = container
-
-    def on_llm_new_token(self, token: str, **kwargs) -> None:
-        self.container.write(token)  # Assuming append operation is needed
-        
-stream_handler = StreamHandler(st.empty())
-
 # Initialize the LLM model
 llm = HuggingFaceEndpoint(
         repo_id=st.secrets["HUGGINGFACE_REPO_ID"],
@@ -434,7 +422,7 @@ llm = HuggingFaceEndpoint(
 
 # Initialize the chatbot by asking the user's name
 st.chat_message("assistant").markdown("Hello! I'm here to help you find the right prognosis. \
-                                      Please press the 'Analyze Data' after entering the patient's cardiac data.")
+                                      Please press the 'Analyse Data' after entering the patient's cardiac data.")
 
 # Load model and prepare data after the user clicks the button
 if st.button("Analyse Data"):
