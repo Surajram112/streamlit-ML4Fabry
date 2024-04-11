@@ -327,9 +327,10 @@ with pred_cont.container():
     # Add text to the chart to display the probability value
     text = base.mark_text(
         align='left',
-        baseline='middle'
+        baseline='middle',
+        color='black'
     ).encode(
-        text=alt.Text('Probability:Q', format='.2f', colored_header='black')
+        text=alt.Text('Probability:Q', format='.2f')
     )
     
     # Combine the base chart and text
