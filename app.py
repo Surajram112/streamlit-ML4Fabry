@@ -434,7 +434,7 @@ def clear_and_refresh_chat_history():
     st.session_state.messages = [{"role": "ai", "content": explanation["text"]}]
 
 # Add a button to clear chat history
-st.sidebar.button('Clear and Refresh', on_click=clear_and_refresh_chat_history)
+st.button('Clear and Refresh', on_click=clear_and_refresh_chat_history)
 
 # Initialize chat history
 if "messages" not in st.session_state:    
