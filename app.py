@@ -320,7 +320,7 @@ input_data = pd.DataFrame({
 
 with pred_cont.container():
 
-  with st.container(border=False, height=65):
+  with st.container(border=False, height=60):
     # Make a prediction
     prediction = model.predict_proba(input_data).flatten()
     
@@ -336,7 +336,7 @@ with pred_cont.container():
     # Base chart for the single bar
     base = alt.Chart(data).mark_bar().encode(
         x=alt.X('sum(Probability):Q', stack='zero', axis=None),  # No axis for a cleaner look
-        color=alt.Color('Condition:N', legend=None, scale=alt.Scale(domain=['HCM', 'FD'], range=['#1f77b4', '#ff7f0e'])),
+        color=alt.Color('Condition:N', legend=None, scale=alt.Scale(domain=['HCM', 'FD'], range=['blue', 'red'])),
         order='Sort'  # Sorting order for conditions
     ).properties(
         height=60  # Fixed height to reduce vertical space
