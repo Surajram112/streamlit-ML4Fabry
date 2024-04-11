@@ -21,6 +21,18 @@ from langchain.schema import ChatMessage
 import warnings
 warnings.filterwarnings('ignore')
 
+# Set the page layout to reduce the padding
+st.markdown("""
+        <style>
+               .block-container {
+                    padding-top: 1rem;
+                    padding-bottom: 0rem;
+                    padding-left: 5rem;
+                    padding-right: 5rem;
+                }
+        </style>
+        """, unsafe_allow_html=True)
+
 # Set page config, add title and description
 st.set_page_config(layout="wide", page_title="FD Vs HCM")
 
@@ -308,7 +320,7 @@ input_data = pd.DataFrame({
 
 with pred_cont.container():
 
-  with st.container(layout='flex', direction='row'):
+  with st.container():
     # Make a prediction
     prediction = model.predict_proba(input_data).flatten()
     
