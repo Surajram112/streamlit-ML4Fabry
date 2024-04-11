@@ -330,18 +330,37 @@ with pred_cont.container():
     #   disable=True
     # )
 
-    chart = alt.Chart(data).mark_area().encode(
-        x="Order:O",  # Or 'Time'
-        y=alt.Y("sum(Probability):Q", stack="normalize", axis=alt.Axis(format='%')),
-        color="Condition:N",
-        tooltip=[alt.Tooltip('Condition:N'), alt.Tooltip('Probability:Q', format='.2%')]
+    # Base chart for the single bar
+    base = alt.Chart(data).mark_bar().encode(
+        x=alt.X('sum(Probability):Q', axis=None),
+        color=alt.Color('Condition:N', legend=None)
     ).properties(
-        height=170  # Adjust the height as needed
-    ).configure_axis(
-        labelFontSize=14,  # Adjust the font size as needed
-        titleFontSize=16  # Adjust the font size as needed
-    ).configure_legend(
-      disable=True
+        width=600,
+        height=50
+    )
+
+    # Text annotations at each end
+    text_start = base.mark_text(
+        align='left',
+        baseline='middle',
+        dx=-5  # Adjust text position
+    ).encode(
+        x=alt.X('min(Cumulative):Q', axis=None),
+        text=alt.Text('Condition:N')
+    )
+
+    text_end = base.mark_text(
+        align='right',
+        baseline='middle',
+        dx=5  # Adjust text position
+    ).encode(
+        x=alt.X('max(Cumulative):Q', axis=None),
+        text=alt.Text('Percent:Q', format='.2f')
+    )
+
+    # Combine the charts
+    chart = (base + text_start + text_end).configure_view(
+        strokeWidth=0  # Remove border around the chart
     )
     
     # Display the chart in Streamlit
