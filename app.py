@@ -331,8 +331,7 @@ with pred_cont.container():
         dx=3
     ).encode(
         text=alt.Text('Probability:Q', 
-                      format='.2f',
-                      color=alt.value('white')
+                      format='.2f'
         )
     )
     
