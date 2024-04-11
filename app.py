@@ -409,7 +409,7 @@ if 'messages' not in st.session_state:
 llm = HuggingFaceEndpoint(
         repo_id=st.secrets["HUGGINGFACE_REPO_ID"],
         task="text-generation",
-        max_new_tokens=2048,
+        max_new_tokens=1024,
         top_k=10,
         top_p=0.95,
         typical_p=0.95,
@@ -472,6 +472,7 @@ if st.button("Analyse Data"):
     response = llm_chain.invoke(initial_prompt)
     
     # Setup initial chat messages
+    st.markdown(response["text"])
     st.session_state['messages'].append({'role': 'assistant', 'content': response["text"]})
   
 # Display chat messages
