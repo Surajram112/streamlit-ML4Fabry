@@ -335,7 +335,6 @@ with pred_cont.container():
         x=alt.X('sum(Probability):Q', axis=None),
         color=alt.Color('Condition:N', legend=None)
     ).properties(
-        width=600,
         height=50
     )
 
