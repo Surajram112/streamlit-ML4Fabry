@@ -320,7 +320,7 @@ input_data = pd.DataFrame({
 
 with pred_cont.container():
 
-  with st.container():
+  with st.container(border=True, height=70):
     # Make a prediction
     prediction = model.predict_proba(input_data).flatten()
     
@@ -371,9 +371,6 @@ with pred_cont.container():
     
     # Display the chart
     st.altair_chart(chart, use_container_width=True)
-    
-  # Clear the whitespace between the chart and the next container
-  st.markdown("<style>div.stDataFrame.row-widget.stCard>div{padding: 0rem;}</style>", unsafe_allow_html=True)
 
   with st.expander("Additional Interpretability", expanded=False):
     # Create a SHAP Explainer object
