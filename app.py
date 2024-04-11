@@ -392,7 +392,6 @@ colored_header(label='', description='', color_name='blue-30')
 
 # ChatBot
 st.title('🤗💬 Ask Away!')
-
 class StreamHandler(BaseCallbackHandler):
     def __init__(self, container, initial_text=""):
         self.container = container
@@ -415,7 +414,7 @@ if prompt := st.chat_input():
     with st.chat_message("assistant"):
         stream_handler = StreamHandler(st.empty())
         llm = HuggingFaceEndpoint(
-          repo_id="HuggingFaceH4/zephyr-7b-alpha",
+          repo_id="HuggingFaceH4/zephyr-7b-beta",
           task="text-generation",
           max_new_tokens=2048,
           top_k=10,
