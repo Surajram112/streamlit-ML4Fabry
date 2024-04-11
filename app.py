@@ -331,12 +331,17 @@ with pred_cont.container():
     # )
 
     # Assuming 'data' is your DataFrame
-    chart = alt.Chart(data).mark_arc().encode(
-        theta=alt.Theta(field="Probability", type="quantitative"),
-        color=alt.Color(field="Condition", type="nominal"),
-        tooltip=[alt.Tooltip(field="Condition", type="nominal"), alt.Tooltip(field="Probability", type="quantitative", format=".2f")]
+    chart = alt.Chart(data).transform_joinaggregate(
+        total='sum(Probability)'
+    ).transform_calculate(
+        PercentOfTotal="datum.Probability / datum.total"
+    ).mark_bar().encode(
+        x=alt.X('sum(PercentOfTotal):Q', axis=alt.Axis(format='.0%')),
+        y=alt.Y('Condition:N'),
+        color='Condition:N',
+        tooltip=[alt.Tooltip('Condition:N'), alt.Tooltip('sum(PercentOfTotal):Q', format='.0%')]
     ).properties(
-        title="Probability Distribution by Condition", 
+        title="Class Probabilities as Percentage of Total",
         height=170  # Adjust the height as needed
     ).configure_axis(
         labelFontSize=14,  # Adjust the font size as needed
