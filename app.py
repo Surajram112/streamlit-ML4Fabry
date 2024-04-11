@@ -421,7 +421,7 @@ stream_handler = StreamHandler(st.empty())
 
 # Initialize the LLM model
 llm = HuggingFaceEndpoint(
-        repo_id="google/gemma-1.1-7b-it",
+        repo_id="CohereForAI/c4ai-command-r-plus",
         task="text-generation",
         max_new_tokens=2048,
         top_k=10,
