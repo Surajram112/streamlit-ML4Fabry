@@ -423,11 +423,9 @@ for msg in st.session_state.messages:
 if prompt := st.chat_input():
     st.session_state.messages.append(ChatMessage(role="user", content=prompt))
     st.chat_message("user").write(prompt)
-
-    with st.chat_message("assistant"):
-        response = llm_chain.invoke(st.session_state.messages)
-        st.chat_message("assistant").write(response.text)
-        st.session_state.messages.append(ChatMessage(role="assistant", content=response.text))
+    response = llm_chain.invoke(st.session_state.messages)
+    st.chat_message("assistant").write(response.text)
+    st.session_state.messages.append(ChatMessage(role="assistant", content=response.text))
 
 if st.button("Clear chat history"):
     st.session_state["messages"] = []
