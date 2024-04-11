@@ -329,7 +329,7 @@ with pred_cont.container():
         align='left',
         baseline='middle'
     ).encode(
-        text=alt.Text('Probability:Q', format='.2f')
+        text=alt.Text('Probability:Q', format='.2f', colored_header='black')
     )
     
     # Combine the base chart and text
