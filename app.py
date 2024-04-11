@@ -307,45 +307,59 @@ input_data = pd.DataFrame({
     })
 
 with pred_cont.container():
-  
-  with st.container(border=True):
-    prediction = model.predict_proba(input_data).flatten()
 
+  with st.container(border=True):
+    # Make a prediction
+    prediction = model.predict_proba(input_data).flatten()
+    
     # Create a DataFrame for the chart
     data = pd.DataFrame({
-      'Condition': ['HCM', 'FD'], 
-      'Probability': prediction,
-      'Cond_Position': [0.03, 0.97],
-      'Pred_Position': [prediction[0]-0.03, prediction[0]+0.03],
-      'Sort': [0, 1],
+        'Condition': ['HCM', 'FD'],
+        'Probability': prediction,
+        'Cond_Position': [0.03, 0.97],  # Custom positions for labels
+        'Pred_Position': [prediction[0] - 0.03, prediction[0] + 0.03],  # Positions adjusted based on the prediction
+        'Sort': [0, 1]  # Ensure the order of bars
     })
-    
+
     # Base chart for the single bar
     base = alt.Chart(data).mark_bar().encode(
-        x=alt.X('sum(Probability):Q', stack='zero', axis=None),
+        x=alt.X('sum(Probability):Q', stack='zero', axis=None),  # No axis for a cleaner look
         color=alt.Color('Condition:N', legend=None, scale=alt.Scale(domain=['HCM', 'FD'], range=['#1f77b4', '#ff7f0e'])),
-        order='Sort'
-        ).properties(
-            height=60
-        )
-
-    # Text Names
-    text_desc = alt.Chart(data).mark_text(align='center', baseline='middle', color='white', fontSize=15).encode(
-        x='Cond_Position:Q',
-        text=alt.Text('Condition:N')
+        order='Sort'  # Sorting order for conditions
+    ).properties(
+        width='container',  # Make the width responsive to the container width
+        height=60  # Fixed height to reduce vertical space
     )
-    
-    # Text Probabilities
-    text_probs = alt.Chart(data).mark_text(align='center', baseline='middle', color='white', fontSize=15).encode(
+
+    # Text annotations for condition names
+    text_desc = alt.Chart(data).mark_text(
+        align='center',
+        baseline='middle',
+        color='white',
+        fontSize=15
+    ).encode(
+        x='Cond_Position:Q',
+        text='Condition:N'
+    )
+
+    # Text annotations for probabilities
+    text_probs = alt.Chart(data).mark_text(
+        align='center',
+        baseline='middle',
+        color='white',
+        fontSize=15
+    ).encode(
         x='Pred_Position:Q',
         text=alt.Text('Probability:N', format='.2f')
     )
-    
+
     # Combine the charts
     chart = alt.layer(base, text_desc, text_probs).configure_view(
-        strokeWidth=0  # border around the chart
+        strokeWidth=0,  # Remove border around the chart
+        continuousWidth=100,  # Minimize padding on width
+        continuousHeight=100  # Minimize padding on height
     )
-    
+  
     st.altair_chart(chart, use_container_width=True)
 
   with st.expander("Additional Interpretability", expanded=False):
