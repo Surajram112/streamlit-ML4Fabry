@@ -435,10 +435,11 @@ llm = HuggingFaceEndpoint(
         )
 
 # Initialize the chatbot by asking the user's name
-st.chat_message("assistant").markdown("Hello! I'm here to help you find the right prognosis. Please be patient while I look over  the data.")
+st.chat_message("assistant").markdown("Hello! I'm here to help you find the right prognosis. \
+                                      Please press the 'Analyze Data' after entering the patient's cardiac data.")
 
-# Load model and prepare data if not already loaded
-if not st.session_state.get('initialized', False):
+# Load model and prepare data after the user clicks the button
+with st.spinner("Analysing data..."):
   # Make a prediction
   predicted_condition = {0: 'Hypertrophic Cardiomyopathy', 1: 'Fabry Disease'}[prediction.argmax()]
   feature_values = input_data.iloc[0].to_dict()
@@ -467,7 +468,6 @@ if not st.session_state.get('initialized', False):
   
   # Setup initial chat messages
   st.session_state['messages'].append({'role': 'assistant', 'content': response["text"]})
-  st.session_state['initialized'] = True
   
 # Display chat messages
 for msg in st.session_state.messages:
