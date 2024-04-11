@@ -325,9 +325,9 @@ with pred_cont.container():
     )
 
     # Text annotations at each end
-    text_condition_start = base.mark_text(align='center', baseline='middle', dx=-15, dy=5, color="").encode(text=alt.Text('Condition:N'))
+    text_condition_start = base.mark_text(align='center', baseline='middle').encode(text=alt.Text('Condition:N'))
 
-    text_condition_end = base.mark_text(align='center', baseline='middle', dx=15, dy=5, color="").encode(text=alt.Text('Condition:N'))
+    text_condition_end = base.mark_text(align='center', baseline='middle').encode(text=alt.Text('Condition:N'))
 
     # Text for probability values in the middle of the bar
     # We calculate a mid-point for the bar to place the text
