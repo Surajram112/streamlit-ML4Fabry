@@ -418,13 +418,13 @@ if "messages" not in st.session_state:
     st.session_state["messages"] = [ChatMessage(role="assistant", content=response["text"])]
 
 for msg in st.session_state.messages:
-    st.chat_message(msg.role).write(msg.content)
+    st.chat_message(msg.role).markdown(msg.content)
 
 if prompt := st.chat_input():
     st.session_state.messages.append(ChatMessage(role="user", content=prompt))
-    st.chat_message("user").write(prompt)
+    st.chat_message("user").markdown(prompt)
     response = llm_chain.invoke(st.session_state.messages)
-    st.chat_message("assistant").write(response["text"])
+    st.chat_message("assistant").markdown(response["text"])
     st.session_state.messages.append(ChatMessage(role="assistant", content=response["text"]))
 
 if st.button("Clear chat history"):
