@@ -325,7 +325,7 @@ with pred_cont.container():
     )
     
     # Text annotations for each of the conditions
-    text_condition = alt.Chart(data).mark_text(align='center', baseline='rigth').encode(
+    text_condition = alt.Chart(data).mark_text(align='center').encode(
         x=alt.X('sum(Probability):Q', stack="zero"),
         y=alt.Y('Condition:N', axis=None),
         text=alt.Text('Condition:N')
