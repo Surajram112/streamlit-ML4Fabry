@@ -310,6 +310,10 @@ with pred_cont.container():
   with st.container():
     prediction = model.predict_proba(input_data).flatten()
     
+    st.write('The model predicts the following probabilities:')
+    st.write(f'Hypertrophic Cardiomyopathy (HCM): {prediction[0]:.2f}')
+    st.write(f'Fabry Disease (FD): {prediction[1]:.2f}')
+    
     # Create a DataFrame for the chart
     data = pd.DataFrame({
       'Condition': ['HCM', 'FD'], 
