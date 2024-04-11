@@ -324,17 +324,24 @@ with pred_cont.container():
             height=50
         )
     
-    # Add text to the chart to display the condition name on the bar.
-    text = alt.Chart(data).mark_text(dx=-30, color="white").encode(
+    # Text label for the first condition
+    text_hcm = alt.Chart(data.query("Condition == 'HCM'")).mark_text(dx=-30, color="white").encode(
         x=alt.X('Probability:Q', stack='zero', axis=None),
-        text='Condition:N',
+        y=alt.Y('Condition:N', sort=None),
+        text=alt.Text('Condition:N')
     )
-    
-    # Combine the base chart and text
-    chart = alt.layer(base, text, data=data).configure_view(strokeWidth=0).configure_axis(grid=False)
-    
-    # Display the chart in Streamlit
-    st.altair_chart(chart, use_container_width=True)
+
+    # Text label for the second condition
+    text_fd = alt.Chart(data.query("Condition == 'FD'")).mark_text(dx=30, color="white").encode(
+        x=alt.X('Probability:Q', stack='zero', axis=None),
+        y=alt.Y('Condition:N', sort=None),
+        text=alt.Text('Condition:N')
+    )
+
+    # Combine the charts
+    chart = alt.layer(base, text_hcm, text_fd).configure_view(
+        strokeWidth=0  # Removes border around the chart
+    )
 
   with st.expander("Additional Interpretability", expanded=False):
     # Create a SHAP Explainer object
