@@ -354,8 +354,17 @@ with pred_cont.container():
 
     # Combine the charts
     chart = alt.layer(base, text_desc, text_probs).configure_view(
-        strokeWidth=0,  # Remove border around the chart
-        height=60  # Fixed height to reduce vertical space    
+        strokeWidth=0  # Remove border around the chart
+    ).configure_axis(
+    grid=False  # Turn off grid lines
+    ).configure_axisX(
+        domain=False,  # Remove the axis line
+        ticks=False,  # Remove tick marks
+        labels=False  # Remove labels
+    ).configure_axisY(
+        domain=False,  # Remove the axis line
+        ticks=False,  # Remove tick marks
+        labels=False  # Remove labels
     )
   
     st.altair_chart(chart, use_container_width=True)
