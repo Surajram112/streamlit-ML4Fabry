@@ -16,7 +16,7 @@ from hugchat import hugchat as hg
 from hugchat.login import Login
 
 from langchain_community.llms import HuggingFaceEndpoint
-from langchain.chains import LLMChain, ConversationChain
+from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 
