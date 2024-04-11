@@ -325,7 +325,8 @@ with pred_cont.container():
         height=170  # Adjust the height as needed
     ).configure_axis(
         labelFontSize=14,  # Adjust the font size as needed
-        titleFontSize=16  # Adjust the font size as needed
+        titleFontSize=16,  # Adjust the font size as needed
+        maxExtent=1 # Adjust the maximum extent as needed
     ).configure_legend(
       disable=True
     )
