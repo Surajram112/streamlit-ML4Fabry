@@ -335,7 +335,7 @@ with pred_cont.container():
 
     # Text for probability values in the middle of the bar
     # We calculate a mid-point for the bar to place the text
-    text_probability = alt.Chart(data).mark_text(align='center', baseline='middle',dx=-15).encode(
+    text_probability = alt.Chart(data).mark_text(align='center', baseline='middle').encode(
         x=alt.X('average(Probability):Q', stack="zero"),
         y=alt.Y('Condition:N', axis=None),
         text=alt.Text('Probability:Q', format='.2f')
