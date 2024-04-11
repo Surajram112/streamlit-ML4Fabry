@@ -402,70 +402,70 @@ with pred_cont.container():
 # Create a line between the containers and the chatbot
 colored_header(label='', description='', color_name='blue-70')
 
-# # ChatBot
-# st.title('🤗💬 Ask Away!')
-# class StreamHandler(BaseCallbackHandler):
-#     def __init__(self, container, initial_text=""):
-#         self.container = container
-#         self.text = initial_text
+# ChatBot
+st.title('🤗💬 Ask Away!')
+class StreamHandler(BaseCallbackHandler):
+    def __init__(self, container, initial_text=""):
+        self.container = container
+        self.text = initial_text
 
-#     def on_llm_new_token(self, token: str, **kwargs) -> None:
-#         self.text += token
-#         self.container.markdown(self.text)
+    def on_llm_new_token(self, token: str, **kwargs) -> None:
+        self.text += token
+        self.container.markdown(self.text)
 
-# # Generate explanation for a specific instance using LLM
-# predicted_condition = {0: 'Hypertrophic Cardiomyopathy', 1: 'Fabry Disease'}[prediction.argmax()]
-# feature_values = input_data.iloc[0].to_dict()
+# Generate explanation for a specific instance using LLM
+predicted_condition = {0: 'Hypertrophic Cardiomyopathy', 1: 'Fabry Disease'}[prediction.argmax()]
+feature_values = input_data.iloc[0].to_dict()
 
-# features_info = ', '.join([f"{feature}: {feature_values[feature]} ({shap_value:.2f})" for feature, shap_value in zip(shap_values_sum['Feature'], shap_values_sum['SHAP Value'])])
-# prompt = f"""
-#     For this visit, the model predicts a higher likelihood of {predicted_condition}. The key factors influencing this prediction include: {features_info}.
-#     """
+features_info = ', '.join([f"{feature}: {feature_values[feature]} ({shap_value:.2f})" for feature, shap_value in zip(shap_values_sum['Feature'], shap_values_sum['SHAP Value'])])
+prompt = f"""
+    For this visit, the model predicts a higher likelihood of {predicted_condition}. The key factors influencing this prediction include: {features_info}.
+    """
 
-# template = """
-# In your role as a cardiologist in a secondary care setting, evaluate the provided comprehensive dataset for a patient referred with potential Hypertrophic Cardiomyopathy (HCM) or Fabry disease. The dataset includes demographic details, ECG, echocardiography (echo), and Holter monitor report values. Guide your analysis with the following considerations:
+template = """
+In your role as a cardiologist in a secondary care setting, evaluate the provided comprehensive dataset for a patient referred with potential Hypertrophic Cardiomyopathy (HCM) or Fabry disease. The dataset includes demographic details, ECG, echocardiography (echo), and Holter monitor report values. Guide your analysis with the following considerations:
 
-# 1. Assess the integration of the patient's demographic information with findings from ECG, echo, and Holter reports, specifically looking for indicators or patterns that may suggest HCM or Fabry disease.
-# 2. Given the referral to secondary care, recognize that the patient has undergone extensive initial testing. Look for both confirmatory and contradictory evidence of HCM or Fabry disease in comparison to earlier assessments.
-# 3. Interpret 'NaN' values as unmeasured parameters or non-occurring events, and note that gender is coded as '1' for male and '2' for female, which may have implications for the diagnosis due to the X-linked inheritance pattern of Fabry disease.
-# 4. Employ evidence-based guidelines and differential diagnosis strategies to distinguish between HCM and Fabry disease, focusing on the distinguishing features of each condition as revealed by the diagnostic tests.
-# 5. Based on the XGBoost model's prediction and the SHAP values for each feature, identify key data points that support the diagnosis of either HCM or Fabry disease.
-# 6. Formulate recommendations for any further diagnostic tests that may be necessary, drawing on your analysis of the patient's specific condition.
+1. Assess the integration of the patient's demographic information with findings from ECG, echo, and Holter reports, specifically looking for indicators or patterns that may suggest HCM or Fabry disease.
+2. Given the referral to secondary care, recognize that the patient has undergone extensive initial testing. Look for both confirmatory and contradictory evidence of HCM or Fabry disease in comparison to earlier assessments.
+3. Interpret 'NaN' values as unmeasured parameters or non-occurring events, and note that gender is coded as '1' for male and '2' for female, which may have implications for the diagnosis due to the X-linked inheritance pattern of Fabry disease.
+4. Employ evidence-based guidelines and differential diagnosis strategies to distinguish between HCM and Fabry disease, focusing on the distinguishing features of each condition as revealed by the diagnostic tests.
+5. Based on the XGBoost model's prediction and the SHAP values for each feature, identify key data points that support the diagnosis of either HCM or Fabry disease.
+6. Formulate recommendations for any further diagnostic tests that may be necessary, drawing on your analysis of the patient's specific condition.
 
-# Your goal is to utilize both traditional diagnostic methods and modern data analysis techniques to differentiate between HCM and Fabry disease, providing a detailed and informed diagnostic perspective for this patient.
+Your goal is to utilize both traditional diagnostic methods and modern data analysis techniques to differentiate between HCM and Fabry disease, providing a detailed and informed diagnostic perspective for this patient.
 
-# Patient history: {patient_history}
-# """
-# stream_handler = StreamHandler(st.empty())
-# llm = HuggingFaceEndpoint(
-#         repo_id=st.secrets["HUGGINGFACE_REPO_ID"],
-#         task="text-generation",
-#         max_new_tokens=2048,
-#         top_k=10,
-#         top_p=0.95,
-#         typical_p=0.95,
-#         temperature=0.01,
-#         repetition_penalty=1.03,
-#         callbacks=[stream_handler],
-#         huggingfacehub_api_token=st.secrets["HUGGINGFACEHUB_API_TOKEN"]
-#         )
+Patient history: {patient_history}
+"""
+stream_handler = StreamHandler(st.empty())
+llm = HuggingFaceEndpoint(
+        repo_id=st.secrets["HUGGINGFACE_REPO_ID"],
+        task="text-generation",
+        max_new_tokens=2048,
+        top_k=10,
+        top_p=0.95,
+        typical_p=0.95,
+        temperature=0.01,
+        repetition_penalty=1.03,
+        callbacks=[stream_handler],
+        huggingfacehub_api_token=st.secrets["HUGGINGFACEHUB_API_TOKEN"]
+        )
 
-# model_instructions = PromptTemplate.from_template(template)
-# llm_chain = LLMChain(llm=llm, prompt=model_instructions)
+model_instructions = PromptTemplate.from_template(template)
+llm_chain = LLMChain(llm=llm, prompt=model_instructions)
 
-# if "messages" not in st.session_state or st.session_state.messages == []:
-#     response = llm_chain.invoke(prompt)
-#     st.session_state["messages"] = [ChatMessage(role="assistant", content=response.content)]
+if "messages" not in st.session_state or st.session_state.messages == []:
+    response = llm_chain.invoke(prompt)
+    st.session_state["messages"] = [ChatMessage(role="assistant", content=response.content)]
 
-# for msg in st.session_state.messages:
-#     st.chat_message(msg.role).markdown(msg.content)
+for msg in st.session_state.messages:
+    st.chat_message(msg.role).markdown(msg.content)
 
-# if prompt := st.chat_input():
-#     st.session_state.messages.append(ChatMessage(role="user", content=prompt))
-#     st.chat_message("user").markdown(prompt)
-#     response = llm_chain.invoke(st.session_state.messages)
-#     st.chat_message("assistant").markdown(response["text"])
-#     st.session_state.messages.append(ChatMessage(role="assistant", content=response.content))
+if prompt := st.chat_input():
+    st.session_state.messages.append(ChatMessage(role="user", content=prompt))
+    st.chat_message("user").markdown(prompt)
+    response = llm_chain.invoke(st.session_state.messages)
+    st.chat_message("assistant").markdown(response["text"])
+    st.session_state.messages.append(ChatMessage(role="assistant", content=response.content))
 
-# if st.button("Clear chat history"):
-#     st.session_state["messages"] = []
+if st.button("Clear chat history"):
+    st.session_state["messages"] = []
