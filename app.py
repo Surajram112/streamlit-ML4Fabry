@@ -313,7 +313,8 @@ with pred_cont.container():
     # Create a DataFrame for the chart
     data = pd.DataFrame({
       'Condition': ['HCM', 'FD'], 
-      'Probability': prediction
+      'Probability': prediction,
+      'End': [1, 1]  # Used for alignment of the condition name
     })
 
     # # Create a horizontal bar chart
