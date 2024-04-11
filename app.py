@@ -328,7 +328,9 @@ with pred_cont.container():
     text = base.mark_text(
         align='right',
         baseline='middle',
-        dx=3
+        dx=3,
+        color='white',
+        fontSize=15
     ).encode(
         text=alt.Text('Probability:Q', format='.2f')
     )
