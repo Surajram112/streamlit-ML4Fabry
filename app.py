@@ -322,28 +322,22 @@ with pred_cont.container():
         color=alt.Color('Condition:N', legend=None)
     ).properties(
         height=50
+    ).transform_extent(
+        field='Probability',
+        extent=[0, 1]
+    ).configure_axis(
+        domain=False,
+        labelFontSize=12,
+        title=None
+    ).configure_axisX(
+        labelAngle=0
+    ).configure_axisY(
+        labelPadding=10
+    ).configure_legend(
+        disable=True
     )
-    
-    # Text annotations for each of the conditions at the ends of the bar
-    text_condition_left = alt.Chart(data).mark_text(align='left', dx=5).encode(
-        y=alt.Y('Condition:N', axis=0),
-        text=alt.Text('Condition:N')
-    )
-    
-    text_condition_right = alt.Chart(data).mark_text(align='right', dx=-5).encode(
-        y=alt.Y('Condition:N'),
-        text=alt.Text('Condition:N')
-    )
-    
-    # Text annotations for the probability values
-    text_probability = alt.Chart(data).mark_text(align='center', baseline='middle').encode(
-        y=alt.Y('Condition:N'),
-        x=alt.X('sum(Probability):Q'),
-        text=alt.Text('Probability:Q', format='.2f')
-    )
-    
-    # Combine all layers
-    chart = alt.layer(base, text_condition_left, text_condition_right, text_probability).configure_view(
+
+    chart = alt.layer(base).configure_view(
         strokeWidth=0  # Removes border around the chart
     )
     
