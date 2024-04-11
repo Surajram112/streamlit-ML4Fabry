@@ -316,40 +316,46 @@ with pred_cont.container():
       'Probability': prediction
     })
 
+    # Prepare data for text annotations to accurately position them
+    # For simplicity, we manually set positions; adjust as needed
+    data['Position'] = [0.1, 0.9]  # Assuming positions for 'HCM' and 'FD'
+    total_probability = data['Probability'].sum()
+    data['Label'] = data['Condition'] + ': ' + (data['Probability'] / total_probability).map('{:.2%}'.format)
+
     # Base chart for the single bar
-    base = alt.Chart(data).mark_bar().encode(
-        x=alt.X('sum(Probability):Q', axis=None),
-        color=alt.Color('Condition:N', legend=None)
+    base = alt.Chart(pd.DataFrame({'x': [0, 1]})).mark_bar(size=30).encode(
+        x='x:Q',
     ).properties(
-        height=50
+        width=600,
+        height=100
     )
-    
+
     # Text annotations for each of the conditions at the ends of the bar
     text_condition = alt.Chart(data).mark_text(align='left', dx=-300, dy=0).encode(
         x=alt.value(0),  # Align to the left end
-        y=alt.value(25),  # Vertically center
+        y=alt.value(20),  # Vertically center
         text=alt.Text('Condition:N')
     )
     text_condition_right = alt.Chart(data).mark_text(align='right', dx=300, dy=0).encode(
         x=alt.value(1),  # Align to the right end
-        y=alt.value(25),  # Vertically center
+        y=alt.value(20),  # Vertically center
         text=alt.Text('Condition:N')
     )
+
     # Text for probability values in the middle of the bar
-    # We calculate a mid-point for the bar to place the text
-    text_probability = alt.Chart(data).mark_text(align='center', baseline='middle').encode(
-        x=alt.X('average(Probability):Q', stack="zero"),
+    text_probability = alt.Chart(data).mark_text(dy=0).encode(
+        x=alt.X('Position:Q', axis=None),  # Use positions for exact placement
         y=alt.Y('Condition:N', axis=None),
-        text=alt.Text('Probability:Q', format='.2f')
+        text='Label:N'
     )
-    
+
     # Combine all layers
-    chart = alt.layer(base, text_condition).configure_view(
+    chart = alt.layer(base, text_condition, text_condition_right, text_probability).configure_view(
         strokeWidth=0  # Removes border around the chart
     )
     
     # Display the chart in Streamlit
-    st.altair_chart(chart)
+    st.altair_chart(chart, use_container_width=True)
 
   with st.expander("Additional Interpretability", expanded=False):
     # Create a SHAP Explainer object
