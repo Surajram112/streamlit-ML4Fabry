@@ -19,7 +19,7 @@ from langchain.agents import ConversationalChatAgent, AgentExecutor
 from langchain.memory import ConversationBufferMemory
 from langchain_community.callbacks import StreamlitCallbackHandler
 from langchain_community.chat_message_histories import StreamlitChatMessageHistory
-from langchain_core.tools import DuckDuckGoSearchRun
+# from langchain_core.tools import DuckDuckGoSearchRun
 from langchain_core.runnables import RunnableConfig
 
 # Ignore warnings
