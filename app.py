@@ -375,10 +375,8 @@ with pred_cont.container():
         strokeWidth=0  # Remove border around the chart
     ).configure_axis(
       grid=False  # Turn off grid lines
-    ).configure_header(
-      title=None  # Remove the title
     )
-  
+    
     st.altair_chart(chart, use_container_width=True)
 
   with st.expander("Additional Interpretability", expanded=False):
