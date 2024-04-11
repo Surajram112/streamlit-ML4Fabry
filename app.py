@@ -321,7 +321,7 @@ with pred_cont.container():
         x=alt.X('Probability:Q', stack='zero', axis=None),
         color=alt.Color('Condition:N', legend=None, scale=alt.Scale(domain=['HCM', 'FD'], range=['#1f77b4', '#ff7f0e']))
         ).properties(
-            height=100
+            height=50
         )
     
     # Text label for the first condition
