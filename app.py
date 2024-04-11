@@ -377,9 +377,9 @@ with pred_cont.container():
     shap_values_mean = shap_values.abs().mean().sort_values(ascending=False).head(10)
     shap_values_mean = shap_values_mean.reset_index()
     shap_values_mean.columns = ['Feature', 'Mean Absolute SHAP Value']
-    st.altair_chart(altair.Chart(shap_values_mean).mark_bar().encode(
+    st.altair_chart(alt.Chart(shap_values_mean).mark_bar().encode(
         x='Mean Absolute SHAP Value:Q',
-        y=altair.Y('Feature:N', sort='-x')
+        y=alt.Y('Feature:N', sort='-x')
     ), use_container_width=True)
     
     # Display the SHAP values as an altair bar chart removing all the features with 0 SHAP values
@@ -387,9 +387,9 @@ with pred_cont.container():
     shap_values_sum = shap_values_sum[shap_values_sum != 0]
     shap_values_sum = shap_values_sum.reset_index()
     shap_values_sum.columns = ['Feature', 'SHAP Value']
-    st.altair_chart(altair.Chart(shap_values_sum).mark_bar().encode(
+    st.altair_chart(alt.Chart(shap_values_sum).mark_bar().encode(
         x='SHAP Value:Q',
-        y=altair.Y('Feature:N', sort='-x')
+        y=alt.Y('Feature:N', sort='-x')
     ), use_container_width=True)
 
 # Create a line between the containers and the chatbot
