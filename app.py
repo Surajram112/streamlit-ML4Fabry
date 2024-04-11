@@ -328,11 +328,13 @@ with pred_cont.container():
     text = base.mark_text(
         align='right',
         baseline='middle',
-        color='white',
-        dx=-5
+        color='black'
+    ).encode(
+        text='Probability:Q'
     )
     
-    chart = alt.layer(base, text)
+    # Combine the base chart and text
+    chart = alt.layer(base, text, data=data).configure_view(strokeWidth=0).configure_axis(grid=False)
     
     # Display the chart in Streamlit
     st.altair_chart(chart, use_container_width=True)
