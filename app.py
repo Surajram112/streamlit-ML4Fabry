@@ -328,7 +328,7 @@ with pred_cont.container():
     text = base.mark_text(
         align='right',
         baseline='middle',
-        color='black',
+        color='white',
         dx=-5
     ).encode(
         text='Probability:Q'
