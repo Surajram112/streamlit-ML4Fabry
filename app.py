@@ -39,6 +39,9 @@ st.markdown("""
 # Add Title to the page
 st.title("Fabry Disease (FD) Vs Hypertrophic Cardiomyopathy (HCM)")
 
+# Create a line between the containers and the chatbot
+colored_header(label='', description='', color_name='blue-70')
+
 # Add a description
 st.write('This app differentiates between Fabry and HCM based on various cardiac markers.')
 
@@ -399,7 +402,7 @@ with pred_cont.container():
     ), use_container_width=True)
 
 # Create a line between the containers and the chatbot
-colored_header(label='', description='', color_name='light-blue-70')
+colored_header(label='', description='', color_name='blue-70')
 
 # # ChatBot
 # st.title('🤗💬 Ask Away!')
