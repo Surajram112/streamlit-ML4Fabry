@@ -15,12 +15,8 @@ from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 
-from langchain.agents import ConversationalChatAgent, AgentExecutor
-from langchain.memory import ConversationBufferMemory
-from langchain_community.callbacks import StreamlitCallbackHandler
-from langchain_community.chat_message_histories import StreamlitChatMessageHistory
-# from langchain_core.tools import DuckDuckGoSearchRun
-from langchain_core.runnables import RunnableConfig
+from langchain.callbacks.base import BaseCallbackHandler
+from langchain.schema import ChatMessage
 
 # Ignore warnings
 import warnings
@@ -397,31 +393,28 @@ colored_header(label='', description='', color_name='blue-30')
 # ChatBot
 st.title('🤗💬 Ask Away!')
 
-msgs = StreamlitChatMessageHistory()
-memory = ConversationBufferMemory(
-    chat_memory=msgs, return_messages=True, memory_key="chat_history", output_key="output"
-)
-if len(msgs.messages) == 0 or st.button("Reset chat history"):
-    msgs.clear()
-    msgs.add_ai_message("How can I help you?")
-    st.session_state.steps = {}
+class StreamHandler(BaseCallbackHandler):
+    def __init__(self, container, initial_text=""):
+        self.container = container
+        self.text = initial_text
 
-avatars = {"human": "user", "ai": "assistant"}
-for idx, msg in enumerate(msgs.messages):
-    with st.chat_message(avatars[msg.type]):
-        # Render intermediate steps if any were saved
-        for step in st.session_state.steps.get(str(idx), []):
-            if step[0].tool == "_Exception":
-                continue
-            with st.status(f"**{step[0].tool}**: {step[0].tool_input}", state="complete"):
-                st.write(step[0].log)
-                st.write(step[1])
-        st.write(msg.content)
+    def on_llm_new_token(self, token: str, **kwargs) -> None:
+        self.text += token
+        self.container.markdown(self.text)
 
-if prompt := st.chat_input(placeholder="Who won the Women's U.S. Open in 2018?"):
+if "messages" not in st.session_state:
+    st.session_state["messages"] = [ChatMessage(role="assistant", content="How can I help you?")]
+
+for msg in st.session_state.messages:
+    st.chat_message(msg.role).write(msg.content)
+
+if prompt := st.chat_input():
+    st.session_state.messages.append(ChatMessage(role="user", content=prompt))
     st.chat_message("user").write(prompt)
-    
-    llm = HuggingFaceEndpoint(
+
+    with st.chat_message("assistant"):
+        stream_handler = StreamHandler(st.empty())
+        llm = HuggingFaceEndpoint(
           repo_id="HuggingFaceH4/zephyr-7b-alpha",
           task="text-generation",
           max_new_tokens=2048,
@@ -431,22 +424,8 @@ if prompt := st.chat_input(placeholder="Who won the Women's U.S. Open in 2018?")
           temperature=0.01,
           repetition_penalty=1.03,
           streaming=True,
+          callbacks=[stream_handler],
           huggingfacehub_api_token=st.secrets["HUGGINGFACEHUB_API_TOKEN"]
           )
-    
-    tools = [] #[DuckDuckGoSearchRun(name="Search")]
-    chat_agent = ConversationalChatAgent.from_llm_and_tools(llm=llm, tools=tools)
-    executor = AgentExecutor.from_agent_and_tools(
-        agent=chat_agent,
-        tools=tools,
-        memory=memory,
-        return_intermediate_steps=True,
-        handle_parsing_errors=True,
-    )
-    with st.chat_message("assistant"):
-        st_cb = StreamlitCallbackHandler(st.container(), expand_new_thoughts=False)
-        cfg = RunnableConfig()
-        cfg["callbacks"] = [st_cb]
-        response = executor.invoke(prompt, cfg)
-        st.write(response["output"])
-        st.session_state.steps[str(len(msgs.messages) - 1)] = response["intermediate_steps"]
+        response = llm.invoke(st.session_state.messages)
+        st.session_state.messages.append(ChatMessage(role="assistant", content=response.content))
