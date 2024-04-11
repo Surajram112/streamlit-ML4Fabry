@@ -44,7 +44,7 @@ cookies = sign.login(cookie_dir_path=cookie_path_dir, save_cookies=True)
 
 # Create your ChatBot
 chatbot = hg.ChatBot(cookies=cookies.get_dict())
-chatbot.new_conversation(switch_to=True, assistant='zephyr-7b-alpha')
+chatbot.new_conversation(switch_to=True, assistant='ChatGpt')
 
 # Set today's date to ensure all reports are on or before this date
 today = datetime.today().date()
