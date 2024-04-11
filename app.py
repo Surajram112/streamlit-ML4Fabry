@@ -335,7 +335,7 @@ with pred_cont.container():
         )
     )
     
-    chart = (base + text).configure_view(strokeWidth=0)
+    chart = alt.layer(base, text)
     
     # Display the chart in Streamlit
     st.altair_chart(chart, use_container_width=True)
