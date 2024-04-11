@@ -21,6 +21,9 @@ from langchain.schema import ChatMessage
 import warnings
 warnings.filterwarnings('ignore')
 
+# Set page config, add title and description
+st.set_page_config(layout="wide", page_title="FD Vs HCM")
+
 # Set the page layout to reduce the padding
 st.markdown("""
         <style>
@@ -32,9 +35,6 @@ st.markdown("""
                 }
         </style>
         """, unsafe_allow_html=True)
-
-# Set page config, add title and description
-# st.set_page_config(layout="wide", page_title="FD Vs HCM")
 
 # Add Title to the page
 st.title("Fabry Disease (FD) Vs Hypertrophic Cardiomyopathy (HCM)")
