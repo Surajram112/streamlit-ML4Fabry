@@ -37,15 +37,15 @@ st.write('This app differentiates between Fabry and HCM based on various cardiac
 model_path = Path('./models/model.pkl')
 model = joblib.load(model_path)
 
-# # Set up HugChat interface
-# cookie_path_dir = "./cookies/" # NOTE: trailing slash (/) is required to avoid errors
-# sign = Login(st.secrets["HUG_CHAT_EMAIL"], st.secrets["HUG_CHAT_PASSWD"])
-# cookies = sign.login(cookie_dir_path=cookie_path_dir, save_cookies=True)
+# Set up HugChat interface
+cookie_path_dir = "./cookies/" # NOTE: trailing slash (/) is required to avoid errors
+sign = Login(st.secrets["HUG_CHAT_EMAIL"], st.secrets["HUG_CHAT_PASSWD"])
+cookies = sign.login(cookie_dir_path=cookie_path_dir, save_cookies=True)
 
-# # Create your ChatBot
-# chatbot = hg.ChatBot(cookies=cookies.get_dict())
-# id = chatbot.new_conversation()
-# chatbot.change_conversation(id)
+# Create your ChatBot
+chatbot = hg.ChatBot(cookies=cookies.get_dict())
+id = chatbot.new_conversation()
+chatbot.change_conversation(id)
 
 # Set today's date to ensure all reports are on or before this date
 today = datetime.today().date()
@@ -418,27 +418,6 @@ colored_header(label='', description='', color_name='blue-30')
 # ChatBot
 st.title('🤗💬 Ask Away!')
 
-# Hugging Face Credentials
-with st.sidebar:
-    st.title('🤗💬 HugChat')
-    if ('HUG_CHAT_EMAIL' in st.secrets) and ('HUG_CHAT_PASSWD' in st.secrets):
-        st.success('HuggingFace Login credentials already provided!', icon='✅')
-        hf_email = st.secrets['HUG_CHAT_EMAIL']
-        hf_pass = st.secrets['HUG_CHAT_PASSWD']
-    else:
-        hf_email = st.text_input('Enter E-mail:', type='password')
-        hf_pass = st.text_input('Enter password:', type='password')
-        if not (hf_email and hf_pass):
-            st.warning('Please enter your credentials!', icon='⚠️')
-        else:
-            st.success('Proceed to entering your prompt message!', icon='👉')
-
-# Hugging Face Login
-sign = Login(hf_email, hf_pass)
-cookies = sign.login()
-# Create ChatBot                        
-chatbot = hg.ChatBot(cookies=cookies.get_dict())
-    
 # Store LLM generated responses
 if "messages" not in st.session_state:
     st.session_state.messages = [{"role": "assistant", "content": "This is a test explanation"}]
