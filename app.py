@@ -316,25 +316,11 @@ with pred_cont.container():
       'Probability': prediction
     })
 
-    # # Create a horizontal bar chart
-    # chart = altair.Chart(data).mark_bar().encode(
-    #     y='Condition:N',
-    #     x='Probability:Q',  # Q indicates a quantitative data type
-    #     color='Condition:N'  # Color the bars by the condition
-    # ).properties(
-    #     height=170  # Adjust the height as needed
-    # ).configure_axis(
-    #     labelFontSize=14,  # Adjust the font size as needed
-    #     titleFontSize=16  # Adjust the font size as needed
-    # ).configure_legend(
-    #   disable=True
-    # )
-
-    # Create a stacked bar chart
+    # Create a horizontal bar chart
     chart = altair.Chart(data).mark_bar().encode(
-        x=altair.X('sum(Probability):Q', title='Cumulative Probability'),
-        y=altair.Y('Condition:N', title='Condition', sort=None),
-        color='Condition:N'
+        y='Condition:N',
+        x='Probability:Q',  # Q indicates a quantitative data type
+        color='Condition:N'  # Color the bars by the condition
     ).properties(
         height=170  # Adjust the height as needed
     ).configure_axis(
