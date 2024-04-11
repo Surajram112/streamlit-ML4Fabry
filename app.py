@@ -446,14 +446,14 @@ def generate_response(prompt_input, chatbot):
 if prompt := st.chat_input("Enter your message here...", key="prompt"):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
-        st.write(prompt)
+        st.markdown(prompt)
 
 # Generate a new response if last message is not from assistant
 if st.session_state.messages[-1]["role"] != "assistant":
     with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
             response = generate_response(prompt, chatbot) 
-            st.write(response) 
+            st.markdown(response) 
     message = {"role": "assistant", "content": response}
     st.session_state.messages.append(message)
 
