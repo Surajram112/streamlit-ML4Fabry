@@ -328,11 +328,17 @@ with pred_cont.container():
     text = base.mark_text(
         align='right',
         baseline='middle',
-        dx=3,
-        color='white',
-        fontSize=15
+        dx=3
     ).encode(
-        text=alt.Text('Probability:Q', format='.2f')
+        text=alt.Text('Probability:Q', 
+                      format='.2f',
+                      stack='zero',
+                      color=alt.condition(
+                          alt.datum.Probability > 0.5,
+                          alt.value('white'),
+                          alt.value('black')
+                      )
+        )
     )
     
     chart = (base + text).configure_view(strokeWidth=0)
