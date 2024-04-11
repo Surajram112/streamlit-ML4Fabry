@@ -323,15 +323,21 @@ with pred_cont.container():
         ).properties(
             height=50
         )
+
+    # Text Names
+    text_probs = alt.Chart(data).mark_text(dx=-3, color='white').encode(
+        x=alt.X('Probability:Q', stack='zero'),
+        text=alt.Text('Condition:N')
+    )
     
-    # Text label for the first condition
-    text = alt.Chart(data).mark_text(dx=-3, color='white').encode(
+    # Text Probabilities
+    text_probs = alt.Chart(data).mark_text(dx=-3, color='white').encode(
         x=alt.X('Probability:Q', stack='zero'),
         text=alt.Text('Probability:Q', format='.2f')
     )
     
     # Combine the charts
-    chart = alt.layer(base, text).configure_view(
+    chart = alt.layer(base, text_probs).configure_view(
         strokeWidth=0  # Removes border around the chart
     )
     
