@@ -7,13 +7,16 @@ import altair
 import xgboost as xgb
 import matplotlib.pyplot as plt
 from datetime import datetime
+
 import streamlit as st
 from streamlit_chat import message
 from streamlit_extras.colored_header import colored_header
-from hugchat import hugchat
+
+from hugchat import hugchat as hg
 from hugchat.login import Login
+
 from langchain_community.llms import HuggingFaceEndpoint
-from langchain.chains import LLMChain
+from langchain.chains import LLMChain, ConversationChain
 from langchain.prompts import PromptTemplate
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 
@@ -40,7 +43,9 @@ sign = Login(st.secrets["HUG_CHAT_EMAIL"], st.secrets["HUG_CHAT_PASSWD"])
 cookies = sign.login(cookie_dir_path=cookie_path_dir, save_cookies=True)
 
 # Create your ChatBot
-chatbot = hugchat.ChatBot(cookies=cookies.get_dict())
+chatbot = hg.ChatBot(cookies=cookies.get_dict())
+id = chatbot.new_conversation()
+chatbot.change_conversation(id)
 
 # Set today's date to ensure all reports are on or before this date
 today = datetime.today().date()
@@ -410,36 +415,39 @@ explanation = llm_chain.invoke(prompt)
 
 colored_header(label='', description='', color_name='blue-30')
 
+# ChatBot
 st.title('🤗💬 Ask Away!')
 
-# Create a new conversation
-chatbot.new_conversation(switch_to=True)
+def generate_response(prompt):
+    if prompt:  # Ensure there's a prompt to avoid generating from an empty string
+        st.session_state.messages.append({"role": "user", "content": prompt})
+        response = llm_chain.invoke(prompt)
+        st.session_state.messages.append({"role": "ai", "content": response})
+        return response
+    return ""
+
+def display_response(response):
+    with st.chat_message("ai"):
+       st.write(f"Chatbot: {response}")
+
+def clear_and_refresh_chat_history():
+    st.session_state.messages = [{"role": "ai", "content": explanation["text"]}]
+
+# Add a button to clear chat history
+st.sidebar.button('Clear and Refresh', on_click=clear_and_refresh_chat_history)
 
 # Initialize chat history
-if "messages" not in st.session_state:
-    st.session_state.messages = []
+if "messages" not in st.session_state:    
+  st.session_state.messages = [{"role": "ai", "content": explanation["text"]}]
 
 # Display chat messages from history on app rerun
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-# Chat message container with initial explanation from AI
-with st.chat_message("ai"):
-  st.write(explanation["text"])
-
 # Accept user input
 if prompt := st.chat_input("Tell me any questions you have or if you need further insight into the patient explanation!"):
-    # Display user message in chat message container
-    with st.chat_message("user"):
-        st.markdown(prompt)
-    # Add user message to chat history
-    st.session_state.messages.append({"role": "user", "content": prompt})
-    
-
-# Display assistant response in chat message container
-with st.chat_message("ai"):
-    response = st.write_stream(prompt)
-    
-# Add assistant response to chat history
-st.session_state.messages.append({"role": "assistant", "content": response})
+  with st.spinner("Thinking..."):
+    response = generate_response(prompt)
+    display_response(response)
+ 
