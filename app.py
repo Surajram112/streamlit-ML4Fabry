@@ -330,7 +330,8 @@ with pred_cont.container():
         baseline='middle',
         color='black'
     ).encode(
-        text='Probability:Q'
+        text='Probability:Q',
+        format='.2f'
     )
     
     # Combine the base chart and text
