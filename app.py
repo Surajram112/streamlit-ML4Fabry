@@ -452,6 +452,9 @@ st.title('🤗💬 Ask Away!')
 # st.button('Clear and Refresh', on_click=clear_and_refresh_chat_history)
 
 
+def clear_and_refresh_chat_history():
+    st.session_state.messages = [{"role": "assistant", "content": explanation["text"]}]
+
 # Store AI generated responses
 if "messages" not in st.session_state.keys():
   st.session_state.messages = [{"role": "assistant", "content": "I'm HugChat, How may I help you?"}]
@@ -477,3 +480,6 @@ if st.session_state.messages[-1]["role"] != "assistant":
           
   message = {"role": "assistant", "content": response}
   st.session_state.messages.append(message)
+
+# Add a button to clear chat history
+st.button('Clear and Refresh', on_click=clear_and_refresh_chat_history)
