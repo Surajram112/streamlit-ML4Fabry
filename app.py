@@ -313,7 +313,8 @@ with pred_cont.container():
     # Create a DataFrame for the chart
     data = pd.DataFrame({
       'Condition': ['HCM', 'FD'], 
-      'Probability': prediction
+      'Probability': prediction,
+      'Order': [1, 2] # Order to sort the conditions
     })
 
     # # Create a horizontal bar chart
@@ -330,27 +331,39 @@ with pred_cont.container():
     #   disable=True
     # )
 
-    # Create the line plot
-    line_chart = altair.Chart(data).mark_line(point=True).encode(
-        x=altair.X('Condition:N', title='Condition'),
-        y=altair.Y('Probability:Q', title='Probability'),
-        color='Condition:N'
+    # Calculate cumulative probability
+    cumulative_data = altair.Chart(data).transform_window(
+        cumulative_prob='sum(Probability)',
+        sort=[{'field': 'Order'}],
+        frame=[None, 0]
     )
 
-    # Create text annotations on the line plot
-    text_annotations = line_chart.mark_text(
+    # Create the horizontal line plot for cumulative probabilities
+    line_chart = cumulative_data.mark_line(point=True).encode(
+        x=altair.X('cumulative_prob:Q', title='Cumulative Probability'),
+        y=altair.Y('Condition:N', title='Condition', sort=None),
+        color='Condition:N'
+    ).properties(
+        width=600,
+        height=100
+    )
+
+    # Create text annotations for the probabilities
+    text_annotations = cumulative_data.mark_text(
         align='left',
         baseline='middle',
-        dx=7  # Nudge text to right so it doesn't overlap with the points
+        dx=5  # Nudge text to the right of the point
     ).encode(
-        text=altair.Text('Probability:Q', format='.2f')  # Format probabilities to two decimal places
+        x=altair.X('cumulative_prob:Q', stack='zero'),  # Ensure text aligns with the cumulative probability
+        y=altair.Y('Condition:N', sort=None),
+        text=altair.Text('cumulative_prob:Q', format='.2f')  # Format the text to display probabilities
     )
 
     # Combine the line plot and text annotations
     final_chart = (line_chart + text_annotations).properties(
-        title="Probabilities by Condition"
+        title="Cumulative Probabilities by Condition"
     )
-
+    
     # Display the chart in Streamlit
     st.altair_chart(final_chart, use_container_width=True)
   
