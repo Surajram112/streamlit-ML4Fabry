@@ -444,7 +444,7 @@ def generate_response(prompt_input, chatbot):
     return chatbot.chat(prompt)
 
 # User-provided prompt
-if prompt := st.chat_input(disabled=not (hf_email and hf_pass)):
+if prompt := st.chat_input("Enter your message here...", key="prompt"):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.write(prompt)
