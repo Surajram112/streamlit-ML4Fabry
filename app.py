@@ -325,11 +325,11 @@ with pred_cont.container():
     )
     
     # Text annotations at the start of the bar
-    text_condition_start = base.mark_text(align='center', baseline='middle').encode(
+    text_condition_start = base.mark_text(align='left', baseline='middle').encode(
         text=alt.Text('Condition:N'))
     
     # Text annotations at the end of the bar
-    text_condition_end = base.mark_text(align='center', baseline='middle').encode(
+    text_condition_end = base.mark_text(align='right', baseline='middle').encode(
         text=alt.Text('Condition:N'))
     
     # Text for probability values in the middle of the bar
