@@ -423,7 +423,7 @@ if "messages" not in st.session_state:
 # Display or clear chat messages
 for message in st.session_state.messages:
   with st.chat_message(message["role"]):
-      st.write(message["content"])
+      st.markdown(message["content"])
 
 def clear_chat_history():
   chatbot.new_conversation(switch_to=True)
