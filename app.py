@@ -434,8 +434,9 @@ if prompt := st.chat_input(placeholder="Who won the Women's U.S. Open in 2018?")
           huggingfacehub_api_token=st.secrets["HUGGINGFACEHUB_API_TOKEN"]
           )
     
-    tools = [DuckDuckGoSearchRun(name="Search")]
-    chat_agent = ConversationalChatAgent.from_llm_and_tools(llm=llm, tools=tools)
+    # tools = [DuckDuckGoSearchRun(name="Search")]
+    # chat_agent = ConversationalChatAgent.from_llm_and_tools(llm=llm, tools=tools)
+    chat_agent = ConversationalChatAgent.from_llm(llm=llm)
     executor = AgentExecutor.from_agent_and_tools(
         agent=chat_agent,
         tools=tools,
