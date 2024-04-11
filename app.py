@@ -339,7 +339,7 @@ with pred_cont.container():
     )
 
     # Combine the charts
-    chart = alt.layer(base, text_hcm, text_fd).configure_view(
+    chart = alt.layer(base).configure_view(
         strokeWidth=0  # Removes border around the chart
     )
     
