@@ -330,8 +330,6 @@ with pred_cont.container():
         baseline='middle',
         color='white',
         dx=-5
-    ).encode(
-        text='Probability:Q'
     )
     
     chart = alt.layer(base, text)
