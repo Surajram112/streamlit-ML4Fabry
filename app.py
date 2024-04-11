@@ -332,6 +332,8 @@ with pred_cont.container():
     )
     
     
+    
+    
     # Text for probability values in the middle of the bar
     # We calculate a mid-point for the bar to place the text
     text_probability = alt.Chart(data).mark_text(align='center', baseline='middle').encode(
@@ -341,7 +343,7 @@ with pred_cont.container():
     )
     
     # Combine all layers
-    chart = alt.layer(base, text_condition).configure_view(
+    chart = alt.layer(base, text_probability).configure_view(
         strokeWidth=0  # Removes border around the chart
     )
     
