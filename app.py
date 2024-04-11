@@ -327,7 +327,7 @@ with pred_cont.container():
     data = pd.DataFrame({
         'Condition': ['HCM', 'FD'],
         'Probability': prediction,
-        'Cond_Position': [0.03, 0.97],  # Custom positions for labels
+        'Cond_Position': [0.05, 0.95],  # Custom positions for labels
         'Pred_Position': [prediction[0] - 0.03, prediction[0] + 0.03],  # Positions adjusted based on the prediction
         'Sort': [0, 1]  # Ensure the order of bars
     })
