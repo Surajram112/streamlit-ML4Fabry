@@ -14,8 +14,6 @@ from langchain_community.llms import HuggingFaceEndpoint
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 
-import hugchat
-
 from langchain.callbacks.base import BaseCallbackHandler
 from langchain.schema import ChatMessage
 
@@ -435,7 +433,14 @@ stream_handler = StreamHandler(st.empty())
 #         huggingfacehub_api_token=st.secrets["HUGGINGFACEHUB_API_TOKEN"]
 #         )
 
-llm = hugchat["mistralai/Mixtral-8x7B-Instruct-v0.1"]
+from hugchat import hugchat
+from hugchat.login import Login
+
+hugchat_login = Login(
+    username=st.secrets["HUG_CHAT_EMAIL"],
+    password=st.secrets["HUG_CHAT_PASSWD"]
+)
+llm = hugchat.HugChat(login=hugchat_login)
 
 # Load model and prepare data if not already loaded
 if not st.session_state.get('initialized', False):
