@@ -314,8 +314,8 @@ with pred_cont.container():
     data = pd.DataFrame({
       'Condition': ['HCM', 'FD'], 
       'Probability': prediction,
-      'Cond_Position': [0.02, 0.98],
-      'Pred_Position': [prediction[0]-0.05, prediction[0]+0.05],
+      'Cond_Position': [0.03, 0.97],
+      'Pred_Position': [prediction[0]-0.03, prediction[0]+0.03],
       'Sort': [0, 1],
     })
     
