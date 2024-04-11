@@ -436,11 +436,13 @@ stream_handler = StreamHandler(st.empty())
 from hugchat import hugchat
 from hugchat.login import Login
 
-hugchat_login = Login(
+sign = Login(
     email=st.secrets["HUG_CHAT_EMAIL"],
     passwd=st.secrets["HUG_CHAT_PASSWD"]
 )
-llm = hugchat.HugChat(login=hugchat_login)
+cookies = sign.login()
+# Create ChatBot                        
+llm = hugchat.ChatBot(cookies=cookies.get_dict())
 
 # Load model and prepare data if not already loaded
 if not st.session_state.get('initialized', False):
