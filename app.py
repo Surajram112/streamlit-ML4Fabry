@@ -319,16 +319,20 @@ with pred_cont.container():
     # Base chart for the single bar
     base = alt.Chart(data).mark_bar().encode(
         x=alt.X('Probability:Q', stack='zero', axis=None),
-        color=alt.Color('Condition:N', legend=None, scale=alt.Scale(domain=['HCM', 'FD'], range=['#1f77b4', '#ff7f0e'])),
-        text=alt.Text('Probability:Q', format='.2f')
+        color=alt.Color('Condition:N', legend=None, scale=alt.Scale(domain=['HCM', 'FD'], range=['#1f77b4', '#ff7f0e']))
         ).properties(
             height=50
         )
     
     # Add text to the chart to display the condition name. First, create a text chart with the condition name.
-    text = alt.Chart(data).mark_text(dx=-50, dy=0, color='white').encode(
+    text = alt.Chart(data).mark_text(dx=-50, dy=0).encode(
         x=alt.X('Probability:Q', stack='zero'),
-        text='Condition:N'
+        text='Condition:N',
+        color=alt.condition(
+            alt.datum.Condition == 'HCM',
+            alt.value('white'),
+            alt.value('black')
+        )
     )
     
     # Combine the base chart and text
