@@ -327,7 +327,6 @@ with pred_cont.container():
     # Add text to the chart to display the condition name. First, create a text chart with the condition name.
     text = alt.Chart(data).mark_text(dx=-50, dy=0, color='white').encode(
         x=alt.X('Probability:Q', stack='zero'),
-        detail='Condition:N',
         text='Condition:N'
     )
     
