@@ -329,7 +329,7 @@ with pred_cont.container():
         )
 
     # Text Names
-    text_desc = alt.Chart(data).mark_text(align='center', baseline='middle', color='white').encode(
+    text_desc = alt.Chart(data).mark_text(align='center', baseline='middle', color='white', fontSize=15).encode(
         x='Cond_Position:Q',
         text=alt.Text('Condition:N')
     ).properties(
@@ -337,7 +337,7 @@ with pred_cont.container():
     )
     
     # Text Probabilities
-    text_probs = alt.Chart(data).mark_text(align='center', baseline='middle', color='white').encode(
+    text_probs = alt.Chart(data).mark_text(align='center', baseline='middle', color='white', fontSize=15).encode(
         x='Pred_Position:Q',
         text=alt.Text('Probability:N', format='.2f')
     ).properties(
