@@ -431,10 +431,3 @@ if prompt := st.chat_input():
 
 if st.button("Clear chat history"):
     st.session_state["messages"] = []
-
-# Create a line between the chatbot and the footer
-colored_header(label='', description='', color_name='blue-30')
-
-# Add a footer
-with st.container():
-  st.write('This app is for educational purposes only. Please consult a healthcare professional for medical advice.')
