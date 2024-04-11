@@ -320,7 +320,7 @@ input_data = pd.DataFrame({
 
 with pred_cont.container():
 
-  with st.container(border=True, height=70):
+  with st.container(height=70):
     # Make a prediction
     prediction = model.predict_proba(input_data).flatten()
     
