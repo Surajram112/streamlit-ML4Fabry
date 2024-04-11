@@ -322,9 +322,6 @@ with pred_cont.container():
         color=alt.Color('Condition:N', legend=None)
     ).properties(
         height=50
-    ).transform_extent(
-        field='Probability',
-        extent=[0, 1]
     ).configure_axis(
         domain=False,
         labelFontSize=12,
