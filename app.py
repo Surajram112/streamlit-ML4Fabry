@@ -472,8 +472,7 @@ if st.session_state.messages[-1]["role"] != "assistant":
   # Call LLM
   with st.chat_message("assistant"):
     with st.spinner("Thinking..."):
-      chain = ConversationChain(llm=chatbot)
-      response = chain.run(input=prompt)
+      response = chatbot.generate_response(prompt)
       st.write(response)
           
   message = {"role": "assistant", "content": response}
