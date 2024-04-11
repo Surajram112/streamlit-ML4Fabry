@@ -327,7 +327,6 @@ with pred_cont.container():
         color=alt.Color('Condition:N', legend=None, scale=alt.Scale(domain=['HCM', 'FD'], range=['#1f77b4', '#ff7f0e'])),
         order='Sort'  # Sorting order for conditions
     ).properties(
-        width='container',  # Make the width responsive to the container width
         height=60  # Fixed height to reduce vertical space
     )
 
@@ -356,7 +355,7 @@ with pred_cont.container():
     # Combine the charts
     chart = alt.layer(base, text_desc, text_probs).configure_view(
         strokeWidth=0,  # Remove border around the chart
-        continuousHeight=20  # Minimize padding on height
+        removeAxis=True  # Remove axis for a cleaner look
     )
   
     st.altair_chart(chart, use_container_width=True)
