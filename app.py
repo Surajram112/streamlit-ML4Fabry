@@ -398,7 +398,7 @@ Patient history: {patient_history}
 """
 stream_handler = StreamHandler(st.empty())
 llm = HuggingFaceEndpoint(
-        repo_id="HuggingFaceH4/zephyr-7b-alpha",
+        repo_id=st.secrets["HUGGINGFACE_REPO_ID"],
         task="text-generation",
         max_new_tokens=2048,
         top_k=10,
