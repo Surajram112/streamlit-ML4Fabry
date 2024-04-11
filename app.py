@@ -336,7 +336,7 @@ with pred_cont.container():
     # Base chart for the single bar
     base = alt.Chart(data).mark_bar().encode(
         x=alt.X('sum(Probability):Q', stack='zero', axis=None),  # No axis for a cleaner look
-        color=alt.Color('Condition:N', legend=None, scale=alt.Scale(domain=['HCM', 'FD'], range=['blue', 'red'])),
+        color=alt.Color('Condition:N', legend=None, scale=alt.Scale(domain=['HCM', 'FD'], range=['#c44601', '#054fb9'])),
         order='Sort'  # Sorting order for conditions
     ).properties(
         height=60  # Fixed height to reduce vertical space
