@@ -420,29 +420,18 @@ class StreamHandler(BaseCallbackHandler):
 stream_handler = StreamHandler(st.empty())
 
 # Initialize the LLM model
-# llm = HuggingFaceEndpoint(
-#         repo_id="mistralai/Mixtral-8x7B-Instruct-v0.1",
-#         task="text-generation",
-#         max_new_tokens=2048,
-#         top_k=10,
-#         top_p=0.95,
-#         typical_p=0.95,
-#         temperature=0.01,
-#         repetition_penalty=1.03,
-#         callbacks=[stream_handler],
-#         huggingfacehub_api_token=st.secrets["HUGGINGFACEHUB_API_TOKEN"]
-#         )
-
-from hugchat import hugchat
-from hugchat.login import Login
-
-sign = Login(
-    email=st.secrets["HUG_CHAT_EMAIL"],
-    passwd=st.secrets["HUG_CHAT_PASSWD"]
-)
-cookies = sign.login()
-# Create ChatBot                        
-llm = hugchat.ChatBot(cookies=cookies.get_dict())
+llm = HuggingFaceEndpoint(
+        repo_id="mistralai/Mixtral-8x7B-Instruct-v0.1",
+        task="text-generation",
+        max_new_tokens=2048,
+        top_k=10,
+        top_p=0.95,
+        typical_p=0.95,
+        temperature=0.01,
+        repetition_penalty=1.03,
+        callbacks=[stream_handler],
+        huggingfacehub_api_token=st.secrets["HUGGINGFACEHUB_API_TOKEN"]
+        )
 
 # Load model and prepare data if not already loaded
 if not st.session_state.get('initialized', False):
