@@ -315,7 +315,7 @@ with pred_cont.container():
       'Condition': ['HCM', 'FD'], 
       'Probability': prediction,
       'Cond_Position': [0.02, 0.98],
-      'Pred_Position': [prediction[0]-0.02, prediction[0]+0.02],
+      'Pred_Position': [prediction[0]-0.05, prediction[0]+0.05],
       'Sort': [0, 1],
     })
     
