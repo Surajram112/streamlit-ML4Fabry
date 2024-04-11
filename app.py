@@ -324,6 +324,15 @@ with pred_cont.container():
             height=50
         )
     
+    # Add text to the chart
+    text = base.mark_text(
+        align='left',
+        baseline='middle',
+        dx=3
+    ).encode(
+        text=alt.Text('Probability:Q', format='.2f')
+    )
+    
     # Display the chart in Streamlit
     st.altair_chart(base, use_container_width=True)
 
