@@ -323,19 +323,19 @@ with pred_cont.container():
     ).properties(
         height=50
     )
-
+    
     # Text annotations at the start of the bar
+    # text_condition_start = base.mark_text(align='center', baseline='middle').encode(text=alt.Text('Condition:N'))
+    
     text_condition_start = alt.Chart(data).mark_text(align='left', baseline='middle').encode(
         x=alt.X('sum(Probability):Q', stack="zero"),
         y=alt.Y('Condition:N', axis=None),
         text='Condition:N'
     )
-    # Text annotations at each end of the bar
-    text_condition_end = alt.Chart(data).mark_text(align='right', baseline='middle').encode(
-        x=alt.X('sum(Probability):Q', stack="zero"),
-        y=alt.Y('Condition:N', axis=None),
-        text=alt.Text('Probability:Q', format='.2f')
-    )
+    
+    
+    text_condition_end = base.mark_text(align='center', baseline='middle').encode(text=alt.Text('Condition:N'))
+
     
     # Text for probability values in the middle of the bar
     # We calculate a mid-point for the bar to place the text
