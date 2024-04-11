@@ -333,8 +333,10 @@ with pred_cont.container():
         text=alt.Text('Probability:Q', format='.2f')
     )
     
+    chart = (base + text).configure_view(strokeWidth=0)
+    
     # Display the chart in Streamlit
-    st.altair_chart(base, use_container_width=True)
+    st.altair_chart(chart, use_container_width=True)
 
   with st.expander("Additional Interpretability", expanded=False):
     # Create a SHAP Explainer object
