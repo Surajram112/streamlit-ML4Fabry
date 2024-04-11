@@ -456,6 +456,9 @@ with st.sidebar:
     st.header('User Login')
     user_name = st.text_input('Enter your Name:', type='Name')
 
+# Create a ConversationChain
+chain = ConversationChain(llm=chatbot)
+
 # Store AI generated responses
 if "messages" not in st.session_state.keys():
     st.session_state.messages = [{"role": "assistant", "content": "I'm HugChat, How may I help you?"}]
@@ -464,18 +467,6 @@ if "messages" not in st.session_state.keys():
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.write(message["content"])
-
-# Function for generating LLM response
-def generate_response(prompt, email, passwd):
-    # Hugging Face Login
-    sign = Login(email, passwd)
-    cookies = sign.login()
-    sign.saveCookies()
-    # Create ChatBot                        
-    chatbot = hg.ChatBot(cookies=cookies.get_dict())
-    chain = ConversationChain(llm=chatbot)
-    response = chain.run(input=prompt)
-    return response
 
 # Prompt for user input and save
 if prompt := st.chat_input():
@@ -488,7 +479,7 @@ if st.session_state.messages[-1]["role"] != "assistant":
     # Call LLM
     with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
-            response = generate_response(prompt, hf_email, hf_pass)
+            response = chain.run(input=prompt)
             st.write(response)
             
     message = {"role": "assistant", "content": response}
