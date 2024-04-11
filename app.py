@@ -416,19 +416,10 @@ colored_header(label='', description='', color_name='blue-30')
 # ChatBot
 st.title('🤗💬 Ask Away!')
 
-# Store LLM generated responses
-if "messages" not in st.session_state:
-  st.session_state.messages = [{"role": "assistant", "content": explanation['text']}]
-
-# Display or clear chat messages
-for message in st.session_state.messages:
-  with st.chat_message(message["role"]):
-      st.markdown(message["content"])
-
 def clear_chat_history():
   chatbot.new_conversation(switch_to=True)
+  response = generate_response(prompt, chatbot)
   st.session_state.messages = [{"role": "assistant", "content": explanation['text']}]
-    
 
 # Function for generating LLM response
 def generate_response(prompt_input, chatbot):
@@ -441,6 +432,16 @@ def generate_response(prompt_input, chatbot):
 
   prompt = f"{string_dialogue} {prompt_input} Assistant: "
   return chatbot.chat(prompt)
+
+# Store LLM generated responses
+if "messages" not in st.session_state:
+  response = generate_response(prompt, chatbot)
+  st.session_state.messages = [{"role": "assistant", "content": }]
+
+# Display or clear chat messages
+for message in st.session_state.messages:
+  with st.chat_message(message["role"]):
+      st.markdown(message["content"])
 
 # User-provided prompt
 if prompt := st.chat_input("Enter your message here...", key="prompt"):
