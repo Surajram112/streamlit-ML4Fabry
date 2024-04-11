@@ -325,21 +325,20 @@ with pred_cont.container():
     )
     
     # Text annotations for each of the conditions at the ends of the bar
-    text_condition_left = alt.Chart(data).mark_text(align='left', dx=-300, dy=0).encode(
-        x=alt.value(0),  # Align to the left end
-        y=alt.value(1),  # Vertically center
+    text_condition_left = alt.Chart(data).mark_text(align='left', dx=5).encode(
+        y=alt.Y('Condition:N'),
         text=alt.Text('Condition:N')
     )
-    text_condition_right = alt.Chart(data).mark_text(align='right', dx=300, dy=0).encode(
-        x=alt.value(1),  # Align to the right end
-        y=alt.value(1),  # Vertically center
+    
+    text_condition_right = alt.Chart(data).mark_text(align='right', dx=-5).encode(
+        y=alt.Y('Condition:N'),
         text=alt.Text('Condition:N')
     )
-    # Text for probability values in the middle of the bar
-    # We calculate a mid-point for the bar to place the text
+    
+    # Text annotations for the probability values
     text_probability = alt.Chart(data).mark_text(align='center', baseline='middle').encode(
-        x=alt.X('average(Probability):Q', stack="zero"),
-        y=alt.Y('Condition:N', axis=None),
+        y=alt.Y('Condition:N'),
+        x=alt.X('sum(Probability):Q'),
         text=alt.Text('Probability:Q', format='.2f')
     )
     
