@@ -328,7 +328,7 @@ with pred_cont.container():
     text = alt.Chart(data).mark_text(color="white").encode(
         x=alt.X('Probability:Q', stack='zero', axis=None),
         text='Condition:N',
-        dx=-100,
+        dx=-30,
         dy=0
     )
     
