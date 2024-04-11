@@ -332,10 +332,6 @@ with pred_cont.container():
     ).encode(
         text=alt.Text('Probability:Q', 
                       format='.2f',
-                      condition=alt.Condition(
-                          test='datum.Probability > 0.5',
-                          value='Probability',
-                          format=''),
                       color=alt.value('white')
         )
     )
