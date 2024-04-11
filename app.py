@@ -308,7 +308,7 @@ input_data = pd.DataFrame({
 
 with pred_cont.container():
 
-  with st.container(border=True):
+  with st.container(layout='flex', direction='row', wrap='wrap', justify='center', align='center', gap='10px'):
     # Make a prediction
     prediction = model.predict_proba(input_data).flatten()
     
