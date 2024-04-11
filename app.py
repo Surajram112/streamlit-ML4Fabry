@@ -421,7 +421,7 @@ st.title('🤗💬 Ask Away!')
 # Hugging Face Credentials
 with st.sidebar:
     st.title('🤗💬 HugChat')
-    if ('EMAIL' in st.secrets) and ('PASS' in st.secrets):
+    if ('HUG_CHAT_EMAIL' in st.secrets) and ('HUG_CHAT_PASSWD' in st.secrets):
         st.success('HuggingFace Login credentials already provided!', icon='✅')
         hf_email = st.secrets['HUG_CHAT_EMAIL']
         hf_pass = st.secrets['HUG_CHAT_PASSWD']
