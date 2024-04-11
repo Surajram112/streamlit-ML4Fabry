@@ -320,19 +320,19 @@ with pred_cont.container():
     base = alt.Chart(data).mark_bar().encode(
         x=alt.X('sum(Probability):Q', stack='zero', axis=None),
         color=alt.Color('Condition:N', legend=None)
-    ).properties(
-        height=50
-    ).configure_axis(
-        domain=False,
-        labelFontSize=12,
-        title=None
-    ).configure_axisX(
-        labelAngle=0
-    ).configure_axisY(
-        labelPadding=10
-    ).configure_legend(
-        disable=True
-    )
+        ).properties(
+            height=50
+        ).configure_axis(
+            domain=False,
+            labelFontSize=12,
+            title=None
+        ).configure_axisX(
+            labelAngle=0
+        ).configure_axisY(
+            labelPadding=10
+        ).configure_legend(
+            disable=True
+        )
     
     # Display the chart in Streamlit
     st.altair_chart(base, use_container_width=True)
