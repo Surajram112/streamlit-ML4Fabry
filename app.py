@@ -325,7 +325,7 @@ with pred_cont.container():
     )
     
     # Text annotations for each of the conditions
-    text_condition = alt.Chart(data).mark_text(align='left', baseline='middle').encode(
+    text_condition = alt.Chart(data).mark_text(align='centre', baseline='middle').encode(
         x=alt.X('sum(Probability):Q', stack="zero"),
         y=alt.Y('Condition:N', axis=None),
         text=alt.Text('Condition:N')
@@ -346,7 +346,7 @@ with pred_cont.container():
     )
     
     # Display the chart in Streamlit
-    st.altair_chart(chart)
+    st.altair_chart(chart, use_container_width=True)
 
   with st.expander("Additional Interpretability", expanded=False):
     # Create a SHAP Explainer object
