@@ -463,6 +463,10 @@ llm = HuggingFaceEndpoint(
     repo_id=st.secrets["HUGGINGFACE_REPO_ID"],
     task="text-generation",
     max_new_tokens=100,
+    top_k=10,
+    top_p=0.9,
+    temperature=0.4,
+    repetition_penalty=1.1
     huggingfacehub_api_token=st.secrets["HUGGINGFACEHUB_API_TOKEN"]
 )
 
