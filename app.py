@@ -462,6 +462,7 @@ if 'initialized' not in st.session_state:
 llm = HuggingFaceEndpoint(
     repo_id="gpt2",
     task="text-generation",
+    max_new_tokens=100,
     huggingfacehub_api_token=st.secrets["HUGGINGFACEHUB_API_TOKEN"]
 )
 
