@@ -565,7 +565,7 @@ if prompt := st.chat_input():
     update_history("user", prompt)
     memory.chat_memory.add_user_message(prompt)
     st.chat_message("user").markdown(prompt)
-    response = llm_chain.invoke(prompt)
+    response = llm_chain.invoke({"chat_history": memory.load_memory_variables({})['chat_history'], "human_input": prompt})
     memory.chat_memory.add_ai_message(response.get('text'))
     st.chat_message("assistant").markdown(response.get('text'))
     update_history("assistant", response.get('text'))
