@@ -557,7 +557,6 @@ if st.button("Analyse Data"):
 # Display chat messages
 for msg in st.session_state.messages:
     st.chat_message(msg.get('role')).markdown(msg.get('content'))
-    st.markdown('---')
 
 # st.chat_message("assistant").markdown(memory.load_memory_variables({})['chat_history'])
 
