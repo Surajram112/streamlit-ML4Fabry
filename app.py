@@ -422,9 +422,6 @@ def get_response_template(question_type):
     }
     return templates.get(question_type, 'general')  # Default to general if type not found
   
-def update_history(user_message, ai_response):
-    st.session_state['messages'].append({'user': user_message, 'ai': ai_response})
-    
 def use_context_to_generate_response(user_message):
     # Assuming context is a list of message dictionaries, we need to extract just the text part
     context = [msg for msg in st.session_state['messages'][-5:]]  # Extract the last 5 AI responses
@@ -438,7 +435,6 @@ def use_context_to_generate_response(user_message):
         
     return response
 
-
 def collect_feedback():
     feedback = st.radio("Was this response helpful?", ('Yes', 'No'))
     if feedback == 'No':
@@ -450,7 +446,6 @@ def log_feedback(feedback):
     # Example logging to a text file (consider using a database for production environments)
     with open('feedback_log.txt', 'a') as file:
         file.write(f"{feedback}\n")
-
 
 # Chatbot UI
 st.title('🤗💬 Ask Away!')
@@ -530,23 +525,22 @@ if st.button("Analyse Data"):
     # Initialize the LLMChain with the model and template
     model_instructions = PromptTemplate.from_template(template)
     llm_chain = LLMChain(llm=llm, prompt=model_instructions)  
-                          
     response = llm_chain.invoke(initial_prompt)
     
     # Update the chat history
-    update_history('assistant', response)
+    st.session_state['messages'].append({'role': "assistant", 'content': response})
 
 # Display chat messages
 for msg in st.session_state.messages:
-    st.chat_message(msg['role']).markdown(msg['content'])
+    st.chat_message(msg.role).markdown(msg.content)
 
 # Chat input  
 if prompt := st.chat_input():
-    update_history('user', prompt)
+    st.session_state['messages'].append({'role': "user", 'content': prompt})
     st.chat_message("user").markdown(prompt)
     response = use_context_to_generate_response(prompt)
     st.chat_message("assistant").markdown(response)
-    update_history('assistant', response)
+    st.session_state['messages'].append({'role': "assistant", 'content': response})
 
     
 # Allow users to clear chat history
