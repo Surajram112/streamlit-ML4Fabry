@@ -466,7 +466,10 @@ llm = HuggingFaceEndpoint(
     top_k=10,
     top_p=0.9,
     temperature=0.4,
-    repetition_penalty=1.1
+    repetition_penalty=1.1,
+    stop_sequences=None,
+    stop=None,
+    watermark=False,
     huggingfacehub_api_token=st.secrets["HUGGINGFACEHUB_API_TOKEN"]
 )
 
