@@ -550,7 +550,7 @@ if st.button("Analyse Data"):
     response = llm_chain.invoke(template_prompt)
     
     # Update the chat history
-    update_history('assistant', response.get('text'))
+    # update_history('assistant', response.get('text'))
 
 # Display chat messages
 for msg in st.session_state.messages:
@@ -558,12 +558,12 @@ for msg in st.session_state.messages:
 
 # Chat input  
 if prompt := st.chat_input():
-    update_history("user", prompt)
+    # update_history("user", prompt)
     st.chat_message("user").markdown(prompt)
     # response = use_context_to_generate_response(prompt)
-    response = llm_chain.predict(human_input=prompt)
+    response = llm_chain.invoke(human_input=prompt)
     st.chat_message("assistant").markdown(response)
-    update_history("assistant", response)
+    # update_history("assistant", response)
 
     
 # Allow users to clear chat history
