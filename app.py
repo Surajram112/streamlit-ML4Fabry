@@ -529,8 +529,8 @@ if st.button("Analyse Data"):
                           
     response = llm_chain.invoke(initial_prompt)
     
-    # Setup initial chat messages
-    st.session_state.messages.append(ChatMessage(role="user", content=response.content))
+    # Update the chat history
+    update_history('assistant', response)
 
 # Display chat messages
 for msg in st.session_state.messages:
@@ -538,8 +538,7 @@ for msg in st.session_state.messages:
 
 # Chat input  
 if prompt := st.chat_input():
-    user_message = {'role': 'user', 'content': prompt}
-    update_history(**user_message)
+    update_history('user', prompt)
     st.chat_message("user").markdown(prompt)
     response = use_context_to_generate_response(prompt)
     st.chat_message("assistant").markdown(response)
