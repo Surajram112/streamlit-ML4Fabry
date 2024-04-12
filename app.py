@@ -532,7 +532,7 @@ if st.button("Analyse Data"):
     response = llm_chain.invoke(initial_prompt)
     
     # Update the chat history
-    update_history('assistant', response["text"])
+    update_history('assistant', response.get('text'))
 
 # Display chat messages
 for msg in st.session_state.messages:
