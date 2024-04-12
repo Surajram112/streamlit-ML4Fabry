@@ -14,7 +14,7 @@ from langchain_community.llms import HuggingFaceEndpoint
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 from langchain.schema import ChatMessage
-from langchain.memory import ChatMessageHistory
+from langchain.memory import ConversationBufferMemory
 
 # Ignore warnings
 import warnings
@@ -534,6 +534,28 @@ if st.button("Analyse Data"):
     # Update the chat history
     update_history('assistant', response.get('text'))
 
+template = """
+You are a helpful chatbot.
+Your goal is to help the user understand the model's predictions and
+provide additional insights based on the user's feedback.
+
+{chat_history}
+Human: {human_input}
+Chatbot:"""
+
+prompt = PromptTemplate(
+    input_variables=["chat_history", "human_input"], 
+    template=template
+)
+memory = ConversationBufferMemory(memory_key="chat_history")
+
+llm_chain = LLMChain(
+    llm=llm, 
+    prompt=prompt, 
+    verbose=True, 
+    memory=memory
+)
+
 # Display chat messages
 for msg in st.session_state.messages:
     st.chat_message(msg.get('role')).markdown(msg.get('content'))
@@ -542,7 +564,8 @@ for msg in st.session_state.messages:
 if prompt := st.chat_input():
     update_history("user", prompt)
     st.chat_message("user").markdown(prompt)
-    response = use_context_to_generate_response(prompt)
+    # response = use_context_to_generate_response(prompt)
+    response = llm_chain.predict(human_input=prompt)
     st.chat_message("assistant").markdown(response)
     update_history("assistant", response)
 
