@@ -551,6 +551,7 @@ if st.button("Analyse Data"):
     
     # Update the chat history
     update_history('assistant', response.get('text'))
+    memory.add(response.get('text'))
 
 # Display chat messages
 for msg in st.session_state.messages:
@@ -559,9 +560,11 @@ for msg in st.session_state.messages:
 # Chat input  
 if prompt := st.chat_input():
     update_history("user", prompt)
+    memory.add(prompt)
     st.chat_message("user").markdown(prompt)
     response = llm_chain.invoke(prompt)
-    st.chat_message("assistant").markdown(response)
+    memory.add(response.get('text'))
+    st.chat_message("assistant").markdown(response.get('text'))
     update_history("assistant", response)
 
     
