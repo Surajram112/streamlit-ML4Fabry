@@ -14,6 +14,7 @@ from langchain_community.llms import HuggingFaceEndpoint
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 from langchain.schema import ChatMessage
+from langchain.memory import ChatMessageHistory
 
 # Ignore warnings
 import warnings
@@ -398,29 +399,82 @@ with pred_cont.container():
 # Create a line between the containers and the chatbot
 colored_header(label='', description='', color_name='blue-70')
 
-# Chatbot
+# Chatbot functions
+def initialize_session_state():
+    st.session_state['messages'] = []
+    st.session_state['user_data'] = {}
+    st.session_state['initialized'] = True
+
+def get_question_type(user_message):
+    # Use a simple keyword-based approach to determine the question type
+    if 'medical' in user_message.lower():
+        return 'medical'
+    elif 'technical' in user_message.lower():
+        return 'technical'
+    else:
+        return 'general'
+
+def get_response_template(question_type):
+    templates = {
+        'medical': "Based on the symptoms, the likely condition is...",
+        'technical': "The solution to the problem you described is...",
+        'general': "Here's the information I found on your query..."
+    }
+    return templates.get(question_type, 'general')  # Default to general if type not found
+  
+def update_history(user_message, ai_response):
+    st.session_state['messages'].append({'user': user_message, 'ai': ai_response})
+
+def use_context_to_generate_response(user_message):
+    context = st.session_state['messages'][-5:]  # Use the last 5 messages for context
+    
+    try:
+        response = llm.generate(user_message, context)
+    except Exception as e:
+        response = f"Sorry, I couldn't process your request due to: {str(e)}"
+        
+    return response
+
+def collect_feedback():
+    feedback = st.radio("Was this response helpful?", ('Yes', 'No'))
+    if feedback == 'No':
+        additional_feedback = st.text_area("Please provide additional feedback to help us improve:")
+        # Optionally, save feedback to a log or database for analysis
+        log_feedback(additional_feedback)
+
+def log_feedback(feedback):
+    # Example logging to a text file (consider using a database for production environments)
+    with open('feedback_log.txt', 'a') as file:
+        file.write(f"{feedback}\n")
+
+
+# Chatbot UI
 st.title('🤗💬 Ask Away!')
 
-# Initialize or get the current session state for messages
-if 'messages' not in st.session_state:
-    st.session_state['messages'] = []
+# Initialize or get the current session state
+if 'initialized' not in st.session_state:
+    initialize_session_state()  # A function that sets up the initial state comprehensively
+    st.session_state['initialized'] = True
 
 # Initialize the LLM model
 llm = HuggingFaceEndpoint(
-        repo_id=st.secrets["HUGGINGFACE_REPO_ID"],
-        task="text-generation",
-        max_new_tokens=1024,
-        top_k=10,
-        top_p=0.95,
-        typical_p=0.95,
-        temperature=0.01,
-        repetition_penalty=1.03,
-        huggingfacehub_api_token=st.secrets["HUGGINGFACEHUB_API_TOKEN"]
-        )
+    repo_id=st.secrets["HUGGINGFACE_REPO_ID"],
+    task="text-generation",
+    max_new_tokens=1024,
+    top_k=30,
+    top_p=0.9,
+    temperature=0.4,  # Adjust based on desired creativity
+    repetition_penalty=1.1,
+    huggingfacehub_api_token=st.secrets["HUGGINGFACEHUB_API_TOKEN"]
+)
 
 # Initialize the chatbot by asking the user's name
-st.chat_message("assistant").markdown("Hello! I'm here to help you find the right prognosis. \
-                                      Please press the 'Analyse Data' after entering the patient's cardiac data.")
+st.chat_message("assistant").markdown(
+    """
+    Hello! I'm here to assist you. 
+    Please press 'Analyse Data' after entering the patient's cardiac data or choose a sample patient to load predefined data.
+    """
+)
 
 # Load sample patients
 if st.button("Sample Fabry Patient"):
@@ -477,18 +531,20 @@ if st.button("Analyse Data"):
     
     # Setup initial chat messages
     st.session_state.messages.append(ChatMessage(role="user", content=response.content))
-  
+
 # Display chat messages
 for msg in st.session_state.messages:
     st.chat_message(msg.role).markdown(msg.content)
 
-# Chat input
+# Chat input  
 if prompt := st.chat_input():
-    st.session_state.messages.append(ChatMessage(role="user", content=prompt))
+    user_message = {'role': 'user', 'content': prompt}
+    update_history(**user_message)
     st.chat_message("user").markdown(prompt)
-    response = llm.generate(st.session_state.messages)
-    st.chat_message("assistant").markdown(response["text"])
-    st.session_state.messages.append(ChatMessage(role="assistant", content=response.content))
+    response = use_context_to_generate_response(prompt)
+    st.chat_message("assistant").markdown(response)
+    update_history('assistant', response)
+
     
 # Allow users to clear chat history
 if st.button("Clear chat history"):
