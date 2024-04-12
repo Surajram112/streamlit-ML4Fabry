@@ -546,4 +546,4 @@ if prompt := st.chat_input():
 # Allow users to clear chat history
 if st.button("Clear chat history"):
     st.session_state['messages'] = []
-    st.experimental_rerun()
+    st.rerun()
