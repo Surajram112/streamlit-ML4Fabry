@@ -424,16 +424,20 @@ def get_response_template(question_type):
   
 def update_history(user_message, ai_response):
     st.session_state['messages'].append({'user': user_message, 'ai': ai_response})
-
-def use_context_to_generate_response(user_message):
-    context = st.session_state['messages'][-5:]  # Use the last 5 messages for context
     
+def use_context_to_generate_response(user_message):
+    # Assuming context is a list of message dictionaries, we need to extract just the text part
+    context = [msg for msg in st.session_state['messages'][-5:]]  # Extract the last 5 AI responses
+
     try:
-        response = llm.generate(user_message, context)
+        # Ensure that both the user_message and context are combined into a single list
+        prompts = context + [user_message]  # Combining context with the current user message
+        response = llm.generate(prompts=prompts)  # Now passing a list of strings
     except Exception as e:
         response = f"Sorry, I couldn't process your request due to: {str(e)}"
         
     return response
+
 
 def collect_feedback():
     feedback = st.radio("Was this response helpful?", ('Yes', 'No'))
