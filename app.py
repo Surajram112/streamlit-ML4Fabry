@@ -548,10 +548,11 @@ if st.button("Analyse Data"):
     
     # Initialize the LLMChain with the model and template               
     response = llm_chain.invoke(template_prompt)
+    memory.chat_memory.add_user_message(template_prompt)
     
     # Update the chat history
     update_history('assistant', response.get('text'))
-    memory.add(response.get('text'))
+    memory.chat_memory.add_ai_message(response.get('text'))
 
 # Display chat messages
 for msg in st.session_state.messages:
@@ -560,12 +561,12 @@ for msg in st.session_state.messages:
 # Chat input  
 if prompt := st.chat_input():
     update_history("user", prompt)
-    memory.add(prompt)
+    memory.chat_memory.add_user_message(prompt)
     st.chat_message("user").markdown(prompt)
     response = llm_chain.invoke(prompt)
-    memory.add(response.get('text'))
+    memory.chat_memory.add_ai_message(response.get('text'))
     st.chat_message("assistant").markdown(response.get('text'))
-    update_history("assistant", response)
+    update_history("assistant", response.get('text'))
 
     
 # Allow users to clear chat history
