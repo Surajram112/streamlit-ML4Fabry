@@ -560,7 +560,7 @@ for msg in st.session_state.messages:
 if prompt := st.chat_input():
     update_history("user", prompt)
     st.chat_message("user").markdown(prompt)
-    response = llm_chain.invoke(human_input=prompt)
+    response = llm_chain.invoke(prompt)
     st.chat_message("assistant").markdown(response)
     update_history("assistant", response)
 
