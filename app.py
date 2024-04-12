@@ -538,7 +538,7 @@ if st.button("Analyse Data"):
 
 # Display chat messages
 for msg in st.session_state.messages:
-    st.chat_message(msg.role).markdown(msg.content)
+    st.chat_message(msg['role']).markdown(msg['content'])
 
 # Chat input  
 if prompt := st.chat_input():
