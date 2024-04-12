@@ -525,7 +525,7 @@ if st.button("Analyse Data"):
     # Make a prediction
     predicted_condition = {0: 'Hypertrophic Cardiomyopathy', 1: 'Fabry Disease'}[prediction.argmax()]
     feature_values = input_data.iloc[0].to_dict()
-    features_info = ', '.join([f"{feature}: {feature_values[feature]} ({shap_value:.2f})" 
+    features_info = ', '.join([f"{feature}: {feature_values[feature]} (SHAP:{shap_value:.2f})" 
                                 for feature, shap_value in zip(shap_values_sum['Feature'], shap_values_sum['SHAP Value'])])
     
     # Set the template for the model instructions
@@ -558,7 +558,7 @@ if st.button("Analyse Data"):
 for msg in st.session_state.messages:
     st.chat_message(msg.get('role')).markdown(msg.get('content'))
 
-st.chat_message("assistant").markdown(memory.load_memory_variables({})['chat_history'])
+# st.chat_message("assistant").markdown(memory.load_memory_variables({})['chat_history'])
 
 # Chat input  
 if prompt := st.chat_input():
