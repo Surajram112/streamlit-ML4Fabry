@@ -470,6 +470,27 @@ llm = HuggingFaceEndpoint(
     huggingfacehub_api_token=st.secrets["HUGGINGFACEHUB_API_TOKEN"]
 )
 
+template = """
+You are a honest, helpful and trustworthy assistant.
+
+{chat_history}
+
+Human: {human_input}
+Chatbot:"""
+
+prompt = PromptTemplate(
+    input_variables=["chat_history", "human_input"], 
+    template=template
+)
+memory = ConversationBufferMemory(memory_key="chat_history")
+
+llm_chain = LLMChain(
+    llm=llm, 
+    prompt=prompt, 
+    verbose=True, 
+    memory=memory
+)
+
 # Initialize the chatbot by asking the user's name
 st.chat_message("assistant").markdown(
     """
@@ -506,11 +527,9 @@ if st.button("Analyse Data"):
     feature_values = input_data.iloc[0].to_dict()
     features_info = ', '.join([f"{feature}: {feature_values[feature]} ({shap_value:.2f})" 
                                 for feature, shap_value in zip(shap_values_sum['Feature'], shap_values_sum['SHAP Value'])])
-    initial_prompt = f"Based on the input data, the model predicts a higher likelihood of {predicted_condition}. " \
-                      f"The key factors influencing this prediction include: {features_info}."
     
     # Set the template for the model instructions
-    template = """
+    template_prompt = f"""
     In your role as a cardiologist in a secondary care setting, evaluate the provided comprehensive dataset for a patient referred with potential Hypertrophic Cardiomyopathy (HCM) or Fabry disease. The dataset includes demographic details, ECG, echocardiography (echo), and Holter monitor report values. Guide your analysis with the following considerations:
 
     1. Assess the integration of the patient's demographic information with findings from ECG, echo, and Holter reports, specifically looking for indicators or patterns that may suggest HCM or Fabry disease.
@@ -522,39 +541,16 @@ if st.button("Analyse Data"):
 
     Your goal is to utilize both traditional diagnostic methods and modern data analysis techniques to differentiate between HCM and Fabry disease, providing a detailed and informed diagnostic perspective for this patient.
 
-    Patient history: {patient_history}
+    Based on the input data, the model predicts a higher likelihood of {predicted_condition}
+    
+    The key factors influencing this prediction include: {features_info}.
     """
-
-    # Initialize the LLMChain with the model and template
-    model_instructions = PromptTemplate.from_template(template)
-    llm_chain = LLMChain(llm=llm, prompt=model_instructions)  
-                          
-    response = llm_chain.invoke(initial_prompt)
+    
+    # Initialize the LLMChain with the model and template               
+    response = llm_chain.invoke(template_prompt)
     
     # Update the chat history
     update_history('assistant', response.get('text'))
-
-template = """
-You are a helpful chatbot.
-Your goal is to help the user understand the model's predictions and
-provide additional insights based on the user's feedback.
-
-{chat_history}
-Human: {human_input}
-Chatbot:"""
-
-prompt = PromptTemplate(
-    input_variables=["chat_history", "human_input"], 
-    template=template
-)
-memory = ConversationBufferMemory(memory_key="chat_history")
-
-llm_chain = LLMChain(
-    llm=llm, 
-    prompt=prompt, 
-    verbose=True, 
-    memory=memory
-)
 
 # Display chat messages
 for msg in st.session_state.messages:
