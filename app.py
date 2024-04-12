@@ -462,7 +462,7 @@ if 'initialized' not in st.session_state:
 llm = HuggingFaceEndpoint(
     repo_id=st.secrets["HUGGINGFACE_REPO_ID"],
     task="text-generation",
-    max_new_tokens=1024,
+    max_new_tokens=250,
     top_k=30,
     top_p=0.9,
     temperature=0.4,  # Adjust based on desired creativity
