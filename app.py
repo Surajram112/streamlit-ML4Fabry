@@ -460,7 +460,7 @@ if 'initialized' not in st.session_state:
 
 # Initialize the LLM model
 llm = HuggingFaceEndpoint(
-    repo_id=str(st.secrets["HUGGINGFACE_REPO_ID"]),
+    repo_id="gpt2",
     task="text-generation",
     max_new_tokens=250,
     top_k=10,
@@ -536,7 +536,7 @@ if st.button("Analyse Data"):
 
 # Display chat messages
 for msg in st.session_state.messages:
-    st.chat_message(msg["role"]).markdown(msg["content"])
+    st.chat_message(msg.get('role')).markdown(msg.get('content'))
 
 # Chat input  
 if prompt := st.chat_input():
