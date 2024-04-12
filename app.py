@@ -558,7 +558,7 @@ if st.button("Analyse Data"):
 for msg in st.session_state.messages:
     st.chat_message(msg.get('role')).markdown(msg.get('content'))
 
-# st.chat_message("assistant").markdown(memory.load_memory_variables({})['chat_history'])
+st.chat_message("assistant").markdown(memory.load_memory_variables({})['chat_history'])
 
 # Chat input  
 if prompt := st.chat_input():
