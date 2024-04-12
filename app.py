@@ -486,7 +486,7 @@ for msg in st.session_state.messages:
 if prompt := st.chat_input():
     st.session_state.messages.append(ChatMessage(role="user", content=prompt))
     st.chat_message("user").markdown(prompt)
-    response = llm(st.session_state.messages)
+    response = llm.generate(st.session_state.messages)
     st.chat_message("assistant").markdown(response["text"])
     st.session_state.messages.append(ChatMessage(role="assistant", content=response.content))
     
