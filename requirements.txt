@@ -13,4 +13,5 @@ datetime
 langchain
 langchain_community
 huggingface_hub
+transformers
 duckduckgo-search

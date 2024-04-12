@@ -460,7 +460,7 @@ if 'initialized' not in st.session_state:
 
 # Initialize the LLM model
 llm = HuggingFaceEndpoint(
-    repo_id=st.secrets["HUGGINGFACE_REPO_ID"],
+    repo_id="gpt2",
     task="text-generation",
     max_new_tokens=250,
     top_k=10,
