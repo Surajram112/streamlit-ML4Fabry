@@ -418,26 +418,6 @@ llm = HuggingFaceEndpoint(
         huggingfacehub_api_token=st.secrets["HUGGINGFACEHUB_API_TOKEN"]
         )
 
-# Set the template for the model instructions
-template = """
-In your role as a cardiologist in a secondary care setting, evaluate the provided comprehensive dataset for a patient referred with potential Hypertrophic Cardiomyopathy (HCM) or Fabry disease. The dataset includes demographic details, ECG, echocardiography (echo), and Holter monitor report values. Guide your analysis with the following considerations:
-
-1. Assess the integration of the patient's demographic information with findings from ECG, echo, and Holter reports, specifically looking for indicators or patterns that may suggest HCM or Fabry disease.
-2. Given the referral to secondary care, recognize that the patient has undergone extensive initial testing. Look for both confirmatory and contradictory evidence of HCM or Fabry disease in comparison to earlier assessments.
-3. Interpret 'NaN' values as unmeasured parameters or non-occurring events, and note that gender is coded as '1' for male and '2' for female, which may have implications for the diagnosis due to the X-linked inheritance pattern of Fabry disease.
-4. Employ evidence-based guidelines and differential diagnosis strategies to distinguish between HCM and Fabry disease, focusing on the distinguishing features of each condition as revealed by the diagnostic tests.
-5. Based on the XGBoost model's prediction and the SHAP values for each feature, identify key data points that support the diagnosis of either HCM or Fabry disease.
-6. Formulate recommendations for any further diagnostic tests that may be necessary, drawing on your analysis of the patient's specific condition.
-
-Your goal is to utilize both traditional diagnostic methods and modern data analysis techniques to differentiate between HCM and Fabry disease, providing a detailed and informed diagnostic perspective for this patient.
-
-Patient history: {patient_history}
-"""
-
-# Initialize the LLMChain with the model and template
-model_instructions = PromptTemplate.from_template(template)
-llm_chain = LLMChain(llm=llm, prompt=model_instructions)  
-
 # Initialize the chatbot by asking the user's name
 st.chat_message("assistant").markdown("Hello! I'm here to help you find the right prognosis. \
                                       Please press the 'Analyse Data' after entering the patient's cardiac data.")
@@ -472,7 +452,27 @@ if st.button("Analyse Data"):
                                 for feature, shap_value in zip(shap_values_sum['Feature'], shap_values_sum['SHAP Value'])])
     initial_prompt = f"Based on the input data, the model predicts a higher likelihood of {predicted_condition}. " \
                       f"The key factors influencing this prediction include: {features_info}."
-                      
+    
+    # Set the template for the model instructions
+    template = """
+    In your role as a cardiologist in a secondary care setting, evaluate the provided comprehensive dataset for a patient referred with potential Hypertrophic Cardiomyopathy (HCM) or Fabry disease. The dataset includes demographic details, ECG, echocardiography (echo), and Holter monitor report values. Guide your analysis with the following considerations:
+
+    1. Assess the integration of the patient's demographic information with findings from ECG, echo, and Holter reports, specifically looking for indicators or patterns that may suggest HCM or Fabry disease.
+    2. Given the referral to secondary care, recognize that the patient has undergone extensive initial testing. Look for both confirmatory and contradictory evidence of HCM or Fabry disease in comparison to earlier assessments.
+    3. Interpret 'NaN' values as unmeasured parameters or non-occurring events, and note that gender is coded as '1' for male and '2' for female, which may have implications for the diagnosis due to the X-linked inheritance pattern of Fabry disease.
+    4. Employ evidence-based guidelines and differential diagnosis strategies to distinguish between HCM and Fabry disease, focusing on the distinguishing features of each condition as revealed by the diagnostic tests.
+    5. Based on the XGBoost model's prediction and the SHAP values for each feature, identify key data points that support the diagnosis of either HCM or Fabry disease.
+    6. Formulate recommendations for any further diagnostic tests that may be necessary, drawing on your analysis of the patient's specific condition.
+
+    Your goal is to utilize both traditional diagnostic methods and modern data analysis techniques to differentiate between HCM and Fabry disease, providing a detailed and informed diagnostic perspective for this patient.
+
+    Patient history: {patient_history}
+    """
+
+    # Initialize the LLMChain with the model and template
+    model_instructions = PromptTemplate.from_template(template)
+    llm_chain = LLMChain(llm=llm, prompt=model_instructions)  
+                          
     response = llm_chain.invoke(initial_prompt)
     
     # Setup initial chat messages
@@ -486,7 +486,7 @@ for msg in st.session_state.messages:
 if prompt := st.chat_input():
     st.session_state.messages.append(ChatMessage(role="user", content=prompt))
     st.chat_message("user").markdown(prompt)
-    response = llm_chain.invoke(st.session_state.messages)
+    response = llm(st.session_state.messages)
     st.chat_message("assistant").markdown(response["text"])
     st.session_state.messages.append(ChatMessage(role="assistant", content=response.content))
     
