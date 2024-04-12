@@ -482,7 +482,7 @@ prompt = PromptTemplate(
     input_variables=["chat_history", "human_input"], 
     template=template
 )
-memory = ConversationBufferMemory(memory_key="chat_history")
+memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
 
 llm_chain = LLMChain(
     llm=llm, 
@@ -552,19 +552,21 @@ if st.button("Analyse Data"):
     
     # Update the chat history
     update_history('assistant', response.get('text'))
-    memory.chat_memory.add_message('assistant', response.get('text'))
+    memory.chat_memory.add_ai_message(response.get('text'))
 
 # Display chat messages
 for msg in st.session_state.messages:
     st.chat_message(msg.get('role')).markdown(msg.get('content'))
+    st.markdown('---')
+    st.chat_message("assistant").markdown(memory.load_memory_variables({})['chat_history'])
 
 # Chat input  
 if prompt := st.chat_input():
     update_history("user", prompt)
-    memory.chat_memory.add_message("user", prompt)
+    memory.chat_memory.add_user_message(prompt)
     st.chat_message("user").markdown(prompt)
     response = llm_chain.invoke(prompt)
-    memory.chat_memory.add_message("assistant", response.get('text'))
+    memory.chat_memory.add_ai_message(response.get('text'))
     st.chat_message("assistant").markdown(response.get('text'))
     update_history("assistant", response.get('text'))
 
