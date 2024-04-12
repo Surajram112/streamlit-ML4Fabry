@@ -427,12 +427,12 @@ def update_history(role, content):
     
 def use_context_to_generate_response(user_message):
     # Assuming context is a list of message dictionaries, we need to extract just the text part
-    context = [msg.get('content') for msg in st.session_state['messages'][-1:]]  # Extract the last 5 AI responses
+    context = [msg.get('content') for msg in st.session_state['messages'][-5:]]  # Extract the last 5 AI responses
 
     try:
         # Ensure that both the user_message and context are combined into a single list
         prompts = context + [user_message]  # Combining context with the current user message
-        response = llm.generate(prompts=prompts)  # Now passing a list of strings
+        response = llm(prompts=prompts)  # Now passing a list of strings
     except Exception as e:
         response = f"Sorry, I couldn't process your request due to: {str(e)}"
         
