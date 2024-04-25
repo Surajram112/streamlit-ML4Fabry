@@ -370,7 +370,7 @@ with pred_cont.container():
     # Display the chart
     st.altair_chart(chart, use_container_width=True)
 
-  with st.expander("Additional Interpretability", expanded=False):
+  with st.expander("Marker Importance", expanded=False):
     # Create a SHAP Explainer object
     shap_values = model.get_booster().predict(xgb.DMatrix(input_data), pred_contribs=True)[:,:-1]
     
@@ -385,7 +385,8 @@ with pred_cont.container():
         x='Mean Absolute SHAP Value:Q',
         y=alt.Y('Feature:N', sort='-x')
     ), use_container_width=True)
-    
+
+  with st.expander("Marker Contribution", expanded=False):
     # Display the SHAP values as an altair bar chart removing all the features with 0 SHAP values
     shap_values_sum = shap_values.sum().sort_values()
     shap_values_sum = shap_values_sum[shap_values_sum != 0]
