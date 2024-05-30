@@ -56,14 +56,16 @@ with st.container():
   with input_cont.container():
     # Patient demographic Data
     with st.expander("Patient Data", expanded=False):
-      dem_cols1, dem_cols2, ecg_date_col, echo_date_col, holter_date_col = st.columns(5)
+      row1 = dem_cols1, dem_cols2, ecg_date_col, echo_date_col, holter_date_col = st.columns(5)
+      row2 = patient_history = st.columns(1)
+      row3 = fd_history
       age = dem_cols1.number_input('Age',min_value=18, max_value=120, step=1, value=40, key='age', help='Enter the patient\'s age.') 
       gender = dem_cols2.selectbox('Gender', options=['Male', 'Female'], key='gender')
       ecg_date = ecg_date_col.date_input('ECG Date', format="DD/MM/YYYY", max_value=today, value="today", key='ecg_date')
       echo_date = echo_date_col.date_input('Echo Date', format="DD/MM/YYYY", max_value=today, value="today", key='echo_date')
       holter_date = holter_date_col.date_input('Holter Date', format="DD/MM/YYYY", max_value=today, value="today", key='holter_date')
-      patient_history = dem_cols1.text_input("Patient medical history","Please breifly describe the key details of the patient's medical history", use_column_width=False)
-      fd_history = dem_cols1.selectbox('Does the patient have a family member diagnosed Fabry disease.', options=['Yes', 'No'], key='fd_history', use_column_width=False)
+      patient_history = row2.text_input("Patient medical history","Please breifly describe the key details of the patient's medical history", use_column_width=False)
+      fd_history = row3.selectbox('Does the patient have a family member diagnosed Fabry disease.', options=['Yes', 'No'], key='fd_history', use_column_width=False)
 
     # ECG Report Variables
     with st.expander("ECG Report Data", expanded=False):
