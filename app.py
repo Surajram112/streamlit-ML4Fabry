@@ -65,9 +65,9 @@ with st.container():
 
     # Patient history
     with st.expander("Patient History", expanded=False):          
-      row1,row2 = st.columns(1,1)
-      patient_history = row1.text_input("Patient medical history","Please breifly describe the key details of the patient's medical history")
-      fd_history = row2.selectbox('Does the patient have a family member diagnosed Fabry disease.', options=['Yes', 'No'], key='fd_history')
+      history_layout = st.columns(1)
+      patient_history = history_layout.text_input("Patient medical history","Please breifly describe the key details of the patient's medical history")
+      fd_history = history_layout.selectbox('Does the patient have a family member diagnosed Fabry disease.', options=['Yes', 'No'], key='fd_history')
 
     # ECG Report Variables
     with st.expander("ECG Report Data", expanded=False):
