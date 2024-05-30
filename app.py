@@ -581,3 +581,31 @@ if prompt := st.chat_input():
 if st.button("Clear chat history"):
     st.session_state['messages'] = []
     st.rerun()
+
+#FAQ section
+# Create a line between the chatbot and the FAQs
+colored_header(label='', description='', color_name='blue-70')
+
+# FAQ title
+st.title('Frequently Asked Questions:')
+
+with st.expander("How does the website make its predictions?"):
+    st.write('''
+        This website was designed by researchers at Swansea University, who have trained a machine learning model to predict whether a patient has Fabry disease or Hypertrophic Cardiomyopathy (HCM) based on ECG, Echo and Holter scans.  If you enter new patient data into the website, it will make a prediction on the likihood that the patient has either Fabry disease or HCM.  This is represented by the bar on the right hand side of the page.  You can explore the reasons that the algorithm made its prediction by clicking on the "Marker Importance" and "Marker Contribution" boxes.  Alternatively, you can ask the model to explain its decision making in natureal language directly in the "Ask Away!" section.
+    ''')
+
+with st.expander("What is XGBoost?"):
+    st.write('''
+        XGBoost is the method used to train the machine learning model.  it is short for "Extreme Gradient Boosting" and is a machine learning algorithm designed for supervised learning tasks.  It is particularly known for its performance and speed in predictive modeling and has become a popular choice for a wide range of applications, from finance to healthcare.
+        Gradient boosting involves creating an ensemble of decision trees, where each new tree corrects the errors of the previous ones.  This iterative process improves the model’s accuracy incrementally.  Each decision tree is a simple model that makes predictions based on a series of binary decisions.  XGBoost builds multiple trees, each focusing on the errors from the previous tree.  XGBoost employs advanced optimization techniques and regularization, penalising model complexity, to prevent overfitting.  This ensures the model generalises well to new data.
+    ''')
+
+with st.expander("Will the website store the information that I enter?"):
+    st.write('''
+        No.  The website does not store any of the information that you enter and the information is not used to update the model in any way.
+    ''')
+
+with st.expander("Can the website make predictions about other conditions?"):
+    st.write('''
+        No.  Currently, the model is only trained on patients who either had a confirmed case of Fabry disease or HCM.  However, the research team have plans to acquire additional data from other common cardiac conditions and to retrain the model to include additional conditions.
+    ''')
