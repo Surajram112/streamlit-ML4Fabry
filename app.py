@@ -62,8 +62,8 @@ with st.container():
       ecg_date = ecg_date_col.date_input('ECG Date', format="DD/MM/YYYY", max_value=today, value="today", key='ecg_date')
       echo_date = echo_date_col.date_input('Echo Date', format="DD/MM/YYYY", max_value=today, value="today", key='echo_date')
       holter_date = holter_date_col.date_input('Holter Date', format="DD/MM/YYYY", max_value=today, value="today", key='holter_date')
-      patient_history = text_input("Patient medical history","Please breifly describe the key details of the patient's medical history")
-      fd_history = selectbox('Does the patient have a family member diagnosed Fabry disease.', options=['Yes', 'No'], key='fd_history')
+      patient_history = dem_cols1.text_input("Patient medical history","Please breifly describe the key details of the patient's medical history", use_column_width=False)
+      fd_history = dem_cols1.selectbox('Does the patient have a family member diagnosed Fabry disease.', options=['Yes', 'No'], key='fd_history', use_column_width=False)
 
     # ECG Report Variables
     with st.expander("ECG Report Data", expanded=False):
