@@ -36,7 +36,7 @@ st.markdown("""
         """, unsafe_allow_html=True)
 
 # Add Title to the page
-st.title("Fabry Disease (FD) Vs Hypertrophic Cardiomyopathy (HCM)")
+st.title("Fabry Disease (FD) Vs Hypertrophic Cardiomyopathy (Matt)")
 
 # Add a description
 st.write('This app differentiates between Fabry and HCM based on various cardiac markers.')
