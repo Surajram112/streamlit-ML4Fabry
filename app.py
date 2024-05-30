@@ -36,10 +36,10 @@ st.markdown("""
         """, unsafe_allow_html=True)
 
 # Add Title to the page
-st.title("Fabry Disease (FD) Vs Hypertrophic Cardiomyopathy (Matt)")
+st.title("Fabry Disease (FD) Vs Hypertrophic Cardiomyopathy (HCM)")
 
 # Add a description
-st.write('This app differentiates between Fabry and HCM based on various cardiac markers.')
+st.write('This app uses a machine learning model to predict the likelihood that a patient has either FD or HCM from demographic, ECG, Echo and Holter tests.')
 
 # Load model to streamlit
 model_path = Path('./models/model.pkl')
@@ -62,6 +62,8 @@ with st.container():
       ecg_date = ecg_date_col.date_input('ECG Date', format="DD/MM/YYYY", max_value=today, value="today", key='ecg_date')
       echo_date = echo_date_col.date_input('Echo Date', format="DD/MM/YYYY", max_value=today, value="today", key='echo_date')
       holter_date = holter_date_col.date_input('Holter Date', format="DD/MM/YYYY", max_value=today, value="today", key='holter_date')
+      patient_history = dem_cols1.text_input("Patient medical history","Please breifly describe the key details of the patient's medical history")
+      fd_history = dem_cols1.selectbox('Does the patient have a family member diagnosed Fabry disease.', options=['Yes', 'No'], key='fd_history')
 
     # ECG Report Variables
     with st.expander("ECG Report Data", expanded=False):
