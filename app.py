@@ -37,7 +37,7 @@ st.markdown("""
 
 # Add Title to the page
 st.title("Fabry Disease (FD) Vs Hypertrophic Cardiomyopathy (HCM)")
-st.write("This is an experimental tool currently under development. It has NOT been clinically validated and UNDER NO CIRCUMSTANCES should this be used as a medical decision aid.")
+st.caption("This is an experimental tool currently under development. It has :red[NOT] been clinically validated and :red[UNDER NO CIRCUMSTANCES] should this be used as a medical decision aid.")
 
 # Add a description
 st.write('This app uses a machine learning model to predict the likelihood that a patient has either FD or HCM from demographic, ECG, Echo and Holter tests.')
